@@ -1,0 +1,893 @@
+// =============================================================
+// yah.homes — i18n translations
+// Languages: en (English), ko (Korean), zh (Traditional Chinese), th (Thai)
+// =============================================================
+
+export type Lang = "en" | "ko" | "zh" | "th";
+
+export interface Translations {
+  // Navbar
+  nav: {
+    home: string;
+    contact: string;
+    about: string;
+    properties: string;
+    locals: string;
+    language: string;
+    langNames: { en: string; ko: string; zh: string; th: string };
+    menuOpen: string;
+    menuClose: string;
+  };
+  // Access section
+  access: {
+    title: string;
+    openInGoogleMaps: string;
+  };
+  // Story section fixed texts
+  storySectionLabel: string;
+  aboutYahHomes: string;
+  checkInFindOut: string;
+  // Review heading
+  reviewHeading: string;
+  // ComparisonTable
+  comparisonTable: {
+    title: string;
+    headers: {
+      capacity: string;
+      rooms: string;
+      facilities: string;
+      access: string;
+    };
+    rows: {
+      maxCapacity: string;
+      bedrooms: string;
+      doubleBed: string;
+      singleBed: string;
+      bathroom: string;
+      showerBooth: string;
+      toilet: string;
+      privateParking: string;
+      theaterRoom: string;
+      fromAirport: string;
+      fromStation: string;
+      nearestStation: string;
+      toTenjin: string;
+      toHakata: string;
+    };
+    values: {
+      available: string;
+      car18min: string;
+      car20min: string;
+      car30min: string;
+      walk5min: string;
+      walk8min: string;
+      walk12min: string;
+      walk15min: string;
+      walk20min: string;
+      walk25min: string;
+      watanabeDori: string;
+    };
+  };
+  // Hero
+  hero: {
+    catchcopy: string[];
+    salesPoints: string[];
+  };
+  // Properties
+  properties: {
+    sectionLabel: string;
+    bedrooms: string;
+    people: string;
+    galleryBtn: string;
+    bookingBtn: string;
+    airbnbBtn: string;
+    reviewsLabel: string;
+    kiyokawa: { name: string; info: string };
+    takasago: { name: string; info: string };
+    /** Wonder Here copy block shown above property cards */
+    wonderHeadline: string;
+    wonderBody: string[];
+    wonderTagline: string;
+  };
+  // Story / Wonder Here
+  story: {
+    sectionLabel: string;
+    heading: string;
+    body: string[];
+  };
+  // Director
+  director: {
+    sectionHeading: string;
+    directorName: string;
+    directorTitle: string;
+    intro: string[];
+    section2Heading: string;
+    section2Body: string[];
+    section3Heading: string;
+    section3Body: string[];
+    section4Heading: string;
+    section4Body: string[];
+  };
+  // Our Review / Improvement
+  review: {
+    heading: string;
+    leadText: string;
+    improvementHeading: string;
+    improvementIntro: string;
+    improvements: string[];
+    closingText: string;
+  };
+  // Contact
+  contact: {
+    sectionLabel: string;
+    heading: string;
+    subheading: string;
+    namePlaceholder: string;
+    emailPlaceholder: string;
+    messagePlaceholder: string;
+    submitBtn: string;
+    successMsg: string;
+    errorMsg: string;
+  };
+  // Features
+  features: {
+    heading: string;
+    leadHeadline: string;
+    leadBody: string;
+    items: string[];
+  };
+  // Booking CTA
+  bookingCta: {
+    heading: string;
+    kiyokawa: string;
+    takasago: string;
+  };
+  // FAQ
+  faq: {
+    body: string;
+  };
+  // Footer
+  footer: {
+    address: string;
+    rights: string;
+  };
+  // Locals CTA (Home page mid-section)
+  localsCta: {
+    sectionLabel: string;
+    heading: string;
+    body: string;
+    btn: string;
+  };
+}
+
+const en: Translations = {
+  nav: {
+    home: "Home",
+    contact: "Contact",
+    about: "About",
+    properties: "Booking",
+    locals: "Locals",
+    language: "Language",
+    langNames: { en: "English", ko: "Korean", zh: "Chinese", th: "Thai" },
+    menuOpen: "Open menu",
+    menuClose: "Close menu",
+  },
+  access: {
+    title: "Access",
+    openInGoogleMaps: "Open in Google Maps",
+  },
+  storySectionLabel: "Wonder Here",
+  aboutYahHomes: "About yah.homes.",
+  checkInFindOut: "Check in, Find out.",
+  reviewHeading: "Our Review / Improvement",
+  comparisonTable: {
+    title: "Comparison Table",
+    headers: { capacity: "Capacity", rooms: "Rooms", facilities: "Facilities", access: "Access" },
+    rows: {
+      maxCapacity: "Maximum Capacity",
+      bedrooms: "Bedrooms",
+      doubleBed: "\u00b7 Double Bed",
+      singleBed: "\u00b7 Single Bed",
+      bathroom: "Bathroom",
+      showerBooth: "Shower Booth",
+      toilet: "Toilet",
+      privateParking: "Private Parking",
+      theaterRoom: "Theater Room",
+      fromAirport: "From Airport",
+      fromStation: "From Station",
+      nearestStation: "Nearest Station",
+      toTenjin: "To Tenjin",
+      toHakata: "To Hakata Station",
+    },
+    values: {
+      available: "Available",
+      car18min: "18 min by car",
+      car20min: "20 min by car",
+      car30min: "30 min by car",
+      walk5min: "5 min walk",
+      walk8min: "8 min walk",
+      walk12min: "12 min walk",
+      walk15min: "15 min walk",
+      walk20min: "20 min walk",
+      walk25min: "25 min walk",
+      watanabeDori: "Watanabe Dori",
+    },
+  },
+  hero: {
+    catchcopy: ["Check In,", "Find Out."],
+    salesPoints: [
+      "Convenient city-center location — within 20 min from the airport, walkable to Tenjin",
+      "5-star hotel-grade Simmons mattresses in every bedroom",
+      "Spacious kitchen & living-dining area",
+      "Private parking available",
+      "Spotless bathrooms, quality amenities & Japanese craft art pieces",
+    ],
+  },
+  properties: {
+    sectionLabel: "Properties",
+    bedrooms: "Bedrooms",
+    people: "People",
+    galleryBtn: "Gallery",
+    bookingBtn: "Booking.com",
+    airbnbBtn: "airbnb",
+    reviewsLabel: "reviews · Airbnb",
+    kiyokawa: { name: "Kiyokawa", info: "3 Bedrooms / 7 People" },
+    takasago: { name: "Takasago", info: "3 Bedrooms / 6 People" },
+    wonderHeadline: "yah. Wonder here",
+    wonderBody: [
+      "Go deeper into this town.",
+      "Beyond selfie shrines lie lived-in alleys.\nBeyond mirror-bright lobbies, nights shared with friends.\nyah. homes is your whole-house base camp\nfor tasting the city itself.",
+      "Turn the key, kick off your shoes, let your body loosen.\nSleep sinks in; dawn sharpens every sense\nand pulls you to corners no guide marks.",
+      "We know every bend of the backstreets,\nevery pulse of the neighborhood.\nA quiet bed waits, local secrets slipped under your door.\nKey in hand, follow the feeling — deeper in.",
+    ],
+    wonderTagline: "yah. homes — Check in, Find out.",
+  },
+  story: {
+    sectionLabel: "Wonder Here",
+    heading: "Your home, Away from your Home.\nyah.homes.",
+    body: [
+      "yah means Hello! in Japanese. We, yah.homes. is here in Fukuoka to welcome tourists from around the world. yah.homes offers whole-house stays in Fukuoka, Japan — spaces personally designed by our director to feel like a true home away from home.",
+      "Each property is selected for its neighborhood character. We believe where you sleep shapes how you travel.",
+    ],
+  },
+  director: {
+    sectionHeading: "Message from Director",
+    directorName: "Kazuyoshi Yamada",
+    directorTitle: "Director of yah.homes",
+    intro: [
+      "Thank you for visiting the yah.homes website.",
+      "My name is Kazuyoshi Yamada, and I am the Director of yah.homes.",
+      "I am a passionate traveller who has journeyed through many countries. I have always felt that a peaceful and relaxing stay can profoundly shape the entire travel experience. That is why the space I have created is more than just a place to stay. It is my sincere wish that for everyone who visits, this will be a true \"home away from home\" where you can find genuine comfort and peace.",
+    ],
+    section2Heading:
+      "A Space I Fell in Love with and Wanted to Live In, Now Shared with You",
+    section2Body: [
+      "I personally designed every room in our properties, at times even taking part in the construction myself. From the overall design to the smallest of materials, each room is filled with what I love and what I find comfortable.",
+      "After each room is completed, I make it a point to stay there myself, living just as a guest would. I have personally stayed in every single room for a period of time. From the moment I wake up until I go to sleep, I experience the space from a guest's perspective, thoroughly examining every detail to ensure the layout is practical and the atmosphere is truly relaxing.",
+      "The same principle applies to our locations. I have carefully selected only those special places where I myself would genuinely want to live. I believe the unique atmosphere and character of the land are an essential part of your stay.",
+    ],
+    section3Heading: "Essential Comfort, Down to the Last Detail",
+    section3Body: [
+      "We believe that cleanliness is the most critical element in providing our guests with a comfortable stay. Together with our professional cleaning team, we promise a spotlessly clean space, attended to in every corner.",
+      "For our furnishings, we have focused on authentic, long-lasting materials. We have avoided plastic wherever possible, opting instead for the pleasant touch of wood, the rich patina of brass that deepens over time, and the refined look of stainless steel. This reflects our desire to reduce waste and to enrich the time you spend with us.",
+      "From kitchenware to amenities, every item has been carefully sourced from around the world, selected only if I would be happy to use it in my own daily life.",
+    ],
+    section4Heading: "The Best Journeys Begin with the Best Sleep",
+    section4Body: [
+      "Wonderful travel memories are born from a state of well-being, both in body and mind.",
+      "Essential to this is a high-quality night's sleep. To help you recover from your travels and recharge for the day ahead, we have furnished every bedroom with world-renowned Simmons beds. We want you to wake up each morning feeling truly refreshed, ready to embrace all that the day has to offer.",
+      "It is our hope that the comfort and care we put into every detail will not only make your stay more enjoyable, but will become a cherished part of your travel memories.",
+    ],
+  },
+  review: {
+    heading: "Our Review / Improvement",
+    leadText: "Thanks to our customers, our services have been highly evaluated. (as of June 1, 2026)",
+    improvementHeading: "Our Commitment to Continuous Improvement",
+    improvementIntro: "Our facility is not complete the day it opens. We are constantly improving it by incorporating our guests' feedback.",
+    improvements: [
+      "Upgraded electrical capacity to prevent circuit breaker trips",
+      "Introduced a drum-type washing machine for easier laundry",
+      "Added ergonomic office chairs for guests who work during their stay",
+    ],
+    closingText: "We will continue to listen sincerely to every guest and strive to make your stay even better.",
+  },
+  contact: {
+    sectionLabel: "Contact",
+    heading: "Get in Touch",
+    subheading: "We'd love to hear from you.",
+    namePlaceholder: "Your Name",
+    emailPlaceholder: "Email Address",
+    messagePlaceholder: "Your Message",
+    submitBtn: "Send Message",
+    successMsg: "Thank you! We'll be in touch soon.",
+    errorMsg: "Something went wrong. Please try again.",
+  },
+  features: {
+    heading: "Why yah.homes? - Our features and strengths",
+    leadHeadline: "Fukuoka's best whole-house rental for groups and families — highly rated on major OTA sites. Not a single hotel room. Not a shared guesthouse. The entire home is yours.",
+    leadBody: "",
+    items: [
+      "Convenient city-center location — within 20 min from the airport, walkable to Tenjin",
+      "5-star hotel-grade Simmons mattresses in every bedroom",
+      "Spacious kitchen & living-dining area",
+      "Private parking available",
+      "Spotless bathrooms, quality amenities & Japanese craft art pieces",
+    ],
+  },
+  bookingCta: {
+    heading: "Ready To Explore Fukuoka?",
+    kiyokawa: "Book Kiyokawa on Airbnb",
+    takasago: "Book Takasago on Airbnb",
+  },
+  faq: {
+    body: "For the FAQ, please refer to the information on each booking website.",
+  },
+  footer: {
+    address: "Fukuoka, Japan",
+    rights: "© 2026 yah.homes. All rights reserved.",
+  },
+  localsCta: {
+    sectionLabel: "Local Guide",
+    heading: "Find Out your Fukuoka.",
+    body: "Explore the vibrant streets of Kiyokawa — our hand-picked cafes, restaurants, markets, and culture spots, curated just for you.",
+    btn: "Find Out",
+  },
+};
+
+const ko: Translations = {
+  nav: {
+    home: "홈",
+    contact: "문의하기",
+    about: "소개",
+    properties: "예약",
+    locals: "로컬",
+    language: "언어",
+    langNames: { en: "English", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    menuOpen: "메뉴 열기",
+    menuClose: "메뉴 닫기",
+  },
+  access: {
+    title: "교통 정보",
+    openInGoogleMaps: "Google 지도에서 보기",
+  },
+  storySectionLabel: "여기서 경험하세요",
+  aboutYahHomes: "yah.homes 소개.",
+  checkInFindOut: "체크인하고, 발견하세요.",
+  reviewHeading: "리뷰 및 개선 사항",
+  comparisonTable: {
+    title: "비교표",
+    headers: { capacity: "수용 인원", rooms: "객실", facilities: "시설", access: "오시는 길" },
+    rows: {
+      maxCapacity: "최대 수용 인원",
+      bedrooms: "침실",
+      doubleBed: "\u00b7 더블 침대",
+      singleBed: "\u00b7 싱글 침대",
+      bathroom: "욕실",
+      showerBooth: "샤워 부스",
+      toilet: "화장실",
+      privateParking: "전용 주차장",
+      theaterRoom: "시어터 룸",
+      fromAirport: "공항에서",
+      fromStation: "역에서",
+      nearestStation: "가장 가까운 역",
+      toTenjin: "텐진까지",
+      toHakata: "하카타역까지",
+    },
+    values: {
+      available: "이용 가능",
+      car18min: "차로 18분",
+      car20min: "차로 20분",
+      car30min: "차로 30분",
+      walk5min: "도보 5분",
+      walk8min: "도보 8분",
+      walk12min: "도보 12분",
+      walk15min: "도보 15분",
+      walk20min: "도보 20분",
+      walk25min: "도보 25분",
+      watanabeDori: "渡辺通（와타나베도리）",
+    },
+  },
+  hero: {
+    catchcopy: ["체크인하고,", "발견하세요."],
+    salesPoints: [
+      "편리한 시내 위치 — 공항에서 차로 20분 이내, 텐진까지 도보 가능",
+      "전 침실 5성급 호텔 수준의 시몬스 고급 매트리스",
+      "넓은 주방과 거실·다이닝 공간",
+      "전용 주차장 완비",
+      "청결한 욕실, 고급 어메니티와 일본 공예 아트 피스",
+    ],
+  },
+  properties: {
+    sectionLabel: "숙소",
+    bedrooms: "침실",
+    people: "인원",
+    galleryBtn: "갤러리",
+    bookingBtn: "지금 예약 — Booking.com",
+    airbnbBtn: "지금 예약 — Airbnb",
+    reviewsLabel: "개 리뷰 · Airbnb",
+    kiyokawa: { name: "기요카와", info: "침실 3개 / 최대 7인" },
+    takasago: { name: "다카사고", info: "침실 3개 / 최대 6인" },
+    wonderHeadline: "yah. Wonder here",
+    wonderBody: [
+      "이 도시를 더 깊이 탐험해보세요.",
+      "셀피 성지 너머에는 살아있는 돌담길이 있습니다.\n반짝이는 로비 너머에는 친구와 함께하는 밤이 있습니다.\nyah. homes는 도시를 직접 느끼기 위한\n당신만의 통짜리 베이스캐프입니다.",
+      "열쇠를 돌리고, 신발을 벗고, 머음을 풀어도 됩니다.\n잠이 찾아오고, 새벽은 모든 감각을 일깨우며\n어떤 가이드도 안내하지 않는 골목으로 당신을 이끍니다.",
+      "우리는 돌담길의 모든 굴곡을 알고,\n동네의 모든 맥낙을 느낄니다.\n조용한 침대가 기다리고, 로컈 비밀이 문 아래로 슬릭 들어옵니다.\n열쇠를 손에 쿥고, 마음이 이끌는 대로 더 깊이 들어오세요.",
+    ],
+    wonderTagline: "yah. homes — Check in, Find out.",
+  },
+  story: {
+    sectionLabel: "Wonder Here",
+    heading: "나의 집, 집을 떠난 나의 집.\nyah.homes.",
+    body: [
+      "yah는 일본어로 '안녕하세요!'를 뜻합니다. yah.homes는 전 세계 여행자를 환영하기 위해 후쿠오카에 자리하고 있습니다. yah.homes는 일본 후쿠오카에서 단독 주택 숙박을 제공합니다 — 디렉터가 직접 설계한 공간으로, 여행지에서도 진정한 '나의 집'처럼 머물 수 있습니다.",
+      "각 숙소는 그 동네만의 분위기를 담아 엄선된 장소에 위치합니다. 어디서 잠드느냐가 여행의 질을 결정한다고 믿습니다.",
+    ],
+  },
+  director: {
+    sectionHeading: "디렉터 메시지",
+    directorName: "야마다 카즈요시",
+    directorTitle: "yah.homes 디렉터",
+    intro: [
+      "yah.homes 웹사이트를 방문해 주셔서 감사합니다.",
+      "저는 yah.homes의 디렉터 야마다 카즈요시입니다.",
+      "저는 여행을 매우 좋아하며, 많은 나라를 여행해 온 오랜 여행자입니다. 편안하고 여유로운 숙박이 여행 전체의 경험을 크게 바꿀 수 있다고 항상 느껴왔습니다. 그래서 제가 만든 이 공간은 단순한 숙소가 아닙니다. 방문하시는 모든 분들이 진정한 '제2의 집'으로 느끼며 편안함과 평화를 찾을 수 있기를 진심으로 바랍니다.",
+    ],
+    section2Heading: "제가 사랑에 빠져 살고 싶었던 공간을, 이제 여러분과 나눕니다",
+    section2Body: [
+      "저는 모든 숙소의 객실을 직접 설계했으며, 때로는 시공에도 직접 참여했습니다. 전체적인 디자인부터 가장 작은 소재 하나까지, 각 방에는 제가 좋아하고 편안하게 느끼는 것들로 가득 채워져 있습니다.",
+      "객실이 완성될 때마다 저는 직접 그 방에 머물며 게스트와 똑같이 생활해 봅니다. 모든 방에서 일정 기간 실제로 지내면서, 아침에 눈을 뜨는 순간부터 잠드는 순간까지 게스트의 시각으로 공간을 경험하고, 레이아웃이 실용적인지, 분위기가 진정으로 편안한지 세세하게 확인합니다.",
+      "입지 선정에도 같은 원칙을 적용합니다. 제 자신이 진심으로 살고 싶다고 느끼는 특별한 장소만을 엄선했습니다. 그 땅만의 독특한 분위기와 개성이 숙박 경험의 중요한 일부라고 믿기 때문입니다.",
+    ],
+    section3Heading: "마지막 디테일까지, 진정한 편안함",
+    section3Body: [
+      "청결함이야말로 게스트에게 편안한 숙박을 제공하는 가장 중요한 요소라고 생각합니다. 전문 청소팀과 함께 구석구석까지 완벽하게 청결한 공간을 약속드립니다.",
+      "가구는 진정성 있고 오래 사용할 수 있는 소재에 집중했습니다. 플라스틱은 최대한 배제하고, 나무의 따뜻한 촉감, 시간이 지날수록 깊어지는 황동의 풍미, 스테인리스 스틸의 세련된 외관을 선택했습니다. 이는 낭비를 줄이고 여러분과 함께하는 시간을 더욱 풍요롭게 만들고자 하는 저희의 바람을 담고 있습니다.",
+      "주방용품부터 어메니티까지, 모든 아이템은 제가 일상에서 기꺼이 사용할 수 있는 것만을 전 세계에서 엄선했습니다.",
+    ],
+    section4Heading: "최고의 여행은 최고의 수면에서 시작됩니다",
+    section4Body: [
+      "아름다운 여행의 추억은 몸과 마음 모두 건강한 상태에서 태어납니다.",
+      "그 핵심은 양질의 수면입니다. 여행의 피로를 회복하고 다음 날을 위한 에너지를 충전할 수 있도록, 모든 침실에 세계적으로 유명한 Simmons 침대를 갖추었습니다. 매일 아침 진정으로 상쾌하게 눈을 뜨고, 하루가 선사하는 모든 것을 온전히 받아들일 수 있기를 바랍니다.",
+      "저희가 모든 세부 사항에 담은 편안함과 정성이 숙박을 더욱 즐겁게 만들 뿐만 아니라, 소중한 여행의 추억 중 하나가 되기를 진심으로 바랍니다.",
+    ],
+  },
+  review: {
+    heading: "리뷰 및 개선 사항",
+    leadText: "고객 여러분 덕분에 저희 서비스는 높은 평가를 받고 있습니다. (2026년 6월 1일 기준)",
+    improvementHeading: "지속적인 개선을 위한 노력",
+    improvementIntro: "저희 시설은 문을 여는 날이 완성이 아닙니다. 게스트 여러분의 소중한 피드백을 반영하며 끊임없이 개선해 나가고 있습니다.",
+    improvements: [
+      "누전 차단기가 내려가지 않도록 전기 용량 개선",
+      "드럼 세탁기 도입으로 더욱 편리한 세탁 환경 마련",
+      "업무 중인 게스트를 위한 인체공학적 오피스 체어 도입",
+    ],
+    closingText: "앞으로도 모든 게스트의 목소리에 진심으로 귀 기울이며, 더 나은 숙박 경험을 위해 최선을 다하겠습니다.",
+  },
+  contact: {
+    sectionLabel: "문의",
+    heading: "문의하기",
+    subheading: "언제든지 연락주세요.",
+    namePlaceholder: "이름",
+    emailPlaceholder: "이메일 주소",
+    messagePlaceholder: "메시지",
+    submitBtn: "메시지 보내기",
+    successMsg: "감사합니다! 곧 연락드리겠습니다.",
+    errorMsg: "오류가 발생했습니다. 다시 시도해 주세요.",
+  },
+  features: {
+    heading: "Why yah.homes? - 우리의 특징 & 강점",
+    leadHeadline: "후쿠오카 최고의 통째 빌라 렌탈 — 주요 OTA에서 높은 평가. 호텔 방 하나가 아닙니다. 공유 게스트하우스도 아닙니다. 집 전체가 여러분만의 것입니다.",
+    leadBody: "",
+    items: [
+      "편리한 시내 위치 — 공항에서 차로 20분 이내, 텐진까지 도보 접근 가능",
+      "전 침실 5성급 호텔 수준의 시몬스 고급 매트리스",
+      "넓은 주스 & 거실 식당 공간",
+      "전용 주차장 이용 가능",
+      "청결한 욕실, 고급 어메니티 & 일본 공예품 인테리어",
+    ],
+  },
+  bookingCta: {
+    heading: "후쿠오카를 탐험할 준비가 되셨나요?",
+    kiyokawa: "Kiyokawa 에어비앤비로 예약",
+    takasago: "Takasago 에어비앤비로 예약",
+  },
+  faq: {
+    body: "자주 묻는 질문은 각 예약 사이트의 정보를 참고해 주세요.",
+  },
+  footer: {
+    address: "일본 후쿠오카",
+    rights: "© 2026 yah.homes. All rights reserved.",
+  },
+  localsCta: {
+    sectionLabel: "로컬 가이드",
+    heading: "Find Out your Fukuoka.",
+    body: "후쿠오카 히야카와 동네의 진짜 매력을 발견하세요 — 카페, 레스토랑, 마켓, 문화 스폳을 엄선해 안내합니다.",
+    btn: "Find Out",
+  },
+};
+
+const zh: Translations = {
+  nav: {
+    home: "首頁",
+    contact: "聯絡我們",
+    about: "關於我們",
+    properties: "預訂",
+    locals: "居民指南",
+    language: "語言",
+    langNames: { en: "English", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    menuOpen: "開啟選單",
+    menuClose: "關閉選單",
+  },
+  access: {
+    title: "交通資訊",
+    openInGoogleMaps: "在 Google 地圖上查看",
+  },
+  storySectionLabel: "探索此處",
+  aboutYahHomes: "關於 yah.homes.",
+  checkInFindOut: "入住，探索。",
+  reviewHeading: "我們的評價/改進",
+  comparisonTable: {
+    title: "比較表",
+    headers: { capacity: "容納人數", rooms: "房間", facilities: "設施", access: "交通" },
+    rows: {
+      maxCapacity: "最大容納人數",
+      bedrooms: "臥室",
+      doubleBed: "\u00b7 雙人床",
+      singleBed: "\u00b7 單人床",
+      bathroom: "浴室",
+      showerBooth: "淤浴間",
+      toilet: "廁所",
+      privateParking: "私人停車位",
+      theaterRoom: "影音室",
+      fromAirport: "從機場",
+      fromStation: "從車站",
+      nearestStation: "最近車站",
+      toTenjin: "到天神",
+      toHakata: "到博多車站",
+    },
+    values: {
+      available: "有",
+      car18min: "開車18分鐘",
+      car20min: "開車20分鐘",
+      car30min: "開車30分鐘",
+      walk5min: "步行5分鐘",
+      walk8min: "步行8分鐘",
+      walk12min: "步行12分鐘",
+      walk15min: "步行15分鐘",
+      walk20min: "步行20分鐘",
+      walk25min: "步行25分鐘",
+      watanabeDori: "渡辺通",
+    },
+  },
+  hero: {
+    catchcopy: ["入住，", "探索。"],
+    salesPoints: [
+      "市中心便利位置 — 距機場車程20分鐘以內，步行可達天神",
+      "全臥室配備五星級飯店等級 Simmons 高級床墊",
+      "寬敞廚房與客廳・餐廳空間",
+      "附設私人停車場",
+      "潔淨衛浴、精選備品與日本工藝藝術品",
+    ],
+  },
+  properties: {
+    sectionLabel: "房源",
+    bedrooms: "間臥室",
+    people: "人",
+    galleryBtn: "相冊",
+    bookingBtn: "立即預訂 — Booking.com",
+    airbnbBtn: "立即預訂 — Airbnb",
+    reviewsLabel: "則評價 · Airbnb",
+    kiyokawa: { name: "清川", info: "3間臥室 / 最多7人" },
+    takasago: { name: "高砂", info: "3間臥室 / 最多6人" },
+    wonderHeadline: "yah. Wonder here",
+    wonderBody: [
+      "深入探索這座城市。",
+      "打卡聖地的後面，是充滿生活氣息的巷弄。\n鹢亮大廳的後面，是與朋友共度的夜晚。\nyah. homes 是你品味這座城市的\n專屬整棟基地。",
+      "轉動鑰匙，脱下鞋子，讓身體游繪放鬆。\n睡眠漸漸滞來，曨光將所有感官唤醒\n帶你走入任何導覽都不會標記的角落。",
+      "我們熟悉小巷的每個轉角，\n感受居民區的每一脈動。\n安靜的床鵋在等待，本地絕密情報情情送達。\n鑰匙在手，順著感覺—更深入。",
+    ],
+    wonderTagline: "yah. homes — Check in, Find out.",
+  },
+  story: {
+    sectionLabel: "Wonder Here",
+    heading: "您的家，離家之外的家。\nyah.homes.",
+    body: [
+      "yah 在日語中是「你好！」的意思。yah.homes 在日本福岡歡迎來自世界各地的旅客。yah.homes 在日本福岡提供整棟出租住宿 — 由總監親自設計的空間，讓您在旅途中也能感受到真正的「家」。",
+      "每處房源都精心挑選於具有獨特街區氛圍的地點。我們相信，您在哪裡入睡，決定了您如何旅行。",
+    ],
+  },
+  director: {
+    sectionHeading: "總監的話",
+    directorName: "山田一慶",
+    directorTitle: "yah.homes 總監",
+    intro: [
+      "感謝您造訪我們的官方網站。",
+      "我是 yah.homes 的總監山田一慶。",
+      "我熱愛旅行，是走訪過許多國家的資深旅行者。我一直認為，一次寧靜舒適的住宿體驗，能夠深刻地影響整趟旅程的感受。因此，我所打造的這個空間，不僅僅是一個住宿的地方。衷心希望每一位到訪的旅客，都能在這裡找到真正的「第二個家」，感受到真實的舒適與平靜。",
+    ],
+    section2Heading: "我愛上並想要居住的空間，現在與您共享",
+    section2Body: [
+      "我親自設計了每一間客房，有時甚至親身參與施工。從整體設計到最細微的材質選擇，每個房間都充滿了我所喜愛、感到舒適的元素。",
+      "每間客房完工後，我都會親自入住，像真正的房客一樣生活。我在每間房間都住了一段時間，從早晨醒來到夜晚入睡，以房客的視角體驗空間，仔細確認每個細節——格局是否實用、氛圍是否真正令人放鬆。",
+      "選址也遵循同樣的原則。我只精心挑選那些我自己真心想要居住的特別地方。我相信，土地獨特的氛圍與個性，是住宿體驗不可或缺的一部分。",
+    ],
+    section3Heading: "極致舒適，細節到位",
+    section3Body: [
+      "我們認為，清潔是為房客提供舒適住宿最關鍵的要素。我們與專業清潔團隊攜手，承諾為您呈現一塵不染、每個角落都精心打理的空間。",
+      "在家具選材上，我們注重真實、耐用的材質。盡可能避免使用塑料，轉而選擇木材的溫潤觸感、隨時間沉澱出深邃光澤的黃銅，以及不鏽鋼的精緻質感。這體現了我們減少浪費、讓您的每一刻都更加豐富的心意。",
+      "從廚具到備品，每一件物品都是從世界各地精心挑選，只有我自己在日常生活中也樂於使用的，才會出現在這裡。",
+    ],
+    section4Heading: "最美好的旅程，從最優質的睡眠開始",
+    section4Body: [
+      "美好的旅行回憶，源自身心俱佳的狀態。",
+      "而優質的睡眠是其中的關鍵。為了幫助您從旅途中恢復體力、為明天蓄積能量，我們在每間臥室都配備了享譽全球的 Simmons 床墊。希望您每天早晨都能神清氣爽地醒來，以最佳狀態迎接新的一天。",
+      "我們希望，我們在每個細節中所注入的舒適與用心，不僅能讓您的住宿更加愉快，更能成為您珍貴旅行記憶的一部分。",
+    ],
+  },
+  review: {
+    heading: "我們的評價/改進",
+    leadText: "感謝所有房客的支持，我們的服務獲得了高度評價。（2026年6月1日時點）",
+    improvementHeading: "持續改善的承諾",
+    improvementIntro: "我們的設施並非開幕當天就完善。我們不斷將房客的寶貴回饋化為實際改善，持續提升住宿品質。",
+    improvements: [
+      "改善電力容量，防止斷路器跳閘",
+      "導入滾筒式洗衣機，提升洗衣便利性",
+      "為在住期間工作的房客導入人體工學辦公椅",
+    ],
+    closingText: "我們將持續誠心傾聽每一位房客的聲音，努力為您提供更美好的住宿體驗。",
+  },
+  contact: {
+    sectionLabel: "聯絡",
+    heading: "聯絡我們",
+    subheading: "歡迎隨時與我們聯繫。",
+    namePlaceholder: "您的姓名",
+    emailPlaceholder: "電子郵件地址",
+    messagePlaceholder: "您的訊息",
+    submitBtn: "發送訊息",
+    successMsg: "感謝您！我們將盡快與您聯繫。",
+    errorMsg: "發生錯誤，請再試一次。",
+  },
+  features: {
+    heading: "Why yah.homes? - 我們的特色與優勢",
+    leadHeadline: "福岡最佳整棟別墅租賃 — 在各大OTA平台獲得高度評價。不是單間客房，不是共用民宿。整棟房子完全屬於您。",
+    leadBody: "",
+    items: [
+      "便利的市中心位置，離機場車程20分鐘內，可步行至天神",
+      "全室配備五星級飯店標準的Simmons高級床墊",
+      "寬敞的廚房與客廳餐廳空間",
+      "專屬停車場可使用",
+      "潔淨的浴室、優質備品及日本工藝品裝飾",
+    ],
+  },
+  bookingCta: {
+    heading: "準備探索福岡了嗎？",
+    kiyokawa: "在Airbnb預訂Kiyokawa",
+    takasago: "在Airbnb預訂Takasago",
+  },
+  faq: {
+    body: "如有常見問題，請參閱各訂房網站上的相關說明。",
+  },
+  footer: {
+    address: "日本福岡",
+    rights: "© 2026 yah.homes. All rights reserved.",
+  },
+  localsCta: {
+    sectionLabel: "居民指南",
+    heading: "Find Out your Fukuoka.",
+    body: "探索福岡清川區的魅力街道 — 精選和丹點式和咒幡、餐廳、市集與文化景點，專屬為您展開。",
+    btn: "Find Out",
+  },
+};
+
+const th: Translations = {
+  nav: {
+    home: "หน้าแรก",
+    contact: "ติดต่อเรา",
+    about: "เกี่ยวกับเรา",
+    properties: "จองที่พัก",
+    locals: "คู่มือท้องถิ่น",
+    language: "ภาษา",
+    langNames: { en: "English", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    menuOpen: "เปิดเมนู",
+    menuClose: "ปิดเมนู",
+  },
+  access: {
+    title: "การเดินทาง",
+    openInGoogleMaps: "เปิดใน Google Maps",
+  },
+  storySectionLabel: "สัมผัสประสบการณ์ที่นี่",
+  aboutYahHomes: "เกี่ยวกับ yah.homes.",
+  checkInFindOut: "เช็คอิน ค้นพบ",
+  reviewHeading: "ความคิดเห็นและการปรับปรุงของเรา",
+  comparisonTable: {
+    title: "ตารางเปรียบเทียบ",
+    headers: { capacity: "ความจุ", rooms: "ห้องพัก", facilities: "สิ่งอำนวยความสะดวก", access: "การเดินทาง" },
+    rows: {
+      maxCapacity: "ความจุสูงสุด",
+      bedrooms: "ห้องนอน",
+      doubleBed: "\u00b7 เตียงคู่",
+      singleBed: "\u00b7 เตียงเดี่ยว",
+      bathroom: "ห้องน้ำ",
+      showerBooth: "ห้องอาบน้ำ",
+      toilet: "สุขา",
+      privateParking: "ที่จอดรถส่วนตัว",
+      theaterRoom: "ห้องโฮมเธียเตอร์",
+      fromAirport: "จากสนามบิน",
+      fromStation: "จากสถานี",
+      nearestStation: "สถานีที่ใกล้ที่สุด",
+      toTenjin: "ไปยังเทนจิน",
+      toHakata: "ไปยังสถานีฮากาตะ",
+    },
+    values: {
+      available: "มีให้บริการ",
+      car18min: "18 นาทีโดยรถยนต์",
+      car20min: "20 นาทีโดยรถยนต์",
+      car30min: "30 นาทีโดยรถยนต์",
+      walk5min: "เดิน 5 นาที",
+      walk8min: "เดิน 8 นาที",
+      walk12min: "เดิน 12 นาที",
+      walk15min: "เดิน 15 นาที",
+      walk20min: "เดิน 20 นาที",
+      walk25min: "เดิน 25 นาที",
+      watanabeDori: "Watanabe Dori",
+    },
+  },
+  hero: {
+    catchcopy: ["เช็คอิน,", "ค้นพบ."],
+    salesPoints: [
+      "ทำเลใจกลางเมือง — จากสนามบินขับรถ 20 นาที เดินถึงเทนจิน",
+      "ที่นอน Simmons ระดับ 5 ดาวในทุกห้องนอน",
+      "ครัวและพื้นที่นั่งเล่น-รับประทานอาหารกว้างขวาง",
+      "มีที่จอดรถส่วนตัว",
+      "ห้องน้ำสะอาด สิ่งอำนวยความสะดวกคุณภาพ และงานศิลป์หัตถกรรมญี่ปุ่น",
+    ],
+  },
+  properties: {
+    sectionLabel: "ที่พัก",
+    bedrooms: "ห้องนอน",
+    people: "คน",
+    galleryBtn: "แกลเลอรี่",
+    bookingBtn: "จองเลย — Booking.com",
+    airbnbBtn: "จองเลย — Airbnb",
+    reviewsLabel: "รีวิว · Airbnb",
+    kiyokawa: { name: "คิโยคาวะ", info: "3 ห้องนอน / สูงสุด 7 คน" },
+    takasago: { name: "ทากาซาโกะ", info: "3 ห้องนอน / สูงสุด 6 คน" },
+    wonderHeadline: "yah. Wonder here",
+    wonderBody: [
+      "สำรวจเมืองนี้ให้ลึกซึ้งยิ่งขึ้น",
+      "เบื้องหลังสถานที่เซลฟี่คือตรอกซอยที่เต็มไปด้วยชีวิตจริง\nเบื้องหลังล็อบประกายคือคืนที่แบ่งปันกับเพื่อน\nyah. homes คือบ้านทั้งหลังของคุณ\nสำหรับสัมผัสเมืองโดยตรง",
+      "หมุนกุญแจ ถอดรองเท้า ปล่อยร่างกาย\nการนอนหลับเข้ามา รุ่งเช้าปลุกทุกความรู้สึก\nและพาคุณไปยังมุมที่ไม่มีในคู่มือใด",
+      "เรารู้จักทุกส่วนโค้งของถนนเล็ก\nรู้สึกถึงทุกจังหวะของย่าน\nเตียงนอนสงบรอคอย เคล็ดลับท้องถิ่นส่งถึงคุณ\nกุญแจอยู่ในมือ ตามความรู้สึก — ลึกซึ้งยิ่งขึ้น",
+    ],
+    wonderTagline: "yah. homes — Check in, Find out.",
+  },
+  story: {
+    sectionLabel: "Wonder Here",
+    heading: "บ้านของคุณ ห่างจากบ้านของคุณ\nyah.homes.",
+    body: [
+      "yah แปลว่า สวัสดี! ในภาษาญี่ปุ่น yah.homes ตั้งอยู่ที่ฟุกุโอกะเพื่อต้อนรับนักท่องเที่ยวจากทั่วโลก yah.homes มอบที่พักแบบเช่าทั้งหลังในฟุกุโอกะ ประเทศญี่ปุ่น — พื้นที่ที่ผู้อำนวยการออกแบบด้วยตนเอง เพื่อให้คุณรู้สึกเหมือนอยู่บ้านจริงๆ แม้อยู่ต่างแดน",
+      "แต่ละที่พักถูกเลือกสรรจากย่านที่มีเสน่ห์เฉพาะตัว เราเชื่อว่าสถานที่ที่คุณนอนหลับ คือสิ่งที่กำหนดคุณภาพของการเดินทาง",
+    ],
+  },
+  director: {
+    sectionHeading: "ข้อความจากผู้อำนวยการ",
+    directorName: "คาซุโยชิ ยามาดะ",
+    directorTitle: "ผู้อำนวยการ yah.homes",
+    intro: [
+      "ขอบคุณที่เข้าชมเว็บไซต์ของเรา",
+      "ผมชื่อ คาซุโยชิ ยามาดะ ผู้อำนวยการของ yah.homes",
+      "ผมรักการเดินทางและเป็นนักท่องเที่ยวตัวยงที่ได้ไปเยือนหลายประเทศ ผมรู้สึกเสมอมาว่าการพักผ่อนที่สงบและผ่อนคลายสามารถส่งผลอย่างลึกซึ้งต่อประสบการณ์การเดินทางทั้งหมด นั่นคือเหตุผลที่ที่พักที่ผมสร้างขึ้นมาไม่ใช่แค่สถานที่พักอาศัย ความปรารถนาอันจริงใจของผมคือทุกคนที่มาเยือนจะได้สัมผัสกับ \"บ้านหลังที่สองที่แท้จริง\" ที่เต็มไปด้วยความสะดวกสบายและความสงบ",
+    ],
+    section2Heading: "พื้นที่ที่ผมหลงรักและอยากอยู่อาศัย บัดนี้แบ่งปันให้คุณแล้ว",
+    section2Body: [
+      "ผมออกแบบห้องพักทุกห้องด้วยตนเอง บางครั้งถึงกับลงมือก่อสร้างเอง ตั้งแต่การออกแบบโดยรวมไปจนถึงวัสดุที่เล็กที่สุด ทุกห้องเต็มไปด้วยสิ่งที่ผมรักและรู้สึกสบาย",
+      "หลังจากห้องแต่ละห้องเสร็จสมบูรณ์ ผมจะพักอยู่ที่นั่นด้วยตนเอง ใช้ชีวิตเหมือนแขกจริงๆ ผมพักในทุกห้องมาระยะหนึ่ง ตั้งแต่ตื่นนอนจนถึงเข้านอน ผมสัมผัสพื้นที่จากมุมมองของแขก ตรวจสอบทุกรายละเอียดอย่างละเอียดถี่ถ้วนเพื่อให้แน่ใจว่าผังห้องใช้งานได้จริงและบรรยากาศผ่อนคลายอย่างแท้จริง",
+      "หลักการเดียวกันนี้ใช้กับทำเลที่ตั้งด้วย ผมเลือกเฉพาะสถานที่พิเศษที่ผมเองอยากอาศัยอยู่จริงๆ เท่านั้น ผมเชื่อว่าบรรยากาศและเอกลักษณ์เฉพาะของพื้นที่นั้นเป็นส่วนสำคัญของการพักอาศัย",
+    ],
+    section3Heading: "ความสะดวกสบายที่จำเป็น ใส่ใจทุกรายละเอียด",
+    section3Body: [
+      "เราเชื่อว่าความสะอาดคือองค์ประกอบที่สำคัญที่สุดในการมอบการพักที่สะดวกสบายให้แก่แขก ร่วมกับทีมทำความสะอาดมืออาชีพ เราสัญญาว่าจะมอบพื้นที่ที่สะอาดหมดจดทุกมุม",
+      "สำหรับเฟอร์นิเจอร์ เราเน้นวัสดุที่แท้จริงและทนทาน หลีกเลี่ยงพลาสติกให้มากที่สุด เลือกใช้ไม้ที่ให้สัมผัสอบอุ่น ทองเหลืองที่มีความงามเพิ่มขึ้นตามกาลเวลา และสแตนเลสที่ดูเรียบหรู สิ่งนี้สะท้อนถึงความต้องการของเราที่จะลดของเสียและทำให้เวลาที่คุณอยู่กับเราเต็มไปด้วยคุณค่า",
+      "ตั้งแต่เครื่องครัวไปจนถึงสิ่งอำนวยความสะดวก ทุกชิ้นถูกคัดสรรอย่างพิถีพิถันจากทั่วโลก โดยเลือกเฉพาะสิ่งที่ผมยินดีใช้ในชีวิตประจำวันของตนเองเท่านั้น",
+    ],
+    section4Heading: "การเดินทางที่ดีที่สุดเริ่มต้นจากการนอนหลับที่ดีที่สุด",
+    section4Body: [
+      "ความทรงจำการเดินทางที่งดงามเกิดจากสภาวะที่ดีทั้งกายและใจ",
+      "สิ่งสำคัญคือการนอนหลับที่มีคุณภาพ เพื่อช่วยให้คุณฟื้นตัวจากการเดินทางและชาร์จพลังสำหรับวันถัดไป เราจัดเตรียมเตียง Simmons ชื่อดังระดับโลกในทุกห้องนอน เราต้องการให้คุณตื่นนอนทุกเช้าด้วยความสดชื่นอย่างแท้จริง พร้อมรับทุกสิ่งที่วันใหม่มอบให้",
+      "เราหวังว่าความสะดวกสบายและความใส่ใจที่เราใส่ไว้ในทุกรายละเอียดจะไม่เพียงทำให้การพักของคุณสนุกสนานยิ่งขึ้น แต่จะกลายเป็นส่วนหนึ่งของความทรงจำการเดินทางที่คุณหวงแหน",
+    ],
+  },
+  review: {
+    heading: "ความคิดเห็นและการปรับปรุงของเรา",
+    leadText: "ขอบคุณลูกค้าทุกท่านที่ทำให้บริการของเราได้รับการประเมินสูง (ณ วันที่ 1 มิถุนายน 2026)",
+    improvementHeading: "ความมุ่งมั่นในการพัฒนาอย่างต่อเนื่อง",
+    improvementIntro: "สถานที่ของเราไม่ได้สมบูรณ์ในวันเปิดตัว เรานำคำติชมอันมีค่าจากแขกทุกท่านมาปรับปรุงอย่างต่อเนื่อง",
+    improvements: [
+      "ปรับปรุงกำลังไฟฟ้าเพื่อป้องกันเบรกเกอร์ตัดวงจรไฟฟ้า",
+      "ติดตั้งเครื่องซักผ้าแบบดรัม เพื่อความสะดวกในการซักผ้า",
+      "เพิ่มเก้าอี้ออฟฟิศเพื่อสุขภาพสำหรับแขกที่ทำงานระหว่างพัก",
+    ],
+    closingText: "เราจะยังคงเอาใจใส่ฟังเสียงของแขกทุกคนอย่างจริงใจ และมุ่งมั่นที่จะมอบประสบการณ์การพักที่ดียิ่งขึ้นให้คุณ",
+  },
+  contact: {
+    sectionLabel: "ติดต่อ",
+    heading: "ติดต่อเรา",
+    subheading: "ยินดีรับฟังจากคุณเสมอ",
+    namePlaceholder: "ชื่อของคุณ",
+    emailPlaceholder: "อีเมล",
+    messagePlaceholder: "ข้อความของคุณ",
+    submitBtn: "ส่งข้อความ",
+    successMsg: "ขอบคุณ! เราจะติดต่อกลับเร็วๆ นี้",
+    errorMsg: "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง",
+  },
+  features: {
+    heading: "Why yah.homes? - คุณสมบัติและจุดเด่นของเรา",
+    leadHeadline: "วิล่าเช่าทั้งหลังที่ดีที่สุดในฟุกุโอกะ — ได้รับการประเมินสูงบน OTA ชั้นนำ ไม่ใช่ห้องพักโรงแรม ไม่ใช่เกสต์เฮาส์ร่วม บ้านทั้งหลังเป็นของคุณ",
+    leadBody: "",
+    items: [
+      "ทำเลใจกลางเมือง — จากสนามบินเพียง 20 นาที เดินไปเทนจินได้",
+      "ทุกห้องนอนมีที่นอน Simmons ระดับ 5 ดาว",
+      "ครัวและห้องนั่งเล่นขนาดใหญ่",
+      "มีที่จอดรถส่วนตัว",
+      "ห้องน้ำสะอาด อุปกรณ์คุณภาพสูง & งานศิลปะหัตถกรรมญี่ปุ่น",
+    ],
+  },
+  bookingCta: {
+    heading: "พร้อมสำรวจฟุกุโอกะแล้วหรือยัง?",
+    kiyokawa: "จอง Kiyokawa ผ่าน Airbnb",
+    takasago: "จอง Takasago ผ่าน Airbnb",
+  },
+  faq: {
+    body: "สำหรับคำถามที่พบบ่อย กรุณาดูข้อมูลบนเว็บไซต์จองแต่ละแห่ง",
+  },
+  footer: {
+    address: "ฟุกุโอกะ ประเทศญี่ปุ่น",
+    rights: "© 2026 yah.homes. All rights reserved.",
+  },
+  localsCta: {
+    sectionLabel: "Local Guide",
+    heading: "Find Out your Fukuoka.",
+    body: "สำรวจเสน่ห์ของย่าน Kiyokawa ฟุกุโอกะ — คาเฟ่ ร้านอาหาร ตลาด และสถานที่ทางวัฒนธรรม คัดสรรเพื่อคุณโดยเฉพาะ",
+    btn: "Find Out",
+  },
+};
+
+export const translations: Record<Lang, Translations> = { en, ko, zh, th };
+
+// langPaths: the home URL for each language
+export const langPaths: Record<Lang, string> = {
+  en: "/home",
+  ko: "/ko/home",
+  zh: "/zh/home",
+  th: "/th/home",
+};
+
+// pathToLang: detect language from URL path prefix
+export function detectLangFromPath(pathname: string): Lang {
+  if (pathname.startsWith("/ko/")) return "ko";
+  if (pathname.startsWith("/zh/")) return "zh";
+  if (pathname.startsWith("/th/")) return "th";
+  return "en";
+}
+
+// Legacy map kept for backward compatibility
+export const pathToLang: Record<string, Lang> = {
+  "/home": "en",
+  "/about": "en",
+  "/locals": "en",
+  "/booking/kiyokawa": "en",
+  "/ko/home": "ko",
+  "/ko/about": "ko",
+  "/ko/locals": "ko",
+  "/ko/booking/kiyokawa": "ko",
+  "/zh/home": "zh",
+  "/zh/about": "zh",
+  "/zh/locals": "zh",
+  "/zh/booking/kiyokawa": "zh",
+  "/th/home": "th",
+  "/th/about": "th",
+  "/th/locals": "th",
+  "/th/booking/kiyokawa": "th",
+  "/": "en",
+};

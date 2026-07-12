@@ -1,0 +1,47 @@
+---
+// Home — 案A のルーティング検証ページ。
+// [...locale] レストパラメータで en(ルート) / ko / zh / th を1テンプレートから静的生成する。
+//   en  -> locale=undefined -> "/"
+//   ko  -> locale="ko"      -> "/ko/"
+//   zh  -> "/zh/"   th -> "/th/"
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LOCALES, localeParam, type Locale } from "../../i18n/config";
+import { translations } from "../../i18n/translations";
+import { getPageMeta } from "../../lib/seo";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const t = translations[lang];
+const meta = getPageMeta("home", lang);
+---
+
+<BaseLayout lang={lang} path="/" title={meta.title} description={meta.description}>
+  <main>
+    <!-- ヒーロー：本文は静的HTMLに含める（JS実行なしで読める） -->
+    <section>
+      <h1>{t.hero.catchcopy.join(" ")}</h1>
+      <ul>
+        {t.hero.salesPoints.map((point) => <li>{point}</li>)}
+      </ul>
+    </section>
+
+    <!-- 物件（Kiyokawa / Takasago） -->
+    <section>
+      <h2>{t.properties.sectionLabel}</h2>
+      <article>
+        <h3>{t.properties.kiyokawa.name}</h3>
+        <p>{t.properties.kiyokawa.info}</p>
+      </article>
+      <article>
+        <h3>{t.properties.takasago.name}</h3>
+        <p>{t.properties.takasago.info}</p>
+      </article>
+    </section>
+  </main>
+</BaseLayout>

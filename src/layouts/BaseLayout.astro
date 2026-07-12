@@ -1,0 +1,95 @@
+---
+// BaseLayout — 全ページ共通の <head>。SEO の核。
+// title / description / canonical / hreflang / OGP / JSON-LD をビルド時に焼き込み、
+// 全UAへ同一HTMLを配信する（旧サイトのUA出し分け・全ページ同一タイトルを廃止）。
+import "../styles/global.css";
+import {
+  LOCALES,
+  HREFLANG,
+  DEFAULT_LOCALE,
+  localizedPath,
+  type Locale,
+} from "../i18n/config";
+import { BASE_URL, OG_IMAGE } from "../lib/seo";
+
+interface Props {
+  lang: Locale;
+  /** ページの論理パス（"/" や "/about"）。ロケール接頭辞は含めない。 */
+  path: string;
+  title: string;
+  description: string;
+  ogImage?: string;
+  jsonLd?: Record<string, unknown>;
+  /** 管理画面など検索対象外ページは true */
+  noindex?: boolean;
+}
+
+const {
+  lang,
+  path,
+  title,
+  description,
+  ogImage = OG_IMAGE,
+  jsonLd,
+  noindex = false,
+} = Astro.props;
+
+// canonical は自ロケールの絶対URL
+const canonical = `${BASE_URL}${localizedPath(lang, path)}`;
+// hreflang は全ロケール＋x-default(=en)
+const alternates = LOCALES.map((loc) => ({
+  hreflang: HREFLANG[loc],
+  href: `${BASE_URL}${localizedPath(loc, path)}`,
+}));
+const xDefault = `${BASE_URL}${localizedPath(DEFAULT_LOCALE, path)}`;
+// html lang 属性（zh は繁体字）
+const htmlLang = HREFLANG[lang];
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    {
+      noindex ? (
+        <meta name="robots" content="noindex,nofollow" />
+      ) : (
+        <link rel="canonical" href={canonical} />
+      )
+    }
+
+    {
+      !noindex &&
+        alternates.map((alt) => (
+          <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+        ))
+    }
+    {!noindex && <link rel="alternate" hreflang="x-default" href={xDefault} />}
+
+    <!-- OGP -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(jsonLd)}
+        />
+      )
+    }
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

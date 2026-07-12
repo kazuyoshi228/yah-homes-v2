@@ -1,0 +1,22 @@
+/* yah.homes global styles — Tailwind v4
+   注：旧 index.css の shadcn トークン一式・National2 フォント・tw-animate-css は
+   コンテンツ移植フェーズで持ち込む（フォントは Manus ストレージ依存のため要再ホスト）。
+   ここではまず Tailwind を有効化する最小構成。 */
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #111111;
+  --muted: #888888;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Hiragino Sans", sans-serif;
+  line-height: 1.7;
+}

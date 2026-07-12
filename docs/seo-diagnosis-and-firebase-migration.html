@@ -1,0 +1,358 @@
+<title>yah.homes SEO改善レポート — Firebase移行設計</title>
+<style>
+  :root {
+    --ink: #1c2420;
+    --ink-soft: #4a554f;
+    --ink-faint: #79857e;
+    --ground: #fbfcfb;
+    --panel: #f1f4f2;
+    --line: #dde3df;
+    --pine: #1e5c48;
+    --pine-soft: #e3efe9;
+    --alert: #a63d2f;
+    --alert-soft: #f7e9e6;
+    --amber: #8a6d1f;
+    --amber-soft: #f5eeda;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+    font-size: 15px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 860px; margin: 0 auto; padding: 56px 28px 96px; }
+  .eyebrow {
+    font-size: 11px; letter-spacing: .18em; color: var(--pine);
+    font-weight: 600; margin-bottom: 14px;
+  }
+  h1 {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+    font-size: 30px; line-height: 1.45; font-weight: 600; text-wrap: balance;
+    margin-bottom: 10px;
+  }
+  .subtitle { color: var(--ink-soft); font-size: 14px; }
+  .meta-row {
+    display: flex; flex-wrap: wrap; gap: 8px 24px;
+    margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line);
+    font-size: 12.5px; color: var(--ink-faint);
+  }
+  .meta-row b { color: var(--ink-soft); font-weight: 600; }
+
+  section { margin-top: 64px; }
+  h2 {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+    font-size: 21px; font-weight: 600; line-height: 1.5; text-wrap: balance;
+    padding-bottom: 10px; margin-bottom: 22px;
+    border-bottom: 2px solid var(--pine);
+  }
+  h2 .sec { color: var(--pine); font-size: 13px; letter-spacing: .1em; display: block; margin-bottom: 2px; font-family: "Hiragino Sans", sans-serif; font-weight: 600; }
+  h3 { font-size: 15.5px; font-weight: 600; margin: 30px 0 10px; }
+  p { margin-bottom: 14px; max-width: 44em; }
+  p:last-child { margin-bottom: 0; }
+  strong { font-weight: 600; }
+  code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: .88em; background: var(--panel);
+    padding: 1px 6px; border-radius: 3px; white-space: nowrap;
+  }
+
+  .tldr {
+    background: var(--panel); border-left: 4px solid var(--pine);
+    padding: 22px 26px; margin-top: 36px;
+  }
+  .tldr-title { font-size: 12px; letter-spacing: .15em; color: var(--pine); font-weight: 600; margin-bottom: 12px; }
+  .tldr ol { padding-left: 1.3em; }
+  .tldr li { margin-bottom: 10px; }
+  .tldr li:last-child { margin-bottom: 0; }
+
+  .callout {
+    border: 1px solid var(--line); border-left: 4px solid var(--alert);
+    background: var(--alert-soft); padding: 18px 22px; margin: 22px 0;
+  }
+  .callout.warn { border-left-color: var(--amber); background: var(--amber-soft); }
+  .callout.good { border-left-color: var(--pine); background: var(--pine-soft); }
+  .callout .label { font-size: 11.5px; letter-spacing: .12em; font-weight: 700; margin-bottom: 6px; }
+  .callout .label.bad { color: var(--alert); }
+  .callout .label.warn-c { color: var(--amber); }
+  .callout .label.good-c { color: var(--pine); }
+
+  .table-wrap { overflow-x: auto; margin: 18px 0 6px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; line-height: 1.65; }
+  th {
+    text-align: left; font-size: 11.5px; letter-spacing: .08em; color: var(--ink-faint);
+    font-weight: 600; padding: 8px 14px 8px 0; border-bottom: 1px solid var(--ink);
+    white-space: nowrap;
+  }
+  td { padding: 11px 14px 11px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+
+  .pill {
+    display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em;
+    padding: 2px 10px; border-radius: 99px; white-space: nowrap;
+  }
+  .pill.crit { background: var(--alert-soft); color: var(--alert); }
+  .pill.high { background: var(--amber-soft); color: var(--amber); }
+  .pill.mid  { background: var(--panel); color: var(--ink-soft); }
+  .pill.ok   { background: var(--pine-soft); color: var(--pine); }
+
+  .arch { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin: 20px 0; }
+  @media (max-width: 640px) { .arch { grid-template-columns: 1fr; } }
+  .arch-box { border: 1px solid var(--line); background: #fff; padding: 20px 22px; }
+  .arch-box h4 { font-size: 12px; letter-spacing: .12em; margin-bottom: 12px; font-weight: 700; }
+  .arch-box.now h4 { color: var(--alert); }
+  .arch-box.next h4 { color: var(--pine); }
+  .arch-box ul { list-style: none; }
+  .arch-box li { padding: 7px 0; border-top: 1px dashed var(--line); font-size: 13.5px; }
+  .arch-box li:first-child { border-top: none; }
+
+  .phase { display: flex; gap: 18px; margin-bottom: 26px; }
+  .phase-tag {
+    flex: 0 0 auto; width: 52px; height: 52px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; letter-spacing: .02em;
+    background: var(--pine); color: #fff;
+  }
+  .phase.p0 .phase-tag { background: var(--alert); }
+  .phase-body h3 { margin: 2px 0 6px; }
+  .phase-body .when { font-size: 12px; color: var(--ink-faint); letter-spacing: .05em; margin-bottom: 6px; }
+  ul.plain { padding-left: 1.25em; margin-bottom: 14px; }
+  ul.plain li { margin-bottom: 7px; }
+
+  .footnote { margin-top: 72px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-faint); line-height: 1.8; }
+</style>
+
+<div class="page">
+  <header>
+    <div class="eyebrow">SEO TECHNICAL AUDIT &amp; MIGRATION PLAN</div>
+    <h1>yah.homes を Google 検索で見つかるサイトにする<br>— 現状診断と Firebase 移行での改善点</h1>
+    <div class="subtitle">google / organic 月間28ユーザーからの脱却に向けた、実測に基づく技術レポート</div>
+    <div class="meta-row">
+      <span><b>調査日</b> 2026年7月11日</span>
+      <span><b>対象</b> https://yah.homes/（Manusホスティング）</span>
+      <span><b>調査方法</b> 本番サイト実測・ソースコード精読・GA4/Search Console</span>
+    </div>
+  </header>
+
+  <div class="tldr">
+    <div class="tldr-title">要約 — 3つの結論</div>
+    <ol>
+      <li><strong>現サイトは検索エンジンに「中身が空のページ」として見えています。</strong>全URLが同一の空HTMLを返すクライアントレンダリング構成で、本文・見出し・画像がHTMLに一切存在しません。</li>
+      <li><strong>ボット向けメタ注入にバグがあり、Googlebotには全ページが同じ英語タイトルで返っています。</strong>韓国語・中国語ページの検索結果が機能しない直接の原因で、修正自体は1行です（応急処置は現環境でも可能）。</li>
+      <li><strong>Firebase移行の価値は「全ページを本物の静的HTMLとして配信できること」です。</strong>ただし技術改善は土台であり、organic流入の本丸は magazine.yah.mobi をコンテンツエンジンにした検索需要の獲得です。</li>
+    </ol>
+  </div>
+
+  <section>
+    <h2><span class="sec">01</span>現状の数字 — organicはほぼゼロ</h2>
+    <p>GA4（6/13〜7/10、ボット汚染を除いた実質値）での自然検索の存在感は次の通りです。</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>チャネル</th><th>ユーザー数 / 28日</th><th>備考</th></tr>
+        <tr><td>google / organic</td><td class="num"><strong>28</strong></td><td>1日1人未満。SEOは事実上未稼働</td></tr>
+        <tr><td>l.instagram.com / referral</td><td class="num">218</td><td>実流入の主力はInstagram</td></tr>
+        <tr><td>(direct) / (none)</td><td class="num">1,711</td><td>大半がボット（前回調査で特定済み）</td></tr>
+      </table>
+    </div>
+    <p>実ユーザーの行動は健全です（<code>/ko/home</code> 着地でキーイベント率17%、エンゲージメント25秒前後）。<strong>問題は集客の入口が広告とSNSしかないこと</strong>で、その状態を作っている技術要因が次章です。</p>
+  </section>
+
+  <section>
+    <h2><span class="sec">02</span>技術診断 — 検索エンジンから見た yah.homes</h2>
+    <p>現サイトは Manus のテンプレート（React 19 + Vite + Express + tRPC + Drizzle）で、<code>cname.manus.space</code> 上で稼働しています。実測とソース精読で確認した問題を深刻度順に示します。</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>深刻度</th><th>問題</th><th>実測値・根拠</th></tr>
+        <tr>
+          <td><span class="pill crit">致命的</span></td>
+          <td><strong>本文がHTMLに存在しない（完全CSR）</strong></td>
+          <td>全URLが同一391KBのシェルを返し、body は <code>&lt;div id="root"&gt;&lt;/div&gt;</code> のみ。h1・h2・img・本文テキストがゼロ。内容表示に795KBのJS実行が必須</td>
+        </tr>
+        <tr>
+          <td><span class="pill crit">致命的</span></td>
+          <td><strong>ボット向けタイトルが全ページ英語ホーム用（バグ）</strong></td>
+          <td>Googlebot UAで <code>/ko/</code>・<code>/about</code>・<code>/booking/kiyokawa</code> を取得すると、すべて同一の英語ホームタイトルが返る（下記コールアウト参照）</td>
+        </tr>
+        <tr>
+          <td><span class="pill high">高</span></td>
+          <td><strong>応答が遅く、HTMLが一切キャッシュされない</strong></td>
+          <td>TTFB 1.2〜2.4秒（目安は0.8秒以下）。HTMLは <code>cache-control: no-cache, no-store</code> で Cloudflare も素通し（<code>cf-cache-status: DYNAMIC</code>）</td>
+        </tr>
+        <tr>
+          <td><span class="pill high">高</span></td>
+          <td><strong>UA判定でボットにだけ別HTMLを返す設計</strong></td>
+          <td><code>prerender.ts</code> が既知ボットのUAにのみメタを注入。ユーザーとクローラーで内容が異なる「クローキング」に近い構成で、脆く、検知漏れボット（新興AI検索等）には空シェルが渡る</td>
+        </tr>
+        <tr>
+          <td><span class="pill mid">中</span></td>
+          <td><strong>sitemap と実体の不整合</strong></td>
+          <td>sitemap は <code>/zh-cn/</code>（簡体字）を宣言するが、ルートも翻訳も未実装でSPAフォールバックの200が返る。canonical も通常UAでは <code>/ko</code>、ボットには <code>/ko/</code> と不統一</td>
+        </tr>
+        <tr>
+          <td><span class="pill mid">中</span></td>
+          <td><strong>検索面が構造的に狭い</strong></td>
+          <td>実質7ページ × 4言語のブランドサイトのみ。「福岡 一棟貸し」「후쿠오카 숙소」等の検索需要を受けるコンテンツページが存在しない</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="label bad">確認済みバグ — 全ページが英語ホームのタイトルに</div>
+      <p><code>server/_core/prerender.ts</code> はパスごとのタイトル・説明文を丁寧に定義していますが（韓国語・繁体字・タイ語まで完備）、ミドルウェアを <code>app.use("*", ...)</code> に載せているため <code>req.path</code> が常に <code>"/"</code> になり、<strong>どのURLでもホーム用メタがマッチします</strong>。結果、Googlebot には全ページが「yah.homes | Whole-House Villa Rental Fukuoka — …」で返っており、これは実測で確認済みです。全ページ重複タイトル＝Googleからは「同じページの複製群」に見え、韓国語クエリでの表示は絶望的です。<strong>修正は <code>req.path</code> → <code>req.originalUrl</code>（クエリ除去）の実質1行</strong>で、移行を待たず今日直せます。</p>
+    </div>
+
+    <div class="callout good">
+      <div class="label good-c">維持すべき資産 — ここは既によくできている</div>
+      <p>robots.txt（AIクローラー明示許可）、hreflang完備のsitemap、リッチなJSON-LD（LodgingBusiness・FAQPage・AggregateRating・Review）、llms.txt / llms-full.txt。これらの<strong>設計思想はそのまま新環境へ移植する価値があります</strong>。問題は「何を書くか」ではなく「どう配信するか」の層にあります。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="sec">03</span>Search Console 実データ — インデックスの詰まり</h2>
+    <p>Search Console（<code>sc-domain:yah.homes</code>）を実際に確認したところ、CSRの問題がインデックス登録に具体的な形で表れていました。</p>
+
+    <div class="table-wrap">
+      <table>
+        <tr><th>指標</th><th>値</th></tr>
+        <tr><td>既知ページ数</td><td class="num">25</td></tr>
+        <tr><td>インデックス登録済み</td><td class="num"><strong>12</strong></td></tr>
+        <tr><td>未登録（うち「ページにリダイレクトがあります」）</td><td class="num">13（<strong>11</strong>）</td></tr>
+        <tr><td>直近3ヶ月の検索クエリ数</td><td class="num">14件</td></tr>
+        <tr><td>同期間のクリック数</td><td class="num"><strong>0</strong></td></tr>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="label bad">確認済みの構造的問題 — JSリダイレクトが未インデックスを量産</div>
+      <p><code>/home</code>・<code>/ko/home</code>・<code>/zh/home</code> などに実際にアクセスすると、<strong>HTTPステータスは200番台</strong>（リダイレクトではない）ですが、ページ内のReactルーター（wouterの<code>&lt;Redirect&gt;</code>）がブラウザ内で <code>/</code> へ転送します。サーバーが「これはリダイレクト」と最初から宣言しないため、Googlebotは<strong>JSを実行して初めて</strong>リダイレクトだと判定でき、その間ページは「クロール済み・リダイレクトあり・未インデックス」で足止めされます。これがSearch Console上の未登録13件中11件の正体です。</p>
+      <p style="margin-top:10px">さらに悪いことに、レガシーパス <code>/korean</code> は実サーバー側で301により <code>/ko/home</code> へ飛びますが、その <code>/ko/home</code> 自体が上記のJSリダイレクトで <code>/ko/</code> へ二段階目の転送をしています。<strong>1回のアクセスに2ホップ</strong>かかり、クロール予算を余計に消費する構成です（<code>www.yah.homes</code> → <code>yah.homes</code>、<code>http://</code> → <code>https://</code> はサーバー側の正しい301で、ここは問題ありません）。</p>
+    </div>
+
+    <p>検索パフォーマンスも同じ実態を裏づけています。過去3ヶ月で表示されたクエリはわずか14件、「福岡包棟民宿推薦」（中国語検索）のような明確な需要語も表示回数が数件どまりで、<strong>クリックは全期間ゼロ</strong>。表示されているクエリの多くもブランド名の揺れ（<code>villa yahachi garden</code> 等）で、指名検索すら弱い状態です。CSRによってGoogleがコンテンツをほぼ評価できていない、という02章の診断と整合します。</p>
+  </section>
+
+  <section>
+    <h2><span class="sec">04</span>Firebase 移行で何が変わるか</h2>
+    <p>magazine.yah.mobi で確立した BaaS-first 構成（Firestore / Auth / Hosting / Functions）に寄せることで、上記の致命的問題は<strong>アーキテクチャごと消滅</strong>します。核心はビルド時に全ページ（ページ × 言語のマトリクス）を完全な静的HTMLとして生成し、Firebase Hosting のCDNから配信することです。</p>
+
+    <div class="arch">
+      <div class="arch-box now">
+        <h4>現状（Manus / Express + CSR）</h4>
+        <ul>
+          <li>全URLで同一の空シェルHTML（391KB）</li>
+          <li>本文表示にJS 795KBの実行が必須</li>
+          <li>ボットUA判定でメタだけ差し替え（バグあり）</li>
+          <li>TTFB 1.2〜2.4秒・HTMLキャッシュなし</li>
+          <li>Expressサーバー常駐・Manusに依存</li>
+        </ul>
+      </div>
+      <div class="arch-box next">
+        <h4>移行後（Firebase Hosting + SSG）</h4>
+        <ul>
+          <li>URLごとに本文・h1・画像入りの完全なHTML</li>
+          <li>title / meta / hreflang / canonical / JSON-LD をビルド時に焼き込み — 全UAに同一配信</li>
+          <li>CDNエッジ配信で TTFB 100ms前後・CWV改善</li>
+          <li>問い合わせ・Beds24連携は Functions へ移植</li>
+          <li>magazine と同一の運用基盤・デプロイフロー</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>改善マッピング</h3>
+    <div class="table-wrap">
+      <table>
+        <tr><th>診断した問題</th><th>Firebase構成での解決</th></tr>
+        <tr><td>JSリダイレクトで11ページが未インデックス</td><td>SSGでは <code>/home</code> 系レガシーパスをビルド設定またはHostingの <code>redirects</code> 設定で実HTTP 301に統一。JS実行に依存しないため1ホップで完結し、Googlebotが即座に判定できる</td></tr>
+        <tr><td>本文がHTMLにない</td><td>SSG（Astro または Next.js の静的出力）で全28ページ（7ページ×4言語）を事前レンダリング。クローラーもAI検索もJS実行なしで全文を読める</td></tr>
+        <tr><td>ボット向け注入バグ・クローキング</td><td>UA判定という仕組み自体を廃止。人間とボットが同じHTMLを見るため、バグの入る余地がない</td></tr>
+        <tr><td>遅いTTFB・キャッシュなし</td><td>Hosting のCDN配信＋アセットは <code>immutable</code> キャッシュ。HTMLも再デプロイまでエッジキャッシュ可能</td></tr>
+        <tr><td>sitemap不整合</td><td>sitemap・hreflang・canonical をビルドで自動生成し、実在ページと機械的に一致させる。<code>/zh-cn/</code> は実装するか宣言から外すかをこの時点で確定</td></tr>
+        <tr><td>検索面が狭い</td><td>magazine.yah.mobi（Firestore CMS）をコンテンツエンジンとして連携 — 次章</td></tr>
+      </table>
+    </div>
+
+    <div class="callout warn">
+      <div class="label warn-c">正直な注意点</div>
+      <p>技術移行<em>だけ</em>では organic は劇的には増えません。7ページのブランドサイトが受けられる検索クエリは指名検索と少数の地域クエリに限られます。移行の意味は「Googleに正しく評価される土台を作ること」と「コンテンツを積む場所を用意すること」の2つです。数字を動かす主役はコンテンツ（P2）です。</p>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="sec">05</span>実行ロードマップ</h2>
+
+    <div class="phase p0">
+      <div class="phase-tag">P0</div>
+      <div class="phase-body">
+        <h3>応急処置 — 現環境のまま、移行を待たない</h3>
+        <div class="when">今日〜3日 / 現Manus環境で完結</div>
+        <ul class="plain">
+          <li><code>prerender.ts</code> のパスマッチを修正（<code>req.path</code> → <code>req.originalUrl</code>）し、全ページに正しい言語別タイトルを返す</li>
+          <li><strong><code>/home</code> <code>/ko/home</code> <code>/zh/home</code> <code>/th/home</code> <code>/korean</code> をExpress側で実HTTP 301（現状のJSリダイレクトではなく）に変更。</strong>2ホップを1ホップに短縮し、Search Consoleで11件詰まっている未インデックスを解消</li>
+          <li>sitemap から <code>/zh-cn/</code> を除去（実装するまで宣言しない）、canonical の末尾スラッシュを sitemap と統一</li>
+          <li>Search Console で修正後に該当URLのインデックス再登録をリクエスト</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-tag">P1</div>
+      <div class="phase-body">
+        <h3>Firebase 移行 — 静的HTML化と配信基盤</h3>
+        <div class="when">1〜2週間</div>
+        <ul class="plain">
+          <li>Astro（推奨：コンテンツサイト向きで出力が最軽量）または Next.js 静的出力で7ページ×4言語を再構築。既存のReactコンポーネント・翻訳ファイル・JSON-LDは大部分を流用可能</li>
+          <li>Firebase Hosting へデプロイ。画像はAVIF/WebP＋幅別バリアントでLCP 2.5秒以内を目標</li>
+          <li>問い合わせフォーム・Beds24 webhook・管理画面APIを Cloud Functions へ移植（magazine で実証済みのパターン）</li>
+          <li>DNSを <code>manus.space</code> から Firebase へ切替。移行前後でURL構造を変えないため、リダイレクト設計は最小で済む</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-tag">P2</div>
+      <div class="phase-body">
+        <h3>コンテンツエンジン — organicの本丸</h3>
+        <div class="when">移行後、継続的に</div>
+        <ul class="plain">
+          <li>magazine.yah.mobi を検索需要の受け皿に：韓国語・英語での「福岡 家族旅行」「후쿠오카 단독주택 숙소」「fukuoka family accommodation」系ガイド記事を月数本のペースで積む</li>
+          <li>記事 → yah.homes 予約ページへの内部リンクを設計（既存の <code>/locals</code>（清川ローカルガイド16選）は良い雛形。言語別に拡充する価値が高い）</li>
+          <li>PR TIMES・twitfukuoka 等、既に referral 実績のある媒体からの被リンクを継続獲得</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-tag">P3</div>
+      <div class="phase-body">
+        <h3>計測の衛生 — 効果を正しく測れる状態に</h3>
+        <div class="when">P1と並行</div>
+        <ul class="plain">
+          <li>広告・SNSリンクに必ずUTMを付与（前回のボット問題で「広告と自然流入を区別できない」ことが実害になったのは記憶に新しいところです）</li>
+          <li>GA4のボット汚染対策（Cloudflare のボット対策ルール、またはDirect除外セグメントの常用）</li>
+          <li>Search Console をKPIの一次ソースに：表示回数→クリック→掲載順位の順で改善を追う</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="sec">06</span>期待できる効果</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>時期</th><th>期待される変化</th></tr>
+        <tr><td class="num">P0後 数日〜2週間</td><td>Googlebot が言語別の正しいタイトル・説明文を取得。韓国語・中国語ページの検索結果表示が正常化し、指名検索・地域クエリでのCTRが改善</td></tr>
+        <tr><td class="num">P1後 2〜6週間</td><td>全ページの完全インデックス、CWV改善によるクロール頻度・評価の向上。ここまでで「検索に出られる状態」が完成</td></tr>
+        <tr><td class="num">P2開始 3〜6ヶ月</td><td>コンテンツの蓄積に比例して organic が立ち上がる。宿泊系は季節性が強いため、繁忙期（桜・年末年始）の3ヶ月前に記事を仕込むのが効率的</td></tr>
+      </table>
+    </div>
+    <p style="margin-top:16px">まず着手すべきは <strong>P0のバグ修正</strong>です。移行判断と無関係に今日実行でき、現在インデックスされている数少ないページの検索結果表示が即座に改善します。ご希望であれば P0 の修正パッチはすぐに書けます。</p>
+  </section>
+
+  <div class="footnote">
+    調査手法：本番サイトへの実測リクエスト（通常UA / Googlebot UA での取得・応答ヘッダ・TTFB・リダイレクト挙動の計測）、提供されたソースコード（yah.homes.zip）の精読、GA4（プロパティ www.yah.homes）、Search Console（sc-domain:yah.homes、ページのインデックス登録・検索パフォーマンス）の直接確認。数値は2026年7月11日時点。PageSpeed Insights はAPIクォータ超過のため未取得（TTFB・転送量は直接実測で代替）。
+  </div>
+</div>

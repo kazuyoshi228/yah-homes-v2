@@ -1,0 +1,17 @@
+---
+// 404 — 言語共通。noindex。
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  lang="en"
+  path="/404"
+  title="Page Not Found | yah.homes"
+  description="The page you are looking for could not be found."
+  noindex={true}
+>
+  <main>
+    <h1>404 — Page Not Found</h1>
+    <p><a href="/">Back to yah.homes home</a></p>
+  </main>
+</BaseLayout>
