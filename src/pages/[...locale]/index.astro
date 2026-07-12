@@ -1,13 +1,9 @@
 ---
-// Home — 案A のルーティング検証ページ。
-// [...locale] レストパラメータで en(ルート) / ko / zh / th を1テンプレートから静的生成する。
-//   en  -> locale=undefined -> "/"
-//   ko  -> locale="ko"      -> "/ko/"
-//   zh  -> "/zh/"   th -> "/th/"
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { LOCALES, localeParam, type Locale } from "../../i18n/config";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, localizedPath, type Locale } from "../../i18n/config";
 import { translations } from "../../i18n/translations";
 import { getPageMeta } from "../../lib/seo";
+import { PROPERTIES, HERO_IMAGE, STORY_IMAGE, DIRECTOR_IMAGE } from "../../data/properties";
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({
@@ -19,29 +15,330 @@ export function getStaticPaths() {
 const { lang } = Astro.props as { lang: Locale };
 const t = translations[lang];
 const meta = getPageMeta("home", lang);
+
+const cards = [
+  { p: PROPERTIES.kiyokawa, name: t.properties.kiyokawa.name, info: t.properties.kiyokawa.info, detail: localizedPath(lang, "/booking/kiyokawa") },
+  { p: PROPERTIES.takasago, name: t.properties.takasago.name, info: t.properties.takasago.info, detail: localizedPath(lang, "/booking/takasago") },
+];
 ---
 
-<BaseLayout lang={lang} path="/" title={meta.title} description={meta.description}>
-  <main>
-    <!-- ヒーロー：本文は静的HTMLに含める（JS実行なしで読める） -->
-    <section>
-      <h1>{t.hero.catchcopy.join(" ")}</h1>
-      <ul>
-        {t.hero.salesPoints.map((point) => <li>{point}</li>)}
-      </ul>
-    </section>
+<SiteLayout lang={lang} path="/" title={meta.title} description={meta.description} jsonLd={meta.jsonLd}>
+  <!-- Hero -->
+  <section class="hero">
+    <img src={HERO_IMAGE} alt="yah.homes Fukuoka" class="hero-bg" fetchpriority="high" />
+    <div class="hero-overlay">
+      <div class="container">
+        <h1 class="hero-title">{t.hero.catchcopy.join(" ")}</h1>
+        <ul class="hero-points">
+          {t.hero.salesPoints.map((point) => <li>{point}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
 
-    <!-- 物件（Kiyokawa / Takasago） -->
-    <section>
-      <h2>{t.properties.sectionLabel}</h2>
-      <article>
-        <h3>{t.properties.kiyokawa.name}</h3>
-        <p>{t.properties.kiyokawa.info}</p>
-      </article>
-      <article>
-        <h3>{t.properties.takasago.name}</h3>
-        <p>{t.properties.takasago.info}</p>
-      </article>
-    </section>
-  </main>
-</BaseLayout>
+  <!-- Properties -->
+  <section class="section container">
+    <p class="eyebrow">{t.properties.sectionLabel}</p>
+    <h2 class="section-title">{t.properties.wonderHeadline}</h2>
+    <div class="cards properties-grid">
+      {
+        cards.map((c) => (
+          <article class="card">
+            <a href={c.detail} class="card-img img-zoom">
+              <img src={c.p.exterior} alt={c.name} loading="lazy" />
+            </a>
+            <div class="card-body">
+              <h3>{c.name}</h3>
+              <p class="card-meta">
+                {c.p.bedrooms} {t.properties.bedrooms} · {c.p.capacity} {t.properties.people} · ★ {c.p.rating}
+              </p>
+              <p class="card-info">{c.info}</p>
+              <div class="card-actions">
+                <a class="btn-booking" href={c.detail}>{t.properties.bookingBtn}</a>
+                <a class="btn-booking" href={c.p.airbnbUrl} target="_blank" rel="noopener">{t.properties.airbnbBtn}</a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="section-alt">
+    <div class="container split">
+      <div class="split-img img-zoom">
+        <img src={STORY_IMAGE} alt={t.story.heading} loading="lazy" />
+      </div>
+      <div class="split-text">
+        <p class="eyebrow">{t.story.sectionLabel}</p>
+        <h2 class="section-title">{t.story.heading}</h2>
+        {t.story.body.map((para) => <p class="body-copy">{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Director -->
+  <section class="section container">
+    <div class="split reverse">
+      <div class="split-img img-zoom">
+        <img src={DIRECTOR_IMAGE} alt={t.director.directorName} loading="lazy" />
+      </div>
+      <div class="split-text">
+        <p class="eyebrow">{t.director.sectionHeading}</p>
+        <h2 class="section-title">{t.director.directorName}</h2>
+        <p class="director-title">{t.director.directorTitle}</p>
+        {t.director.intro.map((para) => <p class="body-copy">{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Locals CTA -->
+  <section class="section-alt">
+    <div class="container cta-block">
+      <p class="eyebrow">{t.localsCta.sectionLabel}</p>
+      <h2 class="section-title">{t.localsCta.heading}</h2>
+      <p class="body-copy">{t.localsCta.body}</p>
+      <a class="btn-outline" href={localizedPath(lang, "/locals")}>{t.localsCta.btn}</a>
+    </div>
+  </section>
+
+  <!-- Booking CTA -->
+  <section class="section container cta-block">
+    <h2 class="section-title">{t.bookingCta.heading}</h2>
+    <div class="cta-actions">
+      <a class="btn-booking" href={localizedPath(lang, "/booking/kiyokawa")}>{t.bookingCta.kiyokawa}</a>
+      <a class="btn-booking" href={localizedPath(lang, "/booking/takasago")}>{t.bookingCta.takasago}</a>
+    </div>
+  </section>
+
+  <!-- Contact (Phase 1: UI のみ・送信は次フェーズ) -->
+  <section id="contact" class="section-alt">
+    <div class="container contact">
+      <p class="eyebrow">{t.contact.sectionLabel}</p>
+      <h2 class="section-title">{t.contact.heading}</h2>
+      <p class="body-copy">{t.contact.subheading}</p>
+      <form class="contact-form" aria-label="Contact">
+        <input type="text" placeholder={t.contact.namePlaceholder} name="name" autocomplete="name" />
+        <input type="email" placeholder={t.contact.emailPlaceholder} name="email" autocomplete="email" />
+        <textarea placeholder={t.contact.messagePlaceholder} name="message" rows="5"></textarea>
+        <button type="button" class="btn-booking" disabled>{t.contact.submitBtn}</button>
+      </form>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .hero {
+    position: relative;
+    height: 78vh;
+    min-height: 480px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 3rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.05) 55%);
+    color: #fff;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 3.75rem);
+    font-weight: 500;
+    line-height: 1.1;
+    text-wrap: balance;
+  }
+  .hero-points {
+    list-style: none;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    max-width: 40rem;
+    opacity: 0.95;
+  }
+  .hero-points li {
+    padding-left: 1rem;
+    position: relative;
+  }
+  .hero-points li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+  }
+
+  .section {
+    padding: 4.5rem 1.5rem;
+  }
+  .section-alt {
+    background: var(--secondary);
+    padding: 4.5rem 0;
+  }
+  .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-weight: 500;
+    line-height: 1.25;
+    text-wrap: balance;
+    margin-bottom: 1.5rem;
+  }
+  .body-copy {
+    color: #333;
+    margin-bottom: 1rem;
+    max-width: 42rem;
+  }
+
+  .cards {
+    display: grid;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  .card {
+    border: 1px solid var(--border);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-img {
+    display: block;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .card-body {
+    padding: 1.25rem 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .card-body h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  .card-meta {
+    font-size: 0.8rem;
+    color: var(--muted-foreground);
+    letter-spacing: 0.03em;
+  }
+  .card-info {
+    font-size: 0.9rem;
+    color: #444;
+    margin-bottom: 0.5rem;
+  }
+  .card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .split {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .split-img {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .split-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .director-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 768px) {
+    .split {
+      grid-template-columns: 1fr 1fr;
+    }
+    .split.reverse .split-img {
+      order: 2;
+    }
+  }
+
+  .cta-block {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  .cta-actions .btn-booking {
+    width: auto;
+    min-width: 220px;
+  }
+  .btn-outline {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.7rem 2rem;
+    border: 1px solid var(--foreground);
+    color: var(--foreground);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .btn-outline:hover {
+    background: var(--foreground);
+    color: #fff;
+  }
+
+  .contact {
+    max-width: 640px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .contact-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    text-align: left;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    border: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    font: inherit;
+    background: #fff;
+  }
+  .contact-form .btn-booking {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+</style>

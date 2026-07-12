@@ -1,0 +1,51 @@
+# robots.txt — yah.homes
+# https://yah.homes
+
+User-agent: *
+Allow: /
+
+# ── AI Search & LLM Crawlers (explicitly permitted) ──
+
+# Google (Gemini / AI Overviews / Search Generative Experience)
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# OpenAI (ChatGPT / GPT-4)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Apple (Siri / Apple Intelligence)
+User-agent: Applebot
+Allow: /
+
+# Microsoft (Bing / Copilot)
+User-agent: Bingbot
+Allow: /
+
+# Common Crawl (used by many AI training datasets)
+User-agent: CCBot
+Allow: /
+
+# Sitemap
+Sitemap: https://yah.homes/sitemap.xml

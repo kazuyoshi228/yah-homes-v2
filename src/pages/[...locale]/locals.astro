@@ -1,0 +1,79 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, type Locale } from "../../i18n/config";
+import { getPageMeta } from "../../lib/seo";
+import { localsData } from "../../data/localsData";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const meta = getPageMeta("locals", lang);
+const d = localsData[lang];
+---
+
+<SiteLayout lang={lang} path="/locals" title={meta.title} description={meta.description} jsonLd={meta.jsonLd}>
+  <section class="section container narrow">
+    <p class="eyebrow">{d.heroSubtitle}</p>
+    <h1 class="section-title">{d.heroTitle}</h1>
+    <h2 class="intro-title">{d.introTitle}</h2>
+    {d.introBody.map((p) => <p class="body-copy">{p}</p>)}
+  </section>
+
+  {
+    d.categories.map((cat) => (
+      <section class="section container">
+        <div class="cat-head">
+          <span class="cat-icon" aria-hidden="true">{cat.icon}</span>
+          <div>
+            <h2 class="cat-title">{cat.title}</h2>
+            <p class="cat-tagline">{cat.tagline}</p>
+          </div>
+        </div>
+        <div class="locals-grid">
+          {cat.spots.map((s) => (
+            <article class="spot">
+              {s.imageUrl && (
+                <div class="spot-img img-zoom"><img src={s.imageUrl} alt={s.name} loading="lazy" /></div>
+              )}
+              <div class="spot-body">
+                <h3>{s.name}</h3>
+                {s.hours && <p class="spot-hours">{s.hours}</p>}
+                <p class="spot-desc">{s.description}</p>
+                {s.mapUrl && (
+                  <a class="spot-map link-underline" href={s.mapUrl} target="_blank" rel="noopener">Google Maps →</a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</SiteLayout>
+
+<style>
+  .section { padding: 3rem 1.5rem; }
+  .narrow { max-width: 760px; }
+  .eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 0.75rem; }
+  .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 500; margin-bottom: 1.5rem; }
+  .intro-title { font-size: 1.2rem; font-weight: 500; margin-bottom: 1rem; }
+  .body-copy { color: #333; margin-bottom: 1rem; }
+  .cat-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+  .cat-icon { font-size: 1.75rem; }
+  .cat-title { font-size: 1.35rem; font-weight: 500; }
+  .cat-tagline { font-size: 0.85rem; color: var(--muted-foreground); }
+  .locals-grid { display: grid; gap: 1.5rem; }
+  .spot { border: 1px solid var(--border); background: #fff; display: flex; flex-direction: column; }
+  .spot-img { aspect-ratio: 4/3; overflow: hidden; }
+  .spot-img img { width: 100%; height: 100%; object-fit: cover; }
+  .spot-body { padding: 1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
+  .spot-body h3 { font-size: 1.05rem; font-weight: 500; }
+  .spot-hours { font-size: 0.75rem; color: var(--muted-foreground); }
+  .spot-desc { font-size: 0.88rem; color: #444; }
+  .spot-map { font-size: 0.8rem; margin-top: 0.25rem; color: var(--foreground); }
+</style>

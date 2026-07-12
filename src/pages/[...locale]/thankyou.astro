@@ -1,0 +1,32 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, localizedPath, type Locale } from "../../i18n/config";
+import { translations } from "../../i18n/translations";
+import { getPageMeta } from "../../lib/seo";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const t = translations[lang];
+const meta = getPageMeta("thankyou", lang);
+---
+
+<SiteLayout lang={lang} path="/thankyou" title={meta.title} description={meta.description} noindex={true}>
+  <section class="section container thanks">
+    <h1 class="section-title">{t.contact.successMsg}</h1>
+    <a class="btn-outline" href={localizedPath(lang, "/")}>{t.nav.home}</a>
+  </section>
+</SiteLayout>
+
+<style>
+  .section { padding: 6rem 1.5rem; }
+  .thanks { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; min-height: 40vh; justify-content: center; }
+  .section-title { font-size: clamp(1.5rem, 4vw, 2.25rem); font-weight: 500; }
+  .btn-outline { display: inline-block; padding: 0.7rem 2rem; border: 1px solid var(--foreground); color: var(--foreground); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; }
+  .btn-outline:hover { background: var(--foreground); color: #fff; }
+</style>

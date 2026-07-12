@@ -1,0 +1,81 @@
+---
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, type Locale } from "../../../i18n/config";
+import { translations } from "../../../i18n/translations";
+import { getPageMeta } from "../../../lib/seo";
+import { PROPERTIES, GALLERIES } from "../../../data/properties";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const t = translations[lang];
+const meta = getPageMeta("kiyokawa", lang);
+const p = PROPERTIES.kiyokawa;
+const gallery = GALLERIES.kiyokawa;
+const name = t.properties.kiyokawa.name;
+const info = t.properties.kiyokawa.info;
+---
+
+<SiteLayout lang={lang} path="/booking/kiyokawa" title={meta.title} description={meta.description} jsonLd={meta.jsonLd}>
+  <section class="detail-hero">
+    <img src={p.exterior} alt={name} loading="eager" />
+    <div class="detail-hero-text container">
+      <h1>{name}</h1>
+      <p class="meta">{p.bedrooms} {t.properties.bedrooms} · {p.capacity} {t.properties.people} · ★ {p.rating} ({p.reviewCount})</p>
+    </div>
+  </section>
+
+  <section class="section container narrow">
+    <p class="body-copy">{info}</p>
+    <div class="cta-actions">
+      <a class="btn-booking" href={p.airbnbUrl} target="_blank" rel="noopener">{t.properties.airbnbBtn}</a>
+    </div>
+  </section>
+
+  <!-- Beds24 予約カレンダー（外部iframe・静的埋め込み） -->
+  <section class="section container">
+    <h2 class="section-title">{t.properties.bookingBtn}</h2>
+    <div class="beds24">
+      <iframe
+        src={`https://beds24.com/booking2.php?propid=${p.beds24PropId}&referer=iframe`}
+        title={`${name} availability`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="section container">
+    <h2 class="section-title">{t.properties.galleryBtn}</h2>
+    <div class="gallery">
+      {gallery.map((src, i) => (
+        <div class="gallery-item img-zoom"><img src={src} alt={`${name} ${i + 1}`} loading="lazy" /></div>
+      ))}
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .detail-hero { position: relative; height: 56vh; min-height: 360px; overflow: hidden; }
+  .detail-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .detail-hero-text { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 2.5rem; color: #fff; background: linear-gradient(to top, rgba(0,0,0,0.55), transparent 60%); }
+  .detail-hero-text h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; }
+  .detail-hero-text .meta { font-size: 0.85rem; letter-spacing: 0.04em; margin-top: 0.5rem; opacity: 0.95; }
+  .section { padding: 3.5rem 1.5rem; }
+  .narrow { max-width: 720px; }
+  .section-title { font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 500; margin-bottom: 1.5rem; }
+  .body-copy { color: #333; margin-bottom: 1.5rem; }
+  .cta-actions .btn-booking { width: auto; min-width: 240px; }
+  .beds24 { border: 1px solid var(--border); }
+  .beds24 iframe { width: 100%; height: 720px; border: 0; display: block; }
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .gallery-item { aspect-ratio: 3/2; overflow: hidden; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  @media (min-width: 768px) { .gallery { grid-template-columns: repeat(3, 1fr); } }
+</style>

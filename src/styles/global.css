@@ -1,22 +1,276 @@
-/* yah.homes global styles — Tailwind v4
-   注：旧 index.css の shadcn トークン一式・National2 フォント・tw-animate-css は
-   コンテンツ移植フェーズで持ち込む（フォントは Manus ストレージ依存のため要再ホスト）。
-   ここではまず Tailwind を有効化する最小構成。 */
+/* =============================================================
+   yah.homes — Global Styles（旧 index.css を移植）
+   Palette: #FFFFFF bg | #111111 text | #888 muted | accent: subtle warm
+   Fonts: National 2 Medium(見出し) / Regular(本文) — Klim Type Foundry 正規ライセンス
+          CJK/Thai はシステム→Noto フォールバック
+   ============================================================= */
+
+/* ── National 2（自ホスト WOFF2）── */
+@font-face {
+  font-family: "National2";
+  src: url("/fonts/national-2-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "National2";
+  src: url("/fonts/national-2-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans:
+    "National2", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "Noto Sans KR", "Noto Sans TC", "Noto Sans Thai", system-ui, sans-serif;
+}
 
 :root {
+  --radius: 0.25rem;
   --background: #ffffff;
   --foreground: #111111;
-  --muted: #888888;
+  --card: #ffffff;
+  --card-foreground: #111111;
+  --popover: #ffffff;
+  --popover-foreground: #111111;
+  --primary: #111111;
+  --primary-foreground: #ffffff;
+  --secondary: #f5f5f5;
+  --secondary-foreground: #111111;
+  --muted: #f5f5f5;
+  --muted-foreground: #888888;
+  --accent: #f0f0f0;
+  --accent-foreground: #111111;
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: #ffffff;
+  --border: #e8e8e8;
+  --input: #e8e8e8;
+  --ring: #111111;
 }
 
-html {
-  -webkit-text-size-adjust: 100%;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      "National2", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+      "Noto Sans KR", "Noto Sans TC", "Noto Sans Thai", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href] {
+    @apply cursor-pointer;
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: "Noto Sans JP", system-ui, -apple-system, "Hiragino Sans", sans-serif;
-  line-height: 1.7;
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: 900px;
+  }
+  @media (min-width: 768px) {
+    .container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* ── Scroll reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.7s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-fade {
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .reveal-fade.visible {
+    opacity: 1;
+  }
+
+  /* ── Booking button ── */
+  .btn-booking {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.625rem 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    border: 1px solid #d0d0d0;
+    background: #ffffff;
+    color: #111111;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.15s ease;
+  }
+  .btn-booking:hover {
+    background: #f5f5f5;
+    border-color: #999999;
+    transform: translateY(-1px);
+  }
+  .btn-booking:active {
+    transform: scale(0.98);
+  }
+
+  /* ── Vertical section label ── */
+  .section-label-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+  }
+}
+
+/* ── Keyframes ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.animate-fade-up {
+  animation: fadeUp 0.8s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.animate-fade-in {
+  animation: fadeIn 1s ease both;
+}
+
+/* ── Image hover zoom ── */
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.img-zoom:hover img {
+  transform: scale(1.03);
+}
+
+/* ── Underline link ── */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #111111;
+  transition: width 0.3s ease;
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* ── Responsive grids ── */
+.properties-grid {
+  grid-template-columns: 1fr !important;
+}
+@media (min-width: 640px) {
+  .properties-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 639px) {
+  .access-maps-grid {
+    flex-direction: column !important;
+  }
+  .features-row {
+    grid-template-columns: 1fr !important;
+  }
+  .features-text {
+    order: 1 !important;
+    border-right: none !important;
+    border-left: none !important;
+    padding: 1.5rem 1rem !important;
+  }
+  .features-image {
+    order: 0 !important;
+    aspect-ratio: 4/3;
+  }
+}
+.locals-grid {
+  grid-template-columns: 1fr !important;
+}
+@media (min-width: 600px) {
+  .locals-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (min-width: 900px) {
+  .locals-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
 }

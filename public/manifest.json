@@ -1,0 +1,40 @@
+{
+  "name": "yah.homes",
+  "short_name": "yah.homes",
+  "description": "Whole-House Stays in Fukuoka, Japan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/manus-storage/favicon-16x16_f5d51870.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/manus-storage/favicon-32x32_40f71fdb.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/manus-storage/apple-touch-icon_d3babdd0.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/manus-storage/icon-192x192_6ec870e6.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/manus-storage/icon-512x512_d828037b.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

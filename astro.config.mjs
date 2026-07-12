@@ -19,8 +19,8 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      // 管理画面（/admin/*）はインデックス対象外。sitemapから除外する。
-      filter: (page) => !page.includes("/admin"),
+      // 管理画面（/admin/*）と thankyou はインデックス対象外。sitemapから除外する。
+      filter: (page) => !page.includes("/admin") && !page.includes("/thankyou"),
     }),
   ],
   vite: {
