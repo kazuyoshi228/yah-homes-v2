@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# build output
+dist/
+.astro/
+
+# firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+*-debug.log
+functions/node_modules/
+functions/lib/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+
+# 旧Manus実装（参照専用・新アーキテクチャでは移植しない。ローカルにのみ保持）
+_reference_original/
+
+# os / editor
+.DS_Store
+*.log
