@@ -1,10 +1,8 @@
 ---
 /* Locals — 旧 Locals.tsx の忠実移植
    ヒーロー(屋台) → イントロ(青ボーダー) → カテゴリ別スポット(QR付きカード)
-   → タクシーカード → マップリスト(ダーク) → PDF/Back to Home/Back to Top
-   → BookingCTA */
+   → タクシーカード → マップリスト(ダーク) → PDF/Back to Home/Back to Top */
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import BookingCTASection from "../../components/home/BookingCTASection.astro";
 import { LOCALES, localeParam, localizedPath, type Locale } from "../../i18n/config";
 import { getPageMeta } from "../../lib/seo";
 import { lucide } from "../../lib/lucide";
@@ -21,7 +19,7 @@ const { lang } = Astro.props as { lang: Locale };
 const meta = getPageMeta("locals", lang);
 const t = localsData[lang];
 
-const LAMP_BLUE = "#2B5BE8";
+const ACCENT = "#111111"; // ブランドBlack — docs/brand/Brandguidelines_yah.pdf のパレットは黒白グレーのみ
 const HERO_IMAGE = "/manus-storage/yatai_55dbcb37.webp";
 const HERO_IMAGE_768 = "/manus-storage/yatai-768_a200d426.webp";
 const HERO_IMAGE_480 = "/manus-storage/yatai-480_27266015.webp";
@@ -112,7 +110,7 @@ const homeHref = localizedPath(lang, "/");
   <!-- Intro -->
   <section style="background:#fafafa;padding:3.5rem 0;">
     <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
-      <div style={`max-width:640px;border-left:3px solid ${LAMP_BLUE};padding-left:1.5rem;`}>
+      <div style={`max-width:640px;border-left:3px solid ${ACCENT};padding-left:1.5rem;`}>
         <h2 class="intro-title">
           <span class="red-chip" aria-hidden="true"></span>
           {t.introTitle}
@@ -129,7 +127,7 @@ const homeHref = localizedPath(lang, "/");
         t.categories.map((cat) => (
           <div style="margin-bottom:4rem;">
             <div class="reveal-fade cat-head">
-              <span style={`color:${LAMP_BLUE};flex-shrink:0;margin-top:2px;`}>
+              <span style={`color:${ACCENT};flex-shrink:0;margin-top:2px;`}>
                 <Fragment set:html={lucide(CATEGORY_ICONS[cat.id] ?? "coffee", { size: 18, strokeWidth: 1.5 })} />
               </span>
               <div>
@@ -239,10 +237,9 @@ const homeHref = localizedPath(lang, "/");
     </div>
   </section>
 
-  <BookingCTASection lang={lang} />
 </SiteLayout>
 
-<style define:vars={{ lampBlue: LAMP_BLUE }}>
+<style define:vars={{ accent: ACCENT }}>
   .lc-hero {
     position: relative;
     width: 100%;
@@ -397,7 +394,7 @@ const homeHref = localizedPath(lang, "/");
     align-items: center;
     gap: 0.3rem;
     font-size: 0.72rem;
-    color: var(--lampBlue);
+    color: var(--accent);
     letter-spacing: 0.04em;
     text-decoration: none;
   }
@@ -449,8 +446,8 @@ const homeHref = localizedPath(lang, "/");
     align-items: center;
     gap: 0.5rem;
     padding: 0.625rem 1.25rem;
-    background: var(--lampBlue);
-    color: #ffffff;
+    background: #ffffff;
+    color: #111111;
     font-size: 0.78rem;
     letter-spacing: 0.06em;
     border-radius: 2px;
