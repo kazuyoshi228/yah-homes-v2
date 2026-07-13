@@ -34,6 +34,14 @@ export const faqData: Record<string, FaqData> = {
             a: "寝室が分かれておりトイレも2つあるため、家族旅行・3世代旅行に特に人気です。高砂は洗面台が3つあり、朝の支度が重なる女子旅にも好評。卒業旅行や社員旅行などのグループ利用、ワークデスク完備でワーケーションにも向いています。1日1組・一軒家丸ごと貸切なので、周りに気兼ねなくお過ごしいただけます。",
           },
           {
+            q: "家族旅行に向いていますか？",
+            a: "はい、最も人気の使い方です。寝室が分かれておりトイレも2つあるため、小さなお子さま連れや3世代旅行でも気兼ねなく過ごせます。無料の専用駐車場つきなので、荷物の多い家族旅行でも車で玄関先まで直接アクセスできます（高砂は大型ミニバンも駐車可）。",
+          },
+          {
+            q: "グループ旅行に向いていますか？",
+            a: "はい。リビングダイニングに全員で集まれるのが一棟貸しの醍醐味です。コンロ・大型冷蔵庫・調理器具・食器を揃えたフルキッチン完備で、柳橋連合市場などで買い出しして皆で料理を楽しむ滞在が人気です。卒業旅行・女子旅・社員旅行にもどうぞ。",
+          },
+          {
             q: "最大何名まで泊まれますか？",
             a: "清川は最大7名、高砂は最大6名です。定員を超えるご宿泊はできません。",
           },
@@ -140,6 +148,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "What kinds of trips are the houses good for?",
             a: "With separate bedrooms and two toilets, they are especially popular for family trips and three-generation travel. Takasago has three washbasins, which groups of friends love for busy mornings. They also suit graduation trips, company retreats, and workcations (work desk provided). Since each house hosts one group per day with the whole home to yourselves, you can relax without worrying about other guests.",
+          },
+          {
+            q: "Are the houses good for family trips?",
+            a: "Yes — it's the most popular way to stay. With separate bedrooms and two toilets, families with small children and three-generation trips can settle in comfortably. Free private parking means you can drive right up to the door with all your luggage (Takasago fits large minivans).",
+          },
+          {
+            q: "Are the houses good for group trips?",
+            a: "Yes. Gathering everyone in the living-dining room is what whole-house stays are all about. The full kitchen — stove, large refrigerator, cookware, and tableware — makes cooking together part of the trip: shopping at Yanagibashi Market and cooking as a group is a guest favorite. Great for graduation trips, friend groups, and company retreats.",
           },
           {
             q: "How many guests can stay?",
@@ -250,6 +266,14 @@ export const faqData: Record<string, FaqData> = {
             a: "침실이 분리되어 있고 화장실이 2개라 가족 여행·3대 여행에 특히 인기입니다. 다카사고는 세면대가 3개여서 아침 준비가 겹치는 우정 여행에도 좋습니다. 졸업 여행이나 워크숍 등 그룹 이용, 업무용 책상이 있어 워케이션에도 적합합니다. 하루 한 팀, 집 전체를 통째로 사용하므로 눈치 볼 필요 없이 지낼 수 있습니다.",
           },
           {
+            q: "가족 여행에 적합한가요?",
+            a: "네, 가장 인기 있는 이용 방식입니다. 침실이 분리되어 있고 화장실이 2개라 어린 자녀 동반이나 3대 여행도 편안하게 지낼 수 있습니다. 무료 전용 주차장이 있어 짐이 많은 가족 여행도 현관 앞까지 차로 바로 이동할 수 있습니다(다카사고는 대형 미니밴도 주차 가능).",
+          },
+          {
+            q: "단체 여행에 적합한가요?",
+            a: "네. 거실 다이닝에 모두가 모일 수 있는 것이 독채의 묘미입니다. 쿡탑·대형 냉장고·조리도구·식기를 갖춘 풀 키친이 있어, 야나기바시 연합시장에서 장을 보고 다 함께 요리를 즐기는 숙박이 인기입니다. 졸업 여행·우정 여행·워크숍에도 좋습니다.",
+          },
+          {
             q: "최대 몇 명까지 숙박 가능한가요?",
             a: "기요카와: 최대 7명. 다카사고: 최대 6명.",
           },
@@ -358,6 +382,14 @@ export const faqData: Record<string, FaqData> = {
             a: "臥室彼此獨立、廁所有2間，特別受家庭旅行與三代同堂旅行歡迎。高砂有3個洗手台，早上輪流梳洗的閨蜜旅行也很方便。也適合畢業旅行、員工旅遊等團體，以及附工作桌的Workcation。一天只接待一組、整棟包棟，可以完全不受打擾地度過。",
           },
           {
+            q: "適合家庭旅行嗎？",
+            a: "適合，這是最受歡迎的入住方式。臥室彼此獨立、廁所有2間，帶小孩或三代同堂都能住得安心。附免費專用停車位，行李多的家庭旅行也能開車直達門口（高砂可停大型休旅車）。",
+          },
+          {
+            q: "適合團體旅行嗎？",
+            a: "適合。全員圍著客廳餐廳相聚，正是包棟的醍醐味。完整廚房配備瓦斯爐、大冰箱、廚具與餐具，到柳橋連合市場採買後大家一起下廚，是很受歡迎的玩法。畢業旅行、閨蜜旅行、員工旅遊都很合適。",
+          },
+          {
             q: "最多可以住幾個人？",
             a: "清川：最多7人。高砂：最多6人。",
           },
@@ -464,6 +496,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "เหมาะกับทริปแบบไหน?",
             a: "ห้องนอนแยกเป็นสัดส่วนและมีห้องส้วม 2 ห้อง จึงเป็นที่นิยมสำหรับทริปครอบครัวและทริปสามรุ่น Takasago มีอ่างล้างหน้า 3 จุด สะดวกสำหรับทริปเพื่อนสาวที่ต้องเตรียมตัวตอนเช้าพร้อมกัน เหมาะกับทริปฉลองเรียนจบ ทริปบริษัท และ Workcation (มีโต๊ะทำงาน) รับวันละ 1 กลุ่มและได้บ้านทั้งหลัง จึงพักผ่อนได้อย่างเป็นส่วนตัวเต็มที่",
+          },
+          {
+            q: "เหมาะกับทริปครอบครัวไหม?",
+            a: "เหมาะมาก และเป็นรูปแบบการเข้าพักที่นิยมที่สุด ห้องนอนแยกเป็นสัดส่วนและมีห้องส้วม 2 ห้อง ครอบครัวที่มีเด็กเล็กหรือทริปสามรุ่นก็พักได้สบาย มีที่จอดรถส่วนตัวฟรี ทริปครอบครัวสัมภาระเยอะก็ขับรถถึงหน้าประตูได้เลย (Takasago จอดมินิแวนขนาดใหญ่ได้)",
+          },
+          {
+            q: "เหมาะกับทริปกลุ่มเพื่อนไหม?",
+            a: "เหมาะ การได้รวมตัวกันในห้องนั่งเล่น-ห้องอาหารคือเสน่ห์ของบ้านเช่าทั้งหลัง ครัวครบครันทั้งเตา ตู้เย็นขนาดใหญ่ อุปกรณ์ครัวและจานชาม ไปจ่ายตลาดที่ตลาดยานางิบาชิแล้วมาทำอาหารด้วยกันเป็นกิจกรรมยอดนิยมของผู้เข้าพัก เหมาะกับทริปเรียนจบ ทริปเพื่อน และทริปบริษัท",
           },
           {
             q: "รองรับผู้เข้าพักได้กี่คน?",
