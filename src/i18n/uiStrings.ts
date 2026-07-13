@@ -18,28 +18,28 @@ export const uiStrings: Record<Locale, UiStrings> = {
     bookingHeadline: ["We are truly looking forward", "to having you stay with us."],
     backToHome: "Back to Home",
     directAnswer:
-      "yah.homes operates two newly built whole-house rentals in central Fukuoka, Japan — Kiyokawa (up to 7 guests, ★{kr} from {kc} Airbnb reviews) and Takasago (up to 6 guests, ★{tr} from {tc} reviews) — about 20 minutes by car from Fukuoka Airport and within walking distance of Tenjin.",
+      "yah.homes is a pair of newly built whole-house villas in the heart of Fukuoka, Japan — private homes where your whole group stays under one roof. Kiyokawa sleeps up to 7 (★{kr} across {kc} Airbnb reviews); Takasago sleeps up to 6 (★{tr} across {tc} reviews). Both are about 20 minutes by car from Fukuoka Airport and a short walk from the Tenjin downtown district.",
     ratingAsOf: "Ratings as of {date}",
   },
   ko: {
     bookingHeadline: ["여러분의 방문을", "진심으로 기다리고 있습니다."],
     backToHome: "홈으로 돌아가기",
     directAnswer:
-      "yah.homes는 일본 후쿠오카 중심부에서 신축 통째 빌라 2채를 운영합니다 — 기요카와(최대 7명, Airbnb ★{kr}·후기 {kc}개)와 다카사고(최대 6명, ★{tr}·후기 {tc}개). 후쿠오카 공항에서 차로 약 20분, 텐진까지 도보권입니다.",
+      "yah.homes는 일본 후쿠오카 중심에 자리한 신축 독채 빌라 2채 — 일행 모두가 한 지붕 아래에서 함께 머무는 프라이빗 하우스입니다. 기요카와는 최대 7명(★{kr}·Airbnb 후기 {kc}개), 다카사고는 최대 6명(★{tr}·후기 {tc}개). 두 곳 모두 후쿠오카 공항에서 차로 약 20분, 번화가 텐진까지 도보권입니다.",
     ratingAsOf: "평점 기준일: {date}",
   },
   zh: {
     bookingHeadline: ["我們由衷期待", "您的光臨。"],
     backToHome: "返回首頁",
     directAnswer:
-      "yah.homes 在日本福岡市中心經營兩棟新建整棟出租住宅 — 清川（最多7人，Airbnb ★{kr}·{kc}則評價）與高砂（最多6人，★{tr}·{tc}則評價）。距福岡機場車程約20分鐘，步行可達天神。",
+      "yah.homes 是位於日本福岡市中心的兩棟新建整棟包棟別墅 — 讓全家人、全團隊同住一個屋簷下的私人之家。清川最多可住7人（★{kr}·{kc}則Airbnb評價），高砂最多可住6人（★{tr}·{tc}則評價）。兩棟距福岡機場車程約20分鐘，步行即達鬧區天神。",
     ratingAsOf: "評分截至 {date}",
   },
   th: {
     bookingHeadline: ["เราตั้งตารอ", "ที่จะได้ต้อนรับคุณ"],
     backToHome: "กลับสู่หน้าแรก",
     directAnswer:
-      "yah.homes ดำเนินการบ้านเช่าทั้งหลังสร้างใหม่ 2 หลังในใจกลางฟุกุโอกะ ประเทศญี่ปุ่น — คิโยกาวะ (สูงสุด 7 คน, Airbnb ★{kr} จาก {kc} รีวิว) และทาคาซาโกะ (สูงสุด 6 คน, ★{tr} จาก {tc} รีวิว) — ประมาณ 20 นาทีโดยรถยนต์จากสนามบินฟุกุโอกะ และเดินถึงเทนจินได้",
+      "yah.homes คือวิลล่าเช่าทั้งหลังสร้างใหม่ 2 หลังใจกลางฟุกุโอกะ ประเทศญี่ปุ่น — บ้านส่วนตัวที่ทั้งกลุ่มของคุณได้พักอยู่ใต้หลังคาเดียวกัน คิโยกาวะรองรับสูงสุด 7 คน (★{kr} จาก {kc} รีวิว Airbnb) ทาคาซาโกะรองรับสูงสุด 6 คน (★{tr} จาก {tc} รีวิว) ทั้งสองหลังห่างจากสนามบินฟุกุโอกะราว 20 นาทีโดยรถยนต์ และเดินถึงย่านเทนจินได้",
     ratingAsOf: "คะแนน ณ วันที่ {date}",
   },
 };

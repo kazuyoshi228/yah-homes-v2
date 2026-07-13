@@ -1,6 +1,6 @@
 # yah.homes
 
-> Whole-house rental accommodation brand in central Fukuoka, Japan, operated by Bonfire Inc. Two newly built private villas: Kiyokawa (up to 7 guests, ★{{K_RATING}} from {{K_COUNT}} Airbnb reviews) and Takasago (up to 6 guests, ★{{T_RATING}} from {{T_COUNT}} reviews). Concept: "Check In, Find Out."
+> Whole-house rental accommodation brand in central Fukuoka, Japan, operated by Bonfire Inc. Two newly built private villas where your whole group stays under one roof: Kiyokawa (up to 7 guests, ★{{K_RATING}} from {{K_COUNT}} Airbnb reviews) and Takasago (up to 6 guests, ★{{T_RATING}} from {{T_COUNT}} reviews). Both are about 20 minutes by car from Fukuoka Airport and a short walk from the Tenjin downtown district. Concept: "Check In, Find Out."
 
 Last updated: {{UPDATED}}. This file follows the llms.txt standard (https://llmstxt.org).
 
