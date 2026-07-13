@@ -100,10 +100,10 @@ function fullStars(rating: number): string {
           REVIEWS.map((rv) => {
             const defaultShowOriginal = rv.originalLang !== "日本語";
             return (
-              <article class="rev-card" itemscope itemtype="https://schema.org/Review">
+              <article class="rev-card">
                 <div style="display:flex;justify-content:space-between;align-items:flex-start;">
                   <div>
-                    <span class="rev-author" itemprop="author">{rv.reviewer}</span>
+                    <span class="rev-author">{rv.reviewer}</span>
                     <span class="rev-from">{rv.from} · {rv.platform}</span>
                   </div>
                   <span class="rev-prop-tag">{rv.property}</span>
@@ -114,7 +114,6 @@ function fullStars(rating: number): string {
                 </div>
                 <p
                   class="rev-body js-rev-body"
-                  itemprop="reviewBody"
                   data-original={rv.original}
                   data-english={rv.english}
                   data-showing={defaultShowOriginal ? "original" : "english"}
