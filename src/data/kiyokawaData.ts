@@ -348,8 +348,8 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       bookButton: "Book Now",
     },
     review: {
-      rating: "4.88",
-      count: "41 reviews",
+      rating: "4.77",
+      count: "47 reviews",
       superhostLabel: "Superhost",
       airbnbLabel: "View on Airbnb",
     },
@@ -603,8 +603,8 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       ],
     },
     review: {
-      rating: "4.88",
-      count: "후기 41개",
+      rating: "4.77",
+      count: "후기 47개",
       superhostLabel: "슈퍼호스트",
       airbnbLabel: "Airbnb에서 보기",
     },
@@ -922,8 +922,8 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       ],
     },
     review: {
-      rating: "4.88",
-      count: "41 則評價",
+      rating: "4.77",
+      count: "47 則評價",
       superhostLabel: "超級房主",
       airbnbLabel: "在 Airbnb 上查看",
     },
@@ -1241,8 +1241,8 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       ],
     },
     review: {
-      rating: "4.88",
-      count: "41 รีวิว",
+      rating: "4.77",
+      count: "47 รีวิว",
       superhostLabel: "ซูเปอร์โฮสต์",
       airbnbLabel: "ดูบน Airbnb",
     },

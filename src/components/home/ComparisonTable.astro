@@ -2,6 +2,7 @@
 /* yah.homes ComparisonTable — 旧 ComparisonTable.tsx の忠実移植 */
 import { translations } from "../../i18n/translations";
 import type { Locale } from "../../i18n/config";
+import { PROPERTIES } from "../../data/properties";
 
 interface Props {
   lang: Locale;
@@ -9,6 +10,16 @@ interface Props {
 const { lang } = Astro.props;
 const t = translations[lang];
 const ct = t.comparisonTable;
+
+// GEO: Airbnb評価行（表は引用エンジンの抽出率が最も高い形式）
+const RATING_LABEL: Record<Locale, string> = {
+  en: "Airbnb Rating",
+  ko: "에어비앤비 평점",
+  zh: "Airbnb 評分",
+  th: "คะแนน Airbnb",
+};
+const kiyoRating = `★ ${PROPERTIES.kiyokawa.rating} (${PROPERTIES.kiyokawa.reviewCount})`;
+const takaRating = `★ ${PROPERTIES.takasago.rating} (${PROPERTIES.takasago.reviewCount})`;
 
 // 人数単位（旧実装のロジックを言語で直接分岐）
 const peopleUnit = lang === "ko" ? "명" : lang === "zh" ? "人" : lang === "th" ? "คน" : "People";
@@ -20,6 +31,7 @@ type Row =
 const ROWS: Row[] = [
   { type: "header", label: ct.headers.capacity },
   { type: "row", label: ct.rows.maxCapacity, kiyokawa: `7 ${peopleUnit}`, takasago: `6 ${peopleUnit}` },
+  { type: "row", label: RATING_LABEL[lang], kiyokawa: kiyoRating, takasago: takaRating },
 
   { type: "header", label: ct.headers.rooms },
   { type: "row", label: ct.rows.bedrooms, kiyokawa: "3", takasago: "3" },

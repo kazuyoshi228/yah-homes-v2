@@ -6,7 +6,8 @@
 import { translations } from "../../i18n/translations";
 import type { Locale } from "../../i18n/config";
 import { starRating } from "../../lib/lucide";
-import { GALLERIES } from "../../data/properties";
+import { GALLERIES, PROPERTIES, RATING_AS_OF } from "../../data/properties";
+import { uiStrings } from "../../i18n/uiStrings";
 
 interface Props {
   lang: Locale;
@@ -14,30 +15,39 @@ interface Props {
 const { lang } = Astro.props;
 const t = translations[lang];
 
+// GEO: 直接回答ブロック（定義文+数値 — 引用エンジン向けの抽出可能な一文）
+const directAnswer = uiStrings[lang].directAnswer
+  .replace("{kr}", PROPERTIES.kiyokawa.rating)
+  .replace("{kc}", PROPERTIES.kiyokawa.reviewCount)
+  .replace("{tr}", PROPERTIES.takasago.rating)
+  .replace("{tc}", PROPERTIES.takasago.reviewCount);
+const asOfLabel = uiStrings[lang].ratingAsOf.replace("{date}", RATING_AS_OF);
+
+// 評価・リンクは data/properties.ts を単一ソースに（不整合の再発防止）
 const PROPERTY_META = [
   {
     id: "kiyokawa",
-    booking: "https://www.booking.com/Share-Tyhode",
+    booking: PROPERTIES.kiyokawa.bookingUrl,
     airbnb:
       "https://www.airbnb.jp/rooms/1427842426961787667?guests=1&adults=1&s=67&unique_share_id=4f784e83-f8e1-4d15-b98c-6e272b8da0a9",
     image: "/manus-storage/kiyokawa-exterior_18a3409b.webp",
     imageMobile: "/manus-storage/kiyokawa-exterior-480_cbb57d9a.webp",
     gallery: GALLERIES.kiyokawa,
-    rating: 4.88,
-    reviewCount: 41,
+    rating: Number(PROPERTIES.kiyokawa.rating),
+    reviewCount: Number(PROPERTIES.kiyokawa.reviewCount),
     name: t.properties.kiyokawa.name,
     info: t.properties.kiyokawa.info,
   },
   {
     id: "takasago",
-    booking: "https://www.booking.com/Share-K2G3CO",
+    booking: PROPERTIES.takasago.bookingUrl,
     airbnb:
       "https://www.airbnb.jp/rooms/1497546315476018480?guests=1&adults=1&s=67&unique_share_id=5babfb67-49de-4d85-afa9-b80719dbd3c9",
     image: "/manus-storage/takasago-exterior_d4f7ccff.webp",
     imageMobile: "/manus-storage/takasago-exterior-480_0292d3a7.webp",
     gallery: GALLERIES.takasago,
-    rating: 4.6,
-    reviewCount: 30,
+    rating: Number(PROPERTIES.takasago.rating),
+    reviewCount: Number(PROPERTIES.takasago.reviewCount),
     name: t.properties.takasago.name,
     info: t.properties.takasago.info,
   },
@@ -48,6 +58,11 @@ const PROPERTY_META = [
   <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
     <!-- Wonder Here copy block -->
     <div class="reveal-fade wonder-block">
+      <!-- GEO: 直接回答ブロック（定義文+数値・機械抽出用） -->
+      <p class="direct-answer">
+        {directAnswer}
+        <span class="as-of">（{asOfLabel}）</span>
+      </p>
       {
         t.properties.wonderBody.map((para, idx) => (
           <p class={idx === 0 ? "wonder-lead" : "wonder-body"}>{para}</p>
@@ -164,6 +179,22 @@ const PROPERTY_META = [
     margin-bottom: 2.5rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid #e8e8e8;
+  }
+  /* GEO: 直接回答ブロック — 控えめだが本文としてHTMLに存在させる */
+  .direct-answer {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #666666;
+    border-left: 2px solid #e8e8e8;
+    padding-left: 1rem;
+    margin-bottom: 1.75rem;
+    max-width: 640px;
+  }
+  .direct-answer .as-of {
+    color: #aaaaaa;
+    font-size: 0.75rem;
+    white-space: nowrap;
   }
   .wonder-lead {
     font-size: clamp(1.1rem, 2.5vw, 1.35rem);

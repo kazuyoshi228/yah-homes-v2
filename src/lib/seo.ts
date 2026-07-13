@@ -4,6 +4,8 @@
 // 構造化データ（LodgingBusiness 等）は旧サイトと違い全言語版に付与する。
 
 import type { Locale } from "../i18n/config";
+import { PROPERTIES, RATING_AS_OF } from "../data/properties";
+import { PRESS } from "../data/pressData";
 
 export interface PageMeta {
   title: string;
@@ -14,6 +16,35 @@ export interface PageMeta {
 
 export const BASE_URL = "https://yah.homes";
 export const OG_IMAGE = `${BASE_URL}/manus-storage/kiyokawa-exterior_18a3409b.webp`;
+
+// 運営会社（ユーザー確認済み 2026-07-13）— GEO: AIが「運営会社は?」に正しく答えるための一次情報
+export const OPERATOR = {
+  name: "Bonfire Inc.",
+  alternateName: "ボンファイア株式会社",
+  foundingDate: "2018",
+  ceo: "Kazuyoshi Yamada",
+} as const;
+
+// Organization JSON-LD（全ページ共通・sameAs でエンティティ接続）
+export function organizationJsonLd(): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: OPERATOR.name,
+    alternateName: OPERATOR.alternateName,
+    foundingDate: OPERATOR.foundingDate,
+    founder: { "@type": "Person", name: OPERATOR.ceo, jobTitle: "CEO / Director" },
+    url: BASE_URL,
+    logo: `${BASE_URL}/manus-storage/logo_yah_2dbf971f.svg`,
+    sameAs: [
+      PROPERTIES.kiyokawa.airbnbUrl,
+      PROPERTIES.takasago.airbnbUrl,
+      PROPERTIES.kiyokawa.bookingUrl,
+      PROPERTIES.takasago.bookingUrl,
+      ...PRESS.map((p) => p.url),
+    ],
+  };
+}
 
 export type PageKey =
   | "home"
@@ -125,22 +156,22 @@ const KIYOKAWA: LocaleText = {
   en: {
     title: "yah.homes Kiyokawa | Book Direct — Whole-House Villa in Fukuoka",
     description:
-      "Book yah.homes Kiyokawa directly. Newly built whole-house villa for up to 7 guests in Kiyokawa, Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, private parking. Rated 4.88/5 on Airbnb.",
+      "Book yah.homes Kiyokawa directly. Newly built whole-house villa for up to 7 guests in Kiyokawa, Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, private parking. Rated 4.77/5 on Airbnb.",
   },
   ko: {
     title: "yah.homes 기요카와 | 직접 예약 — 후쿠오카 통째 빌라",
     description:
-      "yah.homes 기요카와 직접 예약. 후쿠오카 기요카와의 신축 통째 빌라, 최대 7명. 침실 3개, SIMMONS 매트리스, 풀 키친, 전용 주차장. Airbnb 평점 4.88/5.",
+      "yah.homes 기요카와 직접 예약. 후쿠오카 기요카와의 신축 통째 빌라, 최대 7명. 침실 3개, SIMMONS 매트리스, 풀 키친, 전용 주차장. Airbnb 평점 4.77/5.",
   },
   zh: {
     title: "yah.homes 清川 | 直接預訂 — 福岡整棟別墅",
     description:
-      "直接預訂 yah.homes 清川。福岡清川新建整棟別墅，最多7人。3間臥室，SIMMONS頂級床墊，完整廚房，私人停車場。Airbnb評分4.88/5。",
+      "直接預訂 yah.homes 清川。福岡清川新建整棟別墅，最多7人。3間臥室，SIMMONS頂級床墊，完整廚房，私人停車場。Airbnb評分4.77/5。",
   },
   th: {
     title: "yah.homes คิโยกาวะ | จองตรง — วิลล่าทั้งหลังในฟุกุโอกะ",
     description:
-      "จอง yah.homes คิโยกาวะโดยตรง วิลล่าทั้งหลังใหม่สำหรับสูงสุด 7 คน ในคิโยกาวะ ฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ ที่จอดรถส่วนตัว คะแนน Airbnb 4.88/5",
+      "จอง yah.homes คิโยกาวะโดยตรง วิลล่าทั้งหลังใหม่สำหรับสูงสุด 7 คน ในคิโยกาวะ ฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ ที่จอดรถส่วนตัว คะแนน Airbnb 4.77/5",
   },
 };
 
@@ -148,22 +179,22 @@ const TAKASAGO: LocaleText = {
   en: {
     title: "yah.homes Takasago | Book Direct — Whole-House Stay in Fukuoka",
     description:
-      "Book yah.homes Takasago directly. Whole-house rental for up to 6 guests in Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, high-speed Wi-Fi. Rated 4.6/5 on Airbnb.",
+      "Book yah.homes Takasago directly. Whole-house rental for up to 6 guests in Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, high-speed Wi-Fi. Rated 4.67/5 on Airbnb.",
   },
   ko: {
     title: "yah.homes 다카사고 | 직접 예약 — 후쿠오카 통째 빌라",
     description:
-      "yah.homes 다카사고 직접 예약. 후쿠오카의 통째 빌라, 최대 6명. 침실 3개, SIMMONS 매트리스, 풀 키친. Airbnb 평점 4.6/5.",
+      "yah.homes 다카사고 직접 예약. 후쿠오카의 통째 빌라, 최대 6명. 침실 3개, SIMMONS 매트리스, 풀 키친. Airbnb 평점 4.67/5.",
   },
   zh: {
     title: "yah.homes 高砂 | 直接預訂 — 福岡整棟住宿",
     description:
-      "直接預訂 yah.homes 高砂。福岡整棟住宿，最多6人。3間臥室，SIMMONS床墊，完整廚房。Airbnb評分4.6/5。",
+      "直接預訂 yah.homes 高砂。福岡整棟住宿，最多6人。3間臥室，SIMMONS床墊，完整廚房。Airbnb評分4.67/5。",
   },
   th: {
     title: "yah.homes ทาคาซาโกะ | จองตรง — ที่พักทั้งหลังในฟุกุโอกะ",
     description:
-      "จอง yah.homes ทาคาซาโกะโดยตรง ที่พักทั้งหลังสำหรับสูงสุด 6 คนในฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ คะแนน Airbnb 4.6/5",
+      "จอง yah.homes ทาคาซาโกะโดยตรง ที่พักทั้งหลังสำหรับสูงสุด 6 คนในฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ คะแนน Airbnb 4.67/5",
   },
 };
 
@@ -196,6 +227,7 @@ function lodgingJsonLd(opts: {
   reviewCount: string;
   capacity: number;
   rooms: number;
+  sameAs?: string[];
 }): Record<string, unknown> {
   const address: Record<string, unknown> = {
     "@type": "PostalAddress",
@@ -219,6 +251,10 @@ function lodgingJsonLd(opts: {
     },
     maximumAttendeeCapacity: opts.capacity,
     numberOfRooms: opts.rooms,
+    // 鮮度シグナル（評価取得日）とエンティティ接続
+    dateModified: RATING_AS_OF,
+    ...(opts.sameAs ? { sameAs: opts.sameAs } : {}),
+    provider: { "@type": "Organization", name: OPERATOR.name, alternateName: OPERATOR.alternateName },
   };
 }
 
@@ -233,10 +269,16 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
         streetAddress: "Kiyokawa 3-3-1",
         addressLocality: "Chuo-ku, Fukuoka",
         postalCode: "810-0011",
-        rating: "4.88",
-        reviewCount: "41",
-        capacity: 7,
-        rooms: 3,
+        // 評価は data/properties.ts を単一ソースに（取得日: RATING_AS_OF）
+        rating: PROPERTIES.kiyokawa.rating,
+        reviewCount: PROPERTIES.kiyokawa.reviewCount,
+        capacity: PROPERTIES.kiyokawa.capacity,
+        rooms: PROPERTIES.kiyokawa.bedrooms,
+        sameAs: [
+          PROPERTIES.kiyokawa.airbnbUrl,
+          PROPERTIES.kiyokawa.bookingUrl,
+          ...PRESS.filter((p) => p.property === "kiyokawa").map((p) => p.url),
+        ],
       });
     case "takasago":
       return lodgingJsonLd({
@@ -245,10 +287,15 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
         description:
           "Whole-house rental for up to 6 guests in Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, high-speed Wi-Fi.",
         addressLocality: "Fukuoka",
-        rating: "4.6",
-        reviewCount: "30",
-        capacity: 6,
-        rooms: 3,
+        rating: PROPERTIES.takasago.rating,
+        reviewCount: PROPERTIES.takasago.reviewCount,
+        capacity: PROPERTIES.takasago.capacity,
+        rooms: PROPERTIES.takasago.bedrooms,
+        sameAs: [
+          PROPERTIES.takasago.airbnbUrl,
+          PROPERTIES.takasago.bookingUrl,
+          ...PRESS.filter((p) => p.property === "takasago").map((p) => p.url),
+        ],
       });
     case "about":
       return {

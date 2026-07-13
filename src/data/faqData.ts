@@ -41,6 +41,14 @@ export const faqData: Record<string, FaqData> = {
             q: "Is parking available?",
             a: "Kiyokawa has one private parking space (free). Takasago has bigger on-site parking which you can park Miniban size car such as Toyota Alfard.",
           },
+          {
+            q: "Where can 7 people stay together in Fukuoka?",
+            a: "yah.homes Kiyokawa accommodates up to 7 guests in one newly built private house (3 bedrooms, 3 double beds + 1 single bed), within walking distance of Tenjin. For groups of up to 6, yah.homes Takasago is also available.",
+          },
+          {
+            q: "Is there a whole-house rental near Tenjin or Hakata Station?",
+            a: "Yes. Both yah.homes properties are in central Fukuoka: Kiyokawa is about 15 minutes on foot from Watanabe-dori Station and 20 minutes to Tenjin; Takasago is about 8 minutes from Yakuin and 15 minutes to Tenjin. Hakata Station is about 25 minutes on foot from both.",
+          },
         ],
       },
       {
@@ -120,6 +128,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "주차 가능한가요?",
             a: "기요카와에는 전용 주차 공간 1대분이 있습니다(무료). 다카사고에는 전용 주차장이 없으며, 근처에 유료 주차장이 있습니다.",
+          },
+          {
+            q: "후쿠오카에서 7명이 함께 묵을 수 있는 숙소가 있나요?",
+            a: "yah.homes 기요카와는 신축 독채 한 채에 최대 7명까지 숙박할 수 있습니다(침실 3개, 더블 3+싱글 1). 텐진까지 도보권이며, 최대 6명 그룹은 다카사고도 이용 가능합니다.",
+          },
+          {
+            q: "텐진이나 하카타역 근처에 통째 빌라가 있나요?",
+            a: "네. 두 숙소 모두 후쿠오카 중심부에 있습니다. 기요카와는 와타나베도리역 도보 약 15분·텐진 도보 약 20분, 다카사고는 야쿠인 도보 약 8분·텐진 도보 약 15분입니다. 하카타역까지는 두 곳 모두 도보 약 25분입니다.",
           },
         ],
       },
@@ -201,6 +217,14 @@ export const faqData: Record<string, FaqData> = {
             q: "有停車位嗎？",
             a: "清川有1個私人停車位（免費）。高砂沒有專用停車場，附近有收費停車場。",
           },
+          {
+            q: "福岡有可以7人一起入住的住宿嗎？",
+            a: "yah.homes 清川是一整棟新建獨棟住宅，最多可入住7人（3間臥室、3張雙人床+1張單人床），步行可達天神。最多6人的團體也可選擇高砂。",
+          },
+          {
+            q: "天神或博多站附近有整棟出租住宿嗎？",
+            a: "有。兩處住宿都位於福岡市中心：清川距渡邊通站步行約15分鐘、天神約20分鐘；高砂距藥院步行約8分鐘、天神約15分鐘。兩處距博多站皆步行約25分鐘。",
+          },
         ],
       },
       {
@@ -280,6 +304,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "มีที่จอดรถหรือไม่?",
             a: "Kiyokawa มีที่จอดรถส่วนตัว 1 คัน (ฟรี) Takasago ไม่มีที่จอดรถ แต่มีที่จอดรถแบบเสียเงินอยู่ใกล้เคียง",
+          },
+          {
+            q: "มีที่พักในฟุกุโอกะที่พักด้วยกัน 7 คนได้ไหม?",
+            a: "yah.homes คิโยกาวะ รองรับได้สูงสุด 7 คนในบ้านส่วนตัวทั้งหลัง (3 ห้องนอน เตียงดับเบิล 3 + เตียงเดี่ยว 1) เดินถึงเทนจินได้ กลุ่มไม่เกิน 6 คนสามารถเลือกทาคาซาโกะได้เช่นกัน",
+          },
+          {
+            q: "มีบ้านเช่าทั้งหลังใกล้เทนจินหรือสถานีฮากาตะไหม?",
+            a: "มี ทั้งสองแห่งอยู่ใจกลางฟุกุโอกะ: คิโยกาวะ เดินจากสถานีวาตานาเบะโดริประมาณ 15 นาที ถึงเทนจินประมาณ 20 นาที ทาคาซาโกะ เดินจากยาคุอินประมาณ 8 นาที ถึงเทนจินประมาณ 15 นาที ทั้งสองแห่งเดินถึงสถานีฮากาตะประมาณ 25 นาที",
           },
         ],
       },

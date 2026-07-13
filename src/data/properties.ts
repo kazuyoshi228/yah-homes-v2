@@ -4,6 +4,7 @@
 export interface Property {
   key: "kiyokawa" | "takasago";
   airbnbUrl: string;
+  bookingUrl: string;
   beds24PropId: string;
   exterior: string; // /manus-storage/...
   capacity: number;
@@ -14,26 +15,33 @@ export interface Property {
 
 const IMG = "/manus-storage";
 
+/** Airbnb 評価の取得日（更新時はこの日付と rating/reviewCount を揃えて更新する）
+ *  取得方法: Airbnb リスティングページの embedded JSON（guestSatisfactionOverall / reviewCount）
+ *  将来: Beds24 API での自動化を検討（docs/design_geo_improvements.md Phase B） */
+export const RATING_AS_OF = "2026-07-13";
+
 export const PROPERTIES: Record<Property["key"], Property> = {
   kiyokawa: {
     key: "kiyokawa",
     airbnbUrl: "https://www.airbnb.jp/rooms/1427842426961787667",
+    bookingUrl: "https://www.booking.com/Share-Tyhode",
     beds24PropId: "278158",
     exterior: `${IMG}/kiyokawa-exterior_18a3409b.webp`,
     capacity: 7,
     bedrooms: 3,
-    rating: "4.88",
-    reviewCount: "41",
+    rating: "4.77",
+    reviewCount: "47",
   },
   takasago: {
     key: "takasago",
     airbnbUrl: "https://www.airbnb.jp/rooms/1497546315476018480",
+    bookingUrl: "https://www.booking.com/Share-K2G3CO",
     beds24PropId: "291238",
     exterior: `${IMG}/takasago-exterior_d4f7ccff.webp`,
     capacity: 6,
     bedrooms: 3,
-    rating: "4.6",
-    reviewCount: "30",
+    rating: "4.67",
+    reviewCount: "36",
   },
 };
 

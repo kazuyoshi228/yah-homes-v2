@@ -328,8 +328,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
       bookButton: "Book Now",
     },
     review: {
-      rating: "4.60",
-      count: "30 reviews",
+      rating: "4.67",
+      count: "36 reviews",
       superhostLabel: "Superhost",
       airbnbLabel: "View on Airbnb",
     },
@@ -644,8 +644,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
       bookButton: "지금 예약",
     },
     review: {
-      rating: "4.60",
-      count: "30개의 리뷰",
+      rating: "4.67",
+      count: "36개의 리뷰",
       superhostLabel: "슈퍼호스트",
       airbnbLabel: "Airbnb에서 보기",
     },
@@ -959,8 +959,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
       bookButton: "立即預訂",
     },
     review: {
-      rating: "4.60",
-      count: "30 則評論",
+      rating: "4.67",
+      count: "36 則評論",
       superhostLabel: "超讚房東",
       airbnbLabel: "在 Airbnb 上查看",
     },
@@ -1274,8 +1274,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
       bookButton: "จองเลย",
     },
     review: {
-      rating: "4.60",
-      count: "30 รีวิว",
+      rating: "4.67",
+      count: "36 รีวิว",
       superhostLabel: "ซูเปอร์โฮสต์",
       airbnbLabel: "ดูบน Airbnb",
     },

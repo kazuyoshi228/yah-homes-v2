@@ -9,6 +9,8 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = translations[lang];
+// GEO: 更新日の可視化（鮮度シグナル・ビルド日）
+const updated = new Date().toISOString().slice(0, 10);
 ---
 
 <footer style="background:#ffffff;border-top:1px solid #e8e8e8;padding:2rem 1.5rem;">
@@ -18,6 +20,9 @@ const t = translations[lang];
     <div>
       <LogoYah height="32px" fill="#231815" />
     </div>
-    <p style="font-size:0.75rem;font-weight:400;color:#aaaaaa;">{t.footer.rights}</p>
+    <p style="font-size:0.75rem;font-weight:400;color:#aaaaaa;">
+      {t.footer.rights}
+      <span style="margin-left:0.75rem;color:#cccccc;">Updated {updated}</span>
+    </p>
   </div>
 </footer>

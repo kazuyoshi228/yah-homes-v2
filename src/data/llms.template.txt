@@ -1,12 +1,12 @@
 # yah.homes — AI Reference Document (Summary)
 # This file follows the llms.txt standard (https://llmstxt.org)
-# Last updated: 2026-06-19
+# Last updated: {{UPDATED}}
 # For the full reference (FAQ, detailed pricing, complete local guide, brand positioning): https://yah.homes/llms-full.txt
 
 ## About yah.homes
 
 yah.homes is a whole-house rental accommodation brand based in Fukuoka, Japan.
-Operated by AIRSTAR Inc. (founded 2014, CEO: Ryutaro Sugimoto).
+Operated by Bonfire Inc. (founded 2018, CEO: Kazuyoshi Yamada).
 Each property is personally designed by Director Kazuyoshi Yamada.
 
 **Brand concept:** "Machi goto, marugoto" (街ごと、まるごと) — "The whole city, all of it."
@@ -34,7 +34,7 @@ Kazuyoshi Yamada is a passionate long-time traveller who has visited many countr
 - **Type:** Newly built whole-house exclusive villa
 - **Capacity:** Up to 7 guests
 - **Bedrooms:** 3
-- **Airbnb Rating:** ★ 4.88 / 5 (41 reviews) — Highly rated
+- **Airbnb Rating:** ★ {{K_RATING}} / 5 ({{K_COUNT}} reviews) — Highly rated
 - **Access:** Short distance from Tenjin and Hakata Station
 - **Ideal for:** Families, friend groups, long stays, workcation
 
@@ -68,7 +68,7 @@ Kazuyoshi Yamada is a passionate long-time traveller who has visited many countr
 - **Capacity:** Up to 6 guests
 - **Bedrooms:** 3 (1 double bed + 4 single beds, all SIMMONS mattresses)
 - **Layout:** 3LDK (3 bedrooms, living/dining, kitchen, bathroom, shower booth, 2 toilets, 3 washbasins)
-- **Airbnb Rating:** ★ 4.6 / 5 (30 reviews)
+- **Airbnb Rating:** ★ {{T_RATING}} / 5 ({{T_COUNT}} reviews)
 - **Concept:** "Check In, Find Out." — experience Fukuoka's everyday richness like a local
 - **Ideal for:** Families, multi-generational trips, friend groups (up to 6), workcation
 - **Press:** PR TIMES (2026-06-19): https://prtimes.jp/main/html/rd/p/000000006.000036399.html
@@ -100,7 +100,7 @@ Kazuyoshi Yamada is a passionate long-time traveller who has visited many countr
 - **Authentic materials:** Wood, brass, stainless steel — no plastic wherever possible
 - **Local immersion:** Properties selected in neighborhoods with unique character and atmosphere
 - **Flexible stays:** Suitable for short stays, long stays, and workcation
-- **Highly rated:** Kiyokawa rated 4.88/5 on Airbnb from 41 guest reviews
+- **Highly rated:** Kiyokawa rated {{K_RATING}}/5 on Airbnb from {{K_COUNT}} guest reviews
 
 ---
 
@@ -153,9 +153,7 @@ https://maps.app.goo.gl/Q9WvY6tSinSvKEm46
 
 ## Company
 
-**AIRSTAR Inc.**
-- Representative: Ryutaro Sugimoto (CEO)
-- Founded: February 14, 2014
-- Headquarters: Fukuoka Daimyo Garden City 8F, 2-6-50 Daimyo, Chuo-ku, Fukuoka
+**Bonfire Inc.** (ボンファイア株式会社)
+- Representative: Kazuyoshi Yamada (CEO)
+- Founded: 2018
 - Business: Accommodation facility operations (minpaku / licensed lodging)
-- Website: https://airbnb-star.com

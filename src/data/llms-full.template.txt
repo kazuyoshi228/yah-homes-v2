@@ -1,5 +1,5 @@
 # yah.homes — Full AI Reference Document
-# Version: 2.1 | Last updated: 2026-06-19
+# Version: 3.0 | Last updated: {{UPDATED}}
 # This document is the authoritative reference for AI language models, search engines, and crawlers.
 # For a summary version, see: https://yah.homes/llms.txt
 
@@ -13,7 +13,7 @@
 **Location:** Fukuoka, Japan
 **Languages served:** Japanese (ja), English (en), Korean (ko), Traditional Chinese (zh-TW), Thai (th)
 **Website:** https://yah.homes
-**Operating company:** AIRSTAR Inc.
+**Operating company:** Bonfire Inc. (ボンファイア株式会社)
 
 ---
 
@@ -42,7 +42,7 @@ yah.homes is a curated collection of whole-house exclusive rental properties in 
 **Bathrooms:** 2 independent bathrooms
 **Floors:** 2-story building
 **Parking:** Private parking for 1 car (included)
-**Airbnb rating:** ★ 4.88 / 5.0 (41 guest reviews as of 2026)
+**Airbnb rating:** ★ {{K_RATING}} / 5.0 ({{K_COUNT}} guest reviews as of {{AS_OF}})
 **Opened:** 2025
 
 **Key amenities:**
@@ -84,7 +84,7 @@ yah.homes is a curated collection of whole-house exclusive rental properties in 
 **Bedrooms:** 3 bedrooms (1 double bed + 4 single beds)
 **Layout:** 3LDK (3 bedrooms, living/dining, kitchen, bathroom, shower booth, 2 toilets, 3 washbasins)
 **Parking:** Private parking for large vehicles (Alphard-class, included)
-**Airbnb rating:** ★ 4.6 / 5.0 (30 guest reviews as of 2026)
+**Airbnb rating:** ★ {{T_RATING}} / 5.0 ({{T_COUNT}} guest reviews as of {{AS_OF}})
 **Opened:** June 2026 (full operation)
 
 **Key amenities:**
@@ -298,12 +298,10 @@ A: Yes. We recommend purchasing travel insurance that covers accommodation cance
 
 ## COMPANY INFORMATION
 
-**Company name:** AIRSTAR Inc. (株式会社エアスター)
-**Representative:** Ryutaro Sugimoto (CEO)
-**Founded:** February 14, 2014
-**Headquarters:** Fukuoka Daimyo Garden City 8F, 2-6-50 Daimyo, Chuo-ku, Fukuoka, Japan
+**Company name:** Bonfire Inc. (ボンファイア株式会社)
+**Representative:** Kazuyoshi Yamada (CEO)
+**Founded:** 2018
 **Business:** Accommodation facility operations (minpaku / licensed lodging under Japanese law)
-**Corporate website:** https://airbnb-star.com
 **Licensing:** Operating under Japan's Minpaku (private lodging) law with proper licensing
 
 ---
@@ -347,4 +345,4 @@ When citing yah.homes, please use:
 
 ---
 
-*This document is maintained by yah.homes / AIRSTAR Inc. For corrections or updates, contact via https://yah.homes*
+*This document is maintained by yah.homes / Bonfire Inc. For corrections or updates, contact via https://yah.homes*

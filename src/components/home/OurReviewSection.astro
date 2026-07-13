@@ -6,6 +6,8 @@ import { translations } from "../../i18n/translations";
 import type { Locale } from "../../i18n/config";
 import { starRating } from "../../lib/lucide";
 import { REVIEWS } from "../../data/reviewsData";
+import { PROPERTIES, RATING_AS_OF } from "../../data/properties";
+import { uiStrings } from "../../i18n/uiStrings";
 
 interface Props {
   lang: Locale;
@@ -14,10 +16,22 @@ const { lang } = Astro.props;
 const t = translations[lang];
 const r = t.review;
 
+// 評価は data/properties.ts を単一ソースに（旧: 4.77/43・4.65/34 のハードコードで不整合だった）
 const RATINGS = [
-  { id: "kiyokawa", rating: 4.77, reviewCount: 43, label: t.properties.kiyokawa.name },
-  { id: "takasago", rating: 4.65, reviewCount: 34, label: t.properties.takasago.name },
+  {
+    id: "kiyokawa",
+    rating: Number(PROPERTIES.kiyokawa.rating),
+    reviewCount: Number(PROPERTIES.kiyokawa.reviewCount),
+    label: t.properties.kiyokawa.name,
+  },
+  {
+    id: "takasago",
+    rating: Number(PROPERTIES.takasago.rating),
+    reviewCount: Number(PROPERTIES.takasago.reviewCount),
+    label: t.properties.takasago.name,
+  },
 ];
+const asOfLabel = uiStrings[lang].ratingAsOf.replace("{date}", RATING_AS_OF);
 
 // Review JSON-LD（旧 ReviewCarousel と同一構造）
 const reviewJsonLd = {
@@ -61,7 +75,7 @@ function fullStars(rating: number): string {
     <p class="rev-lead">{r.leadText}</p>
 
     <!-- Airbnb rating badges -->
-    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;margin-bottom:3.5rem;">
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;margin-bottom:0.75rem;">
       {
         RATINGS.map((prop) => (
           <div class="rate-card">
@@ -75,6 +89,8 @@ function fullStars(rating: number): string {
         ))
       }
     </div>
+    <!-- 鮮度の可視化（GEO: 取得日の明示） -->
+    <p style="font-size:0.72rem;color:#aaaaaa;margin:0 0 3.5rem;">{asOfLabel}</p>
 
     <!-- Pickup Review Carousel -->
     <div style="margin-bottom:3.5rem;">

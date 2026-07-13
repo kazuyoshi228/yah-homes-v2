@@ -10,7 +10,7 @@ import {
   localizedPath,
   type Locale,
 } from "../i18n/config";
-import { BASE_URL, OG_IMAGE } from "../lib/seo";
+import { BASE_URL, OG_IMAGE, organizationJsonLd } from "../lib/seo";
 
 interface Props {
   lang: Locale;
@@ -87,6 +87,9 @@ const htmlLang = HREFLANG[lang];
         />
       )
     }
+
+    <!-- Organization（運営会社）JSON-LD — 全ページ共通・sameAsでエンティティ接続 -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(organizationJsonLd())} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
