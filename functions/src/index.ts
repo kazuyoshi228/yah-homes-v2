@@ -5,7 +5,7 @@
  * - contact : 問い合わせフォーム送信（B8）
  *   クライアント→HTTP Function→Firestore(Admin SDK) の一方向。
  *   Firestore ルールは全 deny のまま（クライアント直アクセス経路なし）。
- *   メール通知は未実装（送信サービスのAPIキー取得後に追加予定）— 保存のみ。
+ *   メール通知は行わない方針（2026-07-13）— Firestore 保存のみ。受信確認はコンソールの contacts コレクション。
  */
 import { onRequest } from "firebase-functions/v2/https";
 import { initializeApp } from "firebase-admin/app";

@@ -50,7 +50,7 @@
 | # | 提案 | 対象 | 理由 |
 |---|---|---|---|
 | B7 | **物件詳細ページのデザイン引き上げ**: 現状は簡易版。Home と同じ文法（ヒーロー写真・ライトボックス・アメニティのアイコングリッド・FAQ）に再構成 | kiyokawa/takasago | ナビのBookingドロップダウンから直行するようになったため、露出が上がった |
-| B8 | **問い合わせフォームの送信実装**: Cloud Functions `contact`（Resend or SendGrid）＋Firestore保存。要 Blaze 移行 | Home Contact | 現在 UI のみ。送信できないフォームはコンバージョン損失 |
+| B8 | **問い合わせフォームの送信実装**: Cloud Functions `contact`＋Firestore保存。要 Blaze 移行（実装済み。メール通知は行わない方針 — 受信は Firestore コンソールで確認） | Home Contact | 現在 UI のみ。送信できないフォームはコンバージョン損失 |
 | B9 | **404 ページのブランド化**: 現在は素のテキスト。ロゴ＋ナビ＋ホーム導線を付ける | 404 | 迷い込んだユーザーの回収 |
 | B10 | **画像のレスポンシブ補完**: story-hero 等 -480/-768 が欠けている画像を sharp で生成し srcset 復元 | Home/About | モバイル LCP 改善（現状ベース画像のみ配信） |
 | B11 | **フォント preload**: `national-2-medium.woff2` を `<link rel="preload">` | 全ページ | 見出しの FOUT 抑制 |
