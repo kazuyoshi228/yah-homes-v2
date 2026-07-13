@@ -21,6 +21,7 @@ const t = translations[lang];
 const homeHref = localizedPath(lang, "/");
 const aboutHref = localizedPath(lang, "/about");
 const localsHref = localizedPath(lang, "/locals");
+const bookingHref = localizedPath(lang, "/booking");
 const contactHref = `${homeHref}#contact`;
 
 const langList = LOCALES.map((code) => ({
@@ -42,6 +43,7 @@ const langList = LOCALES.map((code) => ({
       <a href={homeHref} class="nav-btn">{t.nav.home}</a>
       <a href={aboutHref} class="nav-btn">{t.nav.about}</a>
       <a href={localsHref} class="nav-btn">{t.nav.locals}</a>
+      <a href={bookingHref} class="nav-btn">{t.nav.properties}</a>
 
       <!-- Language dropdown -->
       <div class="lang-wrap" id="lang-wrap">
@@ -89,6 +91,7 @@ const langList = LOCALES.map((code) => ({
     <a href={homeHref} class="mm-item">{t.nav.home}</a>
     <a href={aboutHref} class="mm-item">{t.nav.about}</a>
     <a href={localsHref} class="mm-item">{t.nav.locals}</a>
+    <a href={bookingHref} class="mm-item">{t.nav.properties}</a>
     <a href={contactHref} class="mm-item">
       <Fragment set:html={lucide("mail", { size: 13, strokeWidth: 1.8 })} />
       {t.nav.contact}
