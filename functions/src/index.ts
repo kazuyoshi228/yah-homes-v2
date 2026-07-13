@@ -5,7 +5,7 @@
  * - contact : 問い合わせフォーム送信（B8）
  *   クライアント→HTTP Function→Firestore(Admin SDK) の一方向。
  *   Firestore ルールは全 deny のまま（クライアント直アクセス経路なし）。
- *   メール通知は行わない方針（2026-07-13）— Firestore 保存のみ。受信確認はコンソールの contacts コレクション。
+ *   保存後、管理者通知＋送信者向け自動返信（英語）を送信。メール失敗は非致命（保存は成功扱い）。
  */
 import { onRequest } from "firebase-functions/v2/https";
 import { defineSecret } from "firebase-functions/params";
@@ -105,13 +105,13 @@ export const contact = onRequest(
   });
 
   // メール通知（失敗しても問い合わせ保存は成功扱い — 非致命）
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user: SMTP_USER.value(), pass: SMTP_PASS.value() },
+  });
   try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth: { user: SMTP_USER.value(), pass: SMTP_PASS.value() },
-    });
     await transporter.sendMail({
       from: `"yah.homes Contact" <${SMTP_USER.value()}>`,
       to: CONTACT_NOTIFY_TO.value(),
@@ -132,6 +132,39 @@ export const contact = onRequest(
     });
   } catch (err) {
     logger.error("contact mail notification failed", err);
+  }
+
+  // 送信者向け自動返信（英語・非致命 — 通知/保存とは独立して失敗を許容）
+  // 件名にユーザー入力を含めない（差し込みは本文の名前とメッセージ引用のみ）
+  try {
+    await transporter.sendMail({
+      from: `"yah.homes" <${SMTP_USER.value()}>`,
+      to: emailStr,
+      replyTo: SMTP_USER.value(),
+      subject: "Thank you for contacting yah.homes",
+      text: [
+        `Dear ${nameStr},`,
+        ``,
+        `Thank you for reaching out to yah.homes.`,
+        `We have received your inquiry, and a member of our team will get back to you within 2–3 business days.`,
+        ``,
+        `For your reference, here is a copy of your message:`,
+        ``,
+        `---`,
+        messageStr,
+        `---`,
+        ``,
+        `If you have any urgent questions, simply reply to this email.`,
+        ``,
+        `Warm regards,`,
+        `yah.homes`,
+        `Whole-house rentals in Fukuoka, Japan`,
+        `https://yah.homes`,
+        `Operated by Bonfire Inc.`,
+      ].join("\n"),
+    });
+  } catch (err) {
+    logger.error("contact auto-reply failed", err);
   }
 
   res.status(200).json({ ok: true });
