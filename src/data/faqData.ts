@@ -364,7 +364,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "可以自助入住嗎？",
-            a: "可以。兩處住宿均使用電子安全鎖系統。入住前24小時將通過Airbnb或Booking.com訊息發送門鎖密碼。",
+            a: "可以。兩處住宿均使用密碼鎖系統。入住前24小時將通過Airbnb或Booking.com訊息發送門鎖密碼。",
           },
           {
             q: "從福岡機場如何到達住宿？",
