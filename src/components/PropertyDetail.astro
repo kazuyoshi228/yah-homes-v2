@@ -8,6 +8,7 @@ import { localizedPath } from "../i18n/config";
 import { lucide, starRating } from "../lib/lucide";
 import { PROPERTIES, GALLERIES, type Property } from "../data/properties";
 import { uiStrings } from "../i18n/uiStrings";
+import { nearbyData } from "../data/nearbyData";
 import PressSection from "./PressSection.astro";
 
 // kiyokawaData / takasagoData は構造が同一（KiyokawaTranslations 相当）
@@ -22,6 +23,8 @@ const { lang, propertyKey, data: d, heroImage, floorPlanImage } = Astro.props;
 const p = PROPERTIES[propertyKey];
 const gallery = GALLERIES[propertyKey];
 const ui = uiStrings[lang];
+// GEO: 周辺スポット距離表（表形式はAI引用の抽出率が最も高い）
+const nearby = nearbyData[lang];
 
 const thumb = (src: string) => src.replace(/\.webp$/, "-480.webp");
 const hero480 = thumb(heroImage);
@@ -220,6 +223,19 @@ const conditionRows: string[] = [
           <li class="acc-row">
             <span class="acc-from">{a.from}</span>
             <span class="acc-time">{a.time}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <!-- GEO: 周辺スポット距離表（住吉神社・柳橋連合市場・キャナルシティ・大濠公園・中洲） -->
+    <h3 class="pd-h3" style="margin-top:2.5rem;">{nearby.title}</h3>
+    <ul class="acc-list">
+      {
+        nearby.rows.map((row) => (
+          <li class="acc-row">
+            <span class="acc-from">{row.name}</span>
+            <span class="acc-time">{row[propertyKey]}</span>
           </li>
         ))
       }
