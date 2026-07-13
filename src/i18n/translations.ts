@@ -1,9 +1,11 @@
 // =============================================================
 // yah.homes — i18n translations
-// Languages: en (English), ko (Korean), zh (Traditional Chinese), th (Thai)
+// Languages: en (English), ja (Japanese), ko (Korean), zh (Traditional Chinese), th (Thai)
+// ja は「翻訳」ではなく正文（ブランド原資料が日本語のため）。
+// Wonder Here ステートメントはブランドガイドライン記載の日本語版を逐語使用。
 // =============================================================
 
-export type Lang = "en" | "ko" | "zh" | "th";
+export type Lang = "en" | "ja" | "ko" | "zh" | "th";
 
 export interface Translations {
   // Navbar
@@ -14,7 +16,7 @@ export interface Translations {
     properties: string;
     locals: string;
     language: string;
-    langNames: { en: string; ko: string; zh: string; th: string };
+    langNames: { en: string; ja: string; ko: string; zh: string; th: string };
     menuOpen: string;
     menuClose: string;
   };
@@ -168,7 +170,7 @@ const en: Translations = {
     properties: "Booking",
     locals: "Locals",
     language: "Language",
-    langNames: { en: "English", ko: "Korean", zh: "Chinese", th: "Thai" },
+    langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "Open menu",
     menuClose: "Close menu",
   },
@@ -342,7 +344,7 @@ const ko: Translations = {
     properties: "예약",
     locals: "로컬",
     language: "언어",
-    langNames: { en: "English", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "메뉴 열기",
     menuClose: "메뉴 닫기",
   },
@@ -409,10 +411,10 @@ const ko: Translations = {
     takasago: { name: "다카사고", info: "침실 3개 / 최대 6인" },
     wonderHeadline: "yah. Wonder here",
     wonderBody: [
-      "이 도시를 더 깊이 탐험해보세요.",
-      "셀피 성지 너머에는 살아있는 돌담길이 있습니다.\n반짝이는 로비 너머에는 친구와 함께하는 밤이 있습니다.\nyah. homes는 도시를 직접 느끼기 위한\n당신만의 통짜리 베이스캐프입니다.",
-      "열쇠를 돌리고, 신발을 벗고, 머음을 풀어도 됩니다.\n잠이 찾아오고, 새벽은 모든 감각을 일깨우며\n어떤 가이드도 안내하지 않는 골목으로 당신을 이끍니다.",
-      "우리는 돌담길의 모든 굴곡을 알고,\n동네의 모든 맥낙을 느낄니다.\n조용한 침대가 기다리고, 로컈 비밀이 문 아래로 슬릭 들어옵니다.\n열쇠를 손에 쿥고, 마음이 이끌는 대로 더 깊이 들어오세요.",
+      "이 도시를, 더 깊이.",
+      "관광 명소보다, 삶의 안쪽으로 이어지는 골목을.\n호텔보다, 친구와 웃음을 나누는 시간을.\nyah. homes는 도시 그 자체를 맛보기 위한\n당신만의 베이스캠프입니다.",
+      "열쇠를 열고, 신발을 벗고, 몸의 긴장을 풉니다.\n깊은 잠이 오감을 깨우고,\n아침에 발길이 향하는 곳은 가이드북에 없는 골목.",
+      "우리는 골목골목을 직접 걸어온 안내자.\n조용한 잠자리를 마련하고, 걷기 위한 힌트를 건넵니다.\n열쇠를 받았다면, 느끼는 대로——더 안쪽으로.",
     ],
     wonderTagline: "yah. homes — Check in, Find out.",
   },
@@ -482,7 +484,7 @@ const ko: Translations = {
     items: [
       "편리한 시내 위치 — 공항에서 차로 20분 이내, 텐진까지 도보 접근 가능",
       "전 침실 5성급 호텔 수준의 시몬스 고급 매트리스",
-      "넓은 주스 & 거실 식당 공간",
+      "넓은 주방과 거실·다이닝 공간",
       "전용 주차장 이용 가능",
       "청결한 욕실, 고급 어메니티 & 일본 공예품 인테리어",
     ],
@@ -502,7 +504,7 @@ const ko: Translations = {
   localsCta: {
     sectionLabel: "로컬 가이드",
     heading: "Find Out your Fukuoka.",
-    body: "후쿠오카 히야카와 동네의 진짜 매력을 발견하세요 — 카페, 레스토랑, 마켓, 문화 스폳을 엄선해 안내합니다.",
+    body: "후쿠오카 기요카와 동네의 진짜 매력을 발견하세요 — 카페, 레스토랑, 마켓, 문화 스팟을 엄선해 안내합니다.",
     btn: "Find Out",
   },
 };
@@ -515,7 +517,7 @@ const zh: Translations = {
     properties: "預訂",
     locals: "居民指南",
     language: "語言",
-    langNames: { en: "English", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "開啟選單",
     menuClose: "關閉選單",
   },
@@ -536,7 +538,7 @@ const zh: Translations = {
       doubleBed: "\u00b7 雙人床",
       singleBed: "\u00b7 單人床",
       bathroom: "浴室",
-      showerBooth: "淤浴間",
+      showerBooth: "淋浴間",
       toilet: "廁所",
       privateParking: "私人停車位",
       theaterRoom: "影音室",
@@ -582,10 +584,10 @@ const zh: Translations = {
     takasago: { name: "高砂", info: "3間臥室 / 最多6人" },
     wonderHeadline: "yah. Wonder here",
     wonderBody: [
-      "深入探索這座城市。",
-      "打卡聖地的後面，是充滿生活氣息的巷弄。\n鹢亮大廳的後面，是與朋友共度的夜晚。\nyah. homes 是你品味這座城市的\n專屬整棟基地。",
-      "轉動鑰匙，脱下鞋子，讓身體游繪放鬆。\n睡眠漸漸滞來，曨光將所有感官唤醒\n帶你走入任何導覽都不會標記的角落。",
-      "我們熟悉小巷的每個轉角，\n感受居民區的每一脈動。\n安靜的床鵋在等待，本地絕密情報情情送達。\n鑰匙在手，順著感覺—更深入。",
+      "這座城市，再深入一點。",
+      "比起觀光名所，更想走進生活深處的巷弄。\n比起飯店，更珍惜與夥伴談笑的時光。\nyah. homes，是細細品味這座城市的\n專屬包棟基地。",
+      "打開門鎖，脫下鞋子，讓身體慢慢放鬆。\n深沉的睡眠喚醒五感，\n清晨，腳步自然走向導覽書上沒有的街角。",
+      "我們是走遍大街小巷的在地嚮導。\n為您備妥安靜的床鋪，遞上漫步的線索。\n接過鑰匙，順著感覺——往更深處走。",
     ],
     wonderTagline: "yah. homes — Check in, Find out.",
   },
@@ -675,7 +677,7 @@ const zh: Translations = {
   localsCta: {
     sectionLabel: "居民指南",
     heading: "Find Out your Fukuoka.",
-    body: "探索福岡清川區的魅力街道 — 精選和丹點式和咒幡、餐廳、市集與文化景點，專屬為您展開。",
+    body: "探索福岡清川一帶的魅力街道 — 精選咖啡廳、餐廳、市集與文化景點，專屬為您導覽。",
     btn: "Find Out",
   },
 };
@@ -688,7 +690,7 @@ const th: Translations = {
     properties: "จองที่พัก",
     locals: "คู่มือท้องถิ่น",
     language: "ภาษา",
-    langNames: { en: "English", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "เปิดเมนู",
     menuClose: "ปิดเมนู",
   },
@@ -755,10 +757,10 @@ const th: Translations = {
     takasago: { name: "ทากาซาโกะ", info: "3 ห้องนอน / สูงสุด 6 คน" },
     wonderHeadline: "yah. Wonder here",
     wonderBody: [
-      "สำรวจเมืองนี้ให้ลึกซึ้งยิ่งขึ้น",
-      "เบื้องหลังสถานที่เซลฟี่คือตรอกซอยที่เต็มไปด้วยชีวิตจริง\nเบื้องหลังล็อบประกายคือคืนที่แบ่งปันกับเพื่อน\nyah. homes คือบ้านทั้งหลังของคุณ\nสำหรับสัมผัสเมืองโดยตรง",
-      "หมุนกุญแจ ถอดรองเท้า ปล่อยร่างกาย\nการนอนหลับเข้ามา รุ่งเช้าปลุกทุกความรู้สึก\nและพาคุณไปยังมุมที่ไม่มีในคู่มือใด",
-      "เรารู้จักทุกส่วนโค้งของถนนเล็ก\nรู้สึกถึงทุกจังหวะของย่าน\nเตียงนอนสงบรอคอย เคล็ดลับท้องถิ่นส่งถึงคุณ\nกุญแจอยู่ในมือ ตามความรู้สึก — ลึกซึ้งยิ่งขึ้น",
+      "เมืองนี้ — ลึกลงไปอีก",
+      "มากกว่าแลนด์มาร์กท่องเที่ยว คือตรอกซอยที่ทอดสู่ชีวิตจริง\nมากกว่าโรงแรม คือช่วงเวลาหัวเราะร่วมกับเพื่อน\nyah. homes คือเบสแคมป์ทั้งหลัง\nสำหรับลิ้มรสเมืองนี้ด้วยตัวคุณเอง",
+      "ไขกุญแจ ถอดรองเท้า ปล่อยกายให้ผ่อนคลาย\nการหลับลึกช่วยลับประสาทสัมผัสทั้งห้าให้คมชัด\nยามเช้า เท้าพาคุณไปยังมุมถนนที่ไม่มีในไกด์บุ๊ก",
+      "เราคือผู้นำทางที่เดินซอกซอยเหล่านี้มาจนชำนาญ\nจัดเตรียมที่นอนอันเงียบสงบ พร้อมส่งต่อเคล็ดลับสำหรับการเดินเล่น\nรับกุญแจแล้ว ก็ปล่อยไปตามความรู้สึก——ลึกเข้าไปอีก",
     ],
     wonderTagline: "yah. homes — Check in, Find out.",
   },
@@ -853,11 +855,188 @@ const th: Translations = {
   },
 };
 
-export const translations: Record<Lang, Translations> = { en, ko, zh, th };
+const ja: Translations = {
+  nav: {
+    home: "ホーム",
+    contact: "お問い合わせ",
+    about: "私たちについて",
+    properties: "予約",
+    locals: "ローカル",
+    language: "言語",
+    langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
+    menuOpen: "メニューを開く",
+    menuClose: "メニューを閉じる",
+  },
+  access: {
+    title: "アクセス",
+    openInGoogleMaps: "Google マップで開く",
+  },
+  storySectionLabel: "Wonder Here",
+  aboutYahHomes: "yah.homes について",
+  checkInFindOut: "Check in, Find out.",
+  reviewHeading: "レビューと改善",
+  comparisonTable: {
+    title: "比較表",
+    headers: { capacity: "定員", rooms: "客室", facilities: "設備", access: "アクセス" },
+    rows: {
+      maxCapacity: "最大宿泊人数",
+      bedrooms: "寝室",
+      doubleBed: "· ダブルベッド",
+      singleBed: "· シングルベッド",
+      bathroom: "バスルーム",
+      showerBooth: "シャワーブース",
+      toilet: "トイレ",
+      privateParking: "専用駐車場",
+      theaterRoom: "シアタールーム",
+      fromAirport: "空港から",
+      fromStation: "駅から",
+      nearestStation: "最寄り駅",
+      toTenjin: "天神まで",
+      toHakata: "博多駅まで",
+    },
+    values: {
+      available: "あり",
+      car18min: "車で18分",
+      car20min: "車で20分",
+      car30min: "車で30分",
+      walk5min: "徒歩5分",
+      walk8min: "徒歩8分",
+      walk12min: "徒歩12分",
+      walk15min: "徒歩15分",
+      walk20min: "徒歩20分",
+      walk25min: "徒歩25分",
+      watanabeDori: "渡辺通",
+    },
+  },
+  hero: {
+    // ブランドキャッチは英語ロゴタイプのまま（ブランドガイドライン準拠）
+    catchcopy: ["Check In,", "Find Out."],
+    salesPoints: [
+      "空港から車で20分以内・天神へも徒歩圏の好立地",
+      "全寝室に5つ星ホテル級のシモンズ製プレミアムマットレス",
+      "広々としたキッチンとリビングダイニング",
+      "専用駐車場あり",
+      "清潔なバスルーム、上質なアメニティと日本の工芸品",
+    ],
+  },
+  properties: {
+    sectionLabel: "物件",
+    bedrooms: "寝室",
+    people: "名",
+    galleryBtn: "ギャラリー",
+    bookingBtn: "今すぐ予約 — Booking.com",
+    airbnbBtn: "今すぐ予約 — Airbnb",
+    reviewsLabel: "件のレビュー · Airbnb",
+    kiyokawa: { name: "清川", info: "寝室3室 / 最大7名" },
+    takasago: { name: "高砂", info: "寝室3室 / 最大6名" },
+    wonderHeadline: "yah. Wonder here",
+    // ブランドガイドライン「yah. homes Statement (Jpn)」逐語
+    wonderBody: [
+      "この街を、もっと深く。",
+      "観光名所より、暮らしの奥へ続く路地。\nホテルより、仲間と笑いあえるひととき。\nyah. homes は、街そのものを味わうためのベースキャンプ。",
+      "鍵を開け、靴を脱ぎ、体をほどく。\n深い眠りが五感を研ぎ澄まし、\n朝、足が向かうのはガイドにない街角。",
+      "私たちは路地を歩き込んだ案内人。\n静かな寝床を整え、歩くためのヒントをお渡しします。\n鍵を受け取ったら、感じるままに――奥へ、奥へ。",
+    ],
+    wonderTagline: "yah. homes — 街ごと、まるごと。",
+  },
+  story: {
+    sectionLabel: "Wonder Here",
+    heading: "あなたの家を、旅先にも。\nyah.homes.",
+    body: [
+      "yah は「やあ！」——日本語の気さくな挨拶から生まれた名前です。yah.homes は、世界中から福岡を訪れる旅人を迎えるための一棟貸しの宿。ディレクターが自ら設計した空間で、旅先でも「本当の我が家」のようにくつろいでいただけます。",
+      "物件はどれも、街の個性で選んだ場所にあります。どこで眠るかが、旅のかたちを決めると信じているからです。",
+    ],
+  },
+  director: {
+    sectionHeading: "ディレクターメッセージ",
+    directorName: "山田一慶",
+    directorTitle: "yah.homes ディレクター",
+    intro: [
+      "yah.homes のウェブサイトをご覧いただき、ありがとうございます。",
+      "yah.homes ディレクターの山田一慶です。",
+      "私は多くの国を旅してきた、無類の旅好きです。心からくつろげる滞在が、旅全体の体験を大きく変える——そのことをいつも感じてきました。だからこそ、私がつくったこの空間は、ただ泊まるための場所ではありません。訪れるすべての方にとって、本当の意味での「第二の家」となり、心からの安らぎを見つけていただけることを願っています。",
+    ],
+    section2Heading: "私が惚れ込み、住みたいと思った空間を、あなたへ",
+    section2Body: [
+      "すべての客室を自ら設計し、時には施工にも自分の手で参加しました。全体のデザインから最も小さな素材のひとつまで、それぞれの部屋は、私が愛するもの、心地よいと感じるもので満たされています。",
+      "部屋が完成するたびに、私は必ずそこに泊まり、ゲストと同じように暮らしてみます。すべての部屋で一定期間を過ごしました。朝目覚めてから眠りにつくまで、ゲストの目線で空間を体験し、間取りは実用的か、雰囲気は本当にくつろげるか、細部まで確かめています。",
+      "立地についても同じ原則です。私自身が心から住みたいと思える特別な場所だけを選びました。その土地ならではの空気や個性は、滞在の大切な一部だと信じています。",
+    ],
+    section3Heading: "本質的な心地よさを、細部まで",
+    section3Body: [
+      "清潔さこそ、快適な滞在をお届けするための最も重要な要素だと考えています。プロの清掃チームとともに、隅々まで手入れの行き届いた空間をお約束します。",
+      "家具や内装には、本物の、長く使える素材を選びました。プラスチックをできる限り避け、木の心地よい手ざわり、時とともに深まる真鍮の艶、ステンレスの端正な佇まいを大切にしています。無駄を減らし、ここで過ごす時間を豊かにしたい——その思いの表れです。",
+      "キッチン用品からアメニティまで、すべての品は世界中から吟味し、私自身が日々の暮らしで喜んで使えるものだけを選んでいます。",
+    ],
+    section4Heading: "最高の旅は、最高の眠りから",
+    section4Body: [
+      "素晴らしい旅の思い出は、心身ともに満たされた状態から生まれます。",
+      "その核心にあるのが、質の高い眠りです。旅の疲れを癒やし、明日への力を蓄えていただけるよう、すべての寝室に世界的に名高いシモンズ製ベッドを備えました。毎朝すっきりと目覚め、その日のすべてを存分に味わっていただきたいのです。",
+      "細部に込めた心地よさと心配りが、滞在を楽しくするだけでなく、大切な旅の記憶のひとつになれば幸いです。",
+    ],
+  },
+  review: {
+    heading: "レビューと改善",
+    leadText: "お客様のおかげで、高い評価をいただいています。（2026年6月1日時点）",
+    improvementHeading: "継続的な改善への取り組み",
+    improvementIntro: "私たちの宿は、オープンした日が完成形ではありません。ゲストの皆さまの声を反映し、日々改善を続けています。",
+    improvements: [
+      "ブレーカーが落ちないよう電気容量を増強",
+      "ボタン一つで乾燥まで完了するドラム式洗濯乾燥機を導入",
+      "滞在中に仕事をされる方のためのエルゴノミクスチェアを導入",
+    ],
+    closingText: "これからも一人ひとりの声に誠実に耳を傾け、より良い滞在をお届けできるよう努めてまいります。",
+  },
+  contact: {
+    sectionLabel: "お問い合わせ",
+    heading: "お問い合わせ",
+    subheading: "お気軽にご連絡ください。",
+    namePlaceholder: "お名前",
+    emailPlaceholder: "メールアドレス",
+    messagePlaceholder: "メッセージ",
+    submitBtn: "送信する",
+    successMsg: "ありがとうございます。追ってご連絡いたします。",
+    errorMsg: "送信に失敗しました。もう一度お試しください。",
+  },
+  features: {
+    heading: "Why yah.homes? — 私たちの特徴と強み",
+    leadHeadline:
+      "グループ・家族旅行のための、福岡の一棟貸しの宿 — 主要予約サイトで高評価。ホテルの一室でも、シェアするゲストハウスでもなく、家一棟がまるごとあなたのものです。",
+    leadBody: "",
+    items: [
+      "空港から車で20分以内・天神へも徒歩圏の好立地",
+      "全寝室に5つ星ホテル級のシモンズ製プレミアムマットレス",
+      "広々としたキッチンとリビングダイニング",
+      "専用駐車場あり",
+      "清潔なバスルーム、上質なアメニティと日本の工芸品",
+    ],
+  },
+  bookingCta: {
+    heading: "福岡を旅する準備はできましたか？",
+    kiyokawa: "清川を Airbnb で予約",
+    takasago: "高砂を Airbnb で予約",
+  },
+  faq: {
+    body: "よくあるご質問は、各予約サイトの情報もあわせてご確認ください。",
+  },
+  footer: {
+    address: "日本・福岡",
+    rights: "© 2026 yah.homes. All rights reserved.",
+  },
+  localsCta: {
+    sectionLabel: "ローカルガイド",
+    heading: "Find Out your Fukuoka.",
+    body: "清川界隈の路地へ——カフェ、食堂、市場、文化スポット。私たちが実際に歩いて選んだ場所だけをご案内します。",
+    btn: "Find Out",
+  },
+};
+
+export const translations: Record<Lang, Translations> = { en, ja, ko, zh, th };
 
 // langPaths: the home URL for each language
 export const langPaths: Record<Lang, string> = {
   en: "/home",
+  ja: "/ja/home",
   ko: "/ko/home",
   zh: "/zh/home",
   th: "/th/home",
@@ -865,6 +1044,7 @@ export const langPaths: Record<Lang, string> = {
 
 // pathToLang: detect language from URL path prefix
 export function detectLangFromPath(pathname: string): Lang {
+  if (pathname.startsWith("/ja/")) return "ja";
   if (pathname.startsWith("/ko/")) return "ko";
   if (pathname.startsWith("/zh/")) return "zh";
   if (pathname.startsWith("/th/")) return "th";

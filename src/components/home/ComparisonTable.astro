@@ -14,6 +14,7 @@ const ct = t.comparisonTable;
 // GEO: Airbnb評価行（表は引用エンジンの抽出率が最も高い形式）
 const RATING_LABEL: Record<Locale, string> = {
   en: "Airbnb Rating",
+  ja: "Airbnb評価",
   ko: "에어비앤비 평점",
   zh: "Airbnb 評分",
   th: "คะแนน Airbnb",
@@ -22,7 +23,8 @@ const kiyoRating = `★ ${PROPERTIES.kiyokawa.rating} (${PROPERTIES.kiyokawa.rev
 const takaRating = `★ ${PROPERTIES.takasago.rating} (${PROPERTIES.takasago.reviewCount})`;
 
 // 人数単位（旧実装のロジックを言語で直接分岐）
-const peopleUnit = lang === "ko" ? "명" : lang === "zh" ? "人" : lang === "th" ? "คน" : "People";
+const peopleUnit =
+  lang === "ja" ? "名" : lang === "ko" ? "명" : lang === "zh" ? "人" : lang === "th" ? "คน" : "People";
 
 type Row =
   | { type: "header"; label: string }

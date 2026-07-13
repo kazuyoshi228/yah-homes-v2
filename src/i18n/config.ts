@@ -1,15 +1,16 @@
-// 言語設定 — en(ルート) / ko / zh / th。旧サイトのURL構造を踏襲し、
-// en は接頭辞なし（`/`）、ko/zh/th は接頭辞あり（`/ko/` `/zh/` `/th/`）。
+// 言語設定 — en(ルート) / ja / ko / zh / th。旧サイトのURL構造を踏襲し、
+// en は接頭辞なし（`/`）、ja/ko/zh/th は接頭辞あり（`/ja/` `/ko/` `/zh/` `/th/`）。
 
 import type { Lang } from "./translations";
 
-export const LOCALES = ["en", "ko", "zh", "th"] as const;
-export type Locale = Lang; // = "en" | "ko" | "zh" | "th"
+export const LOCALES = ["en", "ja", "ko", "zh", "th"] as const;
+export type Locale = Lang; // = "en" | "ja" | "ko" | "zh" | "th"
 export const DEFAULT_LOCALE: Locale = "en";
 
 // hreflang 属性値。zh は繁体字なので zh-TW。x-default は en を指す。
 export const HREFLANG: Record<Locale, string> = {
   en: "en",
+  ja: "ja",
   ko: "ko",
   zh: "zh-TW",
   th: "th",

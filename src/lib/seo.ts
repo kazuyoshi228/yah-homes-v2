@@ -65,6 +65,11 @@ const HOME: LocaleText = {
     description:
       "yah.homes offers whole-house villa rentals in Fukuoka, Japan. Kiyokawa (7 guests) and Takasago (6 guests) — privately designed homes perfect for group trips, family vacations, and workcations. Book on Airbnb or Booking.com.",
   },
+  ja: {
+    title: "yah.homes | 福岡の一棟貸しヴィラ — グループ・家族旅行のための貸切の家",
+    description:
+      "yah.homesは福岡市中心部の新築一棟貸しヴィラ。清川（最大7名）と高砂（最大6名）——グループ旅行・家族旅行・ワーケーションに最適な、まるごと貸切のプライベートな家。AirbnbまたはBooking.comで予約できます。",
+  },
   ko: {
     title: "yah.homes | 후쿠오카 통째 빌라 렌탈 — 가족·단체 여행 전용 주택",
     description:
@@ -89,6 +94,11 @@ const ABOUT: LocaleText = {
     description:
       "Learn about yah.homes — a Fukuoka whole-house rental brand personally designed by Director Kazuyoshi Yamada. Every property is tested by the director himself before welcoming guests.",
   },
+  ja: {
+    title: "yah.homesについて | デザイン哲学とディレクター",
+    description:
+      "yah.homesは、ディレクター山田一慶が自ら設計した福岡の一棟貸しブランド。すべての部屋にディレクター自身が泊まり込み、確かめてからゲストをお迎えしています。",
+  },
   ko: {
     title: "yah.homes 소개 | 디자인 철학 & 디렉터",
     description:
@@ -111,6 +121,11 @@ const LOCALS: LocaleText = {
     title: "Local Guide — Kiyokawa, Fukuoka | yah.homes",
     description:
       "Discover 16 hand-picked local spots near yah.homes Kiyokawa — cafes, restaurants, markets, and cultural sites in Fukuoka's vibrant Kiyokawa district. Live like a local.",
+  },
+  ja: {
+    title: "ローカルガイド — 福岡・清川 | yah.homes",
+    description:
+      "yah.homes清川の徒歩圏から、実際に歩いて選んだ16のスポット——カフェ、食堂、市場、文化スポット。暮らすように福岡を楽しむためのガイドです。",
   },
   ko: {
     title: "로컬 가이드 — 기요카와, 후쿠오카 | yah.homes",
@@ -136,6 +151,11 @@ const BOOKING: LocaleText = {
     description:
       "Reserve your stay at yah.homes Fukuoka on Airbnb — Kiyokawa (up to 7 guests) and Takasago (up to 6 guests). Newly built whole-house rentals with SIMMONS mattresses and full kitchens.",
   },
+  ja: {
+    title: "ご予約 | yah.homes — 福岡の一棟貸しの宿",
+    description:
+      "yah.homes福岡をAirbnbで予約——清川（最大7名）・高砂（最大6名）。シモンズ製マットレスとフルキッチンを備えた新築の一棟貸しです。",
+  },
   ko: {
     title: "예약하기 | yah.homes — 후쿠오카 통째 빌라",
     description:
@@ -158,6 +178,11 @@ const KIYOKAWA: LocaleText = {
     title: "yah.homes Kiyokawa | Book Direct — Whole-House Villa in Fukuoka",
     description:
       "Book yah.homes Kiyokawa directly. Newly built whole-house villa for up to 7 guests in Kiyokawa, Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, private parking. Rated 4.77/5 on Airbnb.",
+  },
+  ja: {
+    title: "yah.homes 清川 | 福岡の新築一棟貸しヴィラ — 最大7名",
+    description:
+      "yah.homes清川のご予約。福岡市清川・那珂川沿いの新築一棟貸しヴィラ、最大7名。寝室3室、シモンズ製マットレス、フルキッチン、専用駐車場。Airbnb評価4.77/5。",
   },
   ko: {
     title: "yah.homes 기요카와 | 직접 예약 — 후쿠오카 통째 빌라",
@@ -182,6 +207,11 @@ const TAKASAGO: LocaleText = {
     description:
       "Book yah.homes Takasago directly. Whole-house rental for up to 6 guests in Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, high-speed Wi-Fi. Rated 4.67/5 on Airbnb.",
   },
+  ja: {
+    title: "yah.homes 高砂 | 福岡・薬院エリアの一棟貸し — 最大6名",
+    description:
+      "yah.homes高砂のご予約。渡辺通駅徒歩5〜10分・薬院徒歩圏の一棟貸し、最大6名。寝室3室、シモンズ製マットレス、大型車可の専用駐車場。Airbnb評価4.67/5。",
+  },
   ko: {
     title: "yah.homes 다카사고 | 직접 예약 — 후쿠오카 통째 빌라",
     description:
@@ -201,6 +231,7 @@ const TAKASAGO: LocaleText = {
 
 const THANKYOU: LocaleText = {
   en: { title: "Thank You | yah.homes", description: "Thank you for contacting yah.homes." },
+  ja: { title: "ありがとうございます | yah.homes", description: "yah.homesへのお問い合わせありがとうございます。" },
   ko: { title: "감사합니다 | yah.homes", description: "yah.homes에 문의해 주셔서 감사합니다." },
   zh: { title: "感謝您 | yah.homes", description: "感謝您聯繫 yah.homes。" },
   th: { title: "ขอบคุณ | yah.homes", description: "ขอบคุณที่ติดต่อ yah.homes" },

@@ -78,7 +78,7 @@ export const contact = onRequest(
   const nameStr = typeof name === "string" ? name.trim() : "";
   const emailStr = typeof email === "string" ? email.trim() : "";
   const messageStr = typeof message === "string" ? message.trim() : "";
-  const langStr = typeof lang === "string" && ["en", "ko", "zh", "th"].includes(lang) ? lang : "en";
+  const langStr = typeof lang === "string" && ["en", "ja", "ko", "zh", "th"].includes(lang) ? lang : "en";
 
   if (!nameStr || nameStr.length > 200) {
     res.status(400).json({ ok: false, error: "invalid_name" });

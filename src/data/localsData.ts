@@ -1,9 +1,9 @@
 // yah.homes — Local Guide Data (Vol.1)
-// Languages: en (English), ko (Korean), zh (Traditional Chinese), th (Thai)
+// Languages: en (English), ja (Japanese), ko (Korean), zh (Traditional Chinese), th (Thai)
 // Source: LocalGuideVol.1.pdf
 // =============================================================
 
-export type Lang = "en" | "ko" | "zh" | "th";
+export type Lang = "en" | "ja" | "ko" | "zh" | "th";
 
 export interface LocalSpot {
   id: number;
@@ -230,6 +230,199 @@ const en: LocalsPageData = {
   mapListUrl: "https://maps.app.goo.gl/Q9WvY6tSinSvKEm46",
   downloadPdfLabel: "Download PDF Guide",
   backToHomeLabel: "← Back to Home",
+};
+
+// ─── Japanese ────────────────────────────────────────────────────────────────
+const ja: LocalsPageData = {
+  heroTitle: "ローカルガイド",
+  heroSubtitle: "Vol.1 — 福岡・清川",
+  introTitle: "おすすめローカルガイド",
+  introBody: [
+    "福岡の名物といえば、豚骨ラーメン、水炊き、もつ鍋。でも、それだけではありません。",
+    "実は福岡、魚の消費量は日本一、鶏肉の消費量も日本一、焼き鳥店の数も日本一。魚も肉も、最高の「日常のごはん」が揃った街なのです。",
+    "そんな福岡の「ふつう」を味わい尽くせるのが、中央区の清川。観光地の喧騒から少し離れたこのエリアには、地元の人が通う名店や、感性をくすぐるお店が徒歩圏内に集まっています。",
+    "ただ泊まるだけではもったいない。歩いて、食べて、この街に暮らすように過ごしてみてください。福岡の「おかしいほど豊かな日常」を、旅の思い出に加えてもらえたら嬉しいです。",
+  ],
+  volumeLabel: "version 1.2",
+  categories: [
+    {
+      id: "cafe",
+      icon: "☕",
+      title: "カフェ＆モーニング",
+      tagline: "朝をゆっくり始めたいなら",
+      spots: [
+        {
+          id: 2,
+          name: "manucoffee roasters クジラ店",
+          hours: "10:00 – 19:00",
+          description:
+            "天神に3店舗を構える、地元で愛されるストリートスタイルのカフェ。店内にはヒップホップが流れ、コーヒー豆やアパレルなど、お土産にぴったりのアイテムも豊富に揃います。店名は、かつてこの一帯にクジラが回遊してきたという歴史にちなんだもの。",
+          mapUrl: "https://maps.app.goo.gl/H2dyhvtKrQjDZt1W6",
+          imageUrl: "/manus-storage/manucoffee_3bb3e07b.webp",
+        },
+        {
+          id: 3,
+          name: "REC COFFEE 薬院駅前店",
+          hours: "月〜木・日・祝 10:00–22:00 / 金・土・祝前日 10:00–24:00",
+          description:
+            "福岡発のスペシャルティコーヒー専門店。豆のセレクトと充実したフードメニューで、一日の始まりにぴったり。静かに朝をスタートしたい方におすすめです。",
+          mapUrl: "https://maps.app.goo.gl/cJsjZjyW2HTdwveCA",
+          imageUrl: "/manus-storage/rec_coffee_12eb7910.webp",
+        },
+        {
+          id: 4,
+          name: "TAGSTÅ ESPRESSO STAND & GALLERY",
+          hours: "毎日 7:00 – 20:00",
+          description:
+            "アートギャラリーを併設したエスプレッソスタンド。現代アートとコーヒーの組み合わせは、感覚のスイッチが入る朝におすすめです。",
+          mapUrl: "https://maps.app.goo.gl/SLYuad9eFQEqhaho7",
+          imageUrl: "/manus-storage/tagsta_433b97fb.webp",
+        },
+        {
+          id: 5,
+          name: "Chaho Furyu 福岡 JapanTea Studio",
+          hours: "木〜日 11:00–18:00 / 月 11:00–17:00 & 18:00–22:00",
+          description:
+            "日本各地の上質な茶葉を揃えた、茶のマスターが一服の芸を振る舞う空間。お茶のコースを選べば、種類ごとの正しい淹れ方を学ぶこともできます。",
+          mapUrl: "https://maps.app.goo.gl/TUujtXQFqMfJK6Ka9",
+          imageUrl: "/manus-storage/chaho_furyu_d4c47af9.webp",
+        },
+      ],
+    },
+    {
+      id: "lunch",
+      icon: "🍱",
+      title: "ランチ＆ディナー",
+      tagline: "地元の味をしっかり味わう",
+      spots: [
+        {
+          id: 6,
+          name: "海木 いなり",
+          hours: "日・祝休 / 11:00–15:00",
+          description:
+            "創業35年の日本料理店が手がける、テイクアウト専門の出汁いなり。甘いタレでじっくり煮含めたジューシーなお揚げに、きっと驚くはずです。",
+          mapUrl: "https://maps.app.goo.gl/ddYg5igFRknTi3Xh8",
+          imageUrl: "/manus-storage/kaiboku_inari_320df6de.webp",
+        },
+        {
+          id: 7,
+          name: "アジフライセンター おむこさん",
+          hours: "11:30–15:00 / 17:00–22:00",
+          description:
+            "新鮮なアジを丁寧にさばいて骨を抜き、ふわっと揚げたアジフライの専門店。定食でがっつり食べるもよし、テイクアウトで気軽に楽しむもよし。",
+          mapUrl: "https://maps.app.goo.gl/9VkciU1b5789Rs5s6",
+          imageUrl: "/manus-storage/aji_fry_568be60b.webp",
+        },
+        {
+          id: 8,
+          name: "焼鳥 あたらよ",
+          hours: "月〜木 18:00–01:00 / 金〜日 17:00–01:00",
+          description:
+            "ガラス張りのスタイリッシュな焼鳥店。鶏刺しや焼鳥はもちろん、冷やしピーマン「ワンダーペッパー」もぜひ試してほしい一品。予約がおすすめです。",
+          mapUrl: "https://maps.app.goo.gl/sc43YatNZ2PuPWGn9",
+          imageUrl: "/manus-storage/yakitori_atarayo_dd0b7dd7.webp",
+        },
+        {
+          id: 9,
+          name: "肉が一番",
+          hours: "11:00–15:00 / 17:30–23:00",
+          description:
+            "質のいいお肉を手頃な価格で楽しみたいなら、迷わずここへ。和牛メニューが豊富で、カジュアルながら素材の味をまっすぐ感じられます。",
+          mapUrl: "https://maps.app.goo.gl/Udmh6QsjEWaxwUbg8",
+          imageUrl: "/manus-storage/niku_ga_ichiban_472aca2f.webp",
+        },
+        {
+          id: 10,
+          name: "ラーメン 海鳴 清川店",
+          hours: "水曜休 / 18:00–03:00",
+          description:
+            "豚骨と魚介を合わせた、クセになる独自のスープで人気のお店。ジェノバ風ラーメンなど変わり種メニューも揃い、深夜まで営業しているのも嬉しいところ。",
+          mapUrl: "https://maps.app.goo.gl/5Xhk8Gb7aodtHMxk7",
+          imageUrl: "/manus-storage/ramen_unari_0583120f.webp",
+        },
+        {
+          id: 11,
+          name: "因幡うどん 渡辺通店",
+          hours: "平日 11:00–22:30 / 土日祝 11:00–19:30",
+          description:
+            "やわらかい麺と、やさしい出汁。うどんはどこでも食べられますが、ここには唯一無二の「ちょうどいい」一杯があります。",
+          mapUrl: "https://maps.app.goo.gl/X83GgtJ4Eds3qkZu7",
+          imageUrl: "/manus-storage/inaba_udon_410154f0.webp",
+        },
+        {
+          id: 12,
+          name: "ピカ松",
+          hours: "日曜休 / 11:30–19:00",
+          description:
+            "福岡の皿うどんは、作り方も麺も見た目も長崎のものとは別物。「博多風」皿うどんは、いわばスープのないちゃんぽんのような一品です。",
+          mapUrl: "https://maps.app.goo.gl/X83GgtJ4Eds3qkZu7",
+          imageUrl: "/manus-storage/pikamatsu_d062abb2.webp",
+        },
+      ],
+    },
+    {
+      id: "market",
+      icon: "🧺",
+      title: "ローカルマーケット",
+      tagline: "楽しさいっぱいの地元市場で、最高の食材を買い出しに",
+      spots: [
+        {
+          id: 13,
+          name: "柳橋連合市場（高松の蒲鉾）",
+          hours: "店舗により異なる",
+          description:
+            "福岡の食文化の活気を肌で感じられる昔ながらの市場。高松の蒲鉾はぷりっとして食べ応え十分。揚げたての「魚ロッケ」は食べ歩きにぴったりです。",
+          mapUrl: "https://maps.app.goo.gl/iyQvj1bNTddiSkJy7",
+          imageUrl: "/manus-storage/yanagibashi_c23a0097.webp",
+        },
+        {
+          id: 14,
+          name: "タベゴロ百旬館 渡辺通本店",
+          hours: "8:00–21:00",
+          description:
+            "明太子の「ふくや」が手がける本格派スーパー。地元の新鮮な野菜・魚・肉が揃い、旅先でも自炊や部屋飲みが楽しめます。こくうまみそいかは、まさにご飯泥棒！",
+          mapUrl: "https://maps.app.goo.gl/chtcyQJKwACoYCvG6",
+          imageUrl: "/manus-storage/tabegoro_dc4a81a6.webp",
+        },
+        {
+          id: 15,
+          name: "HIGHTIDE STORE FUKUOKA",
+          hours: "11:00–19:00",
+          description:
+            "福岡発の文具・雑貨メーカーの直営店。店内でビールやコーヒーも楽しめる「居られる文具店」です。旅の記録をつけたり、お土産探しにもぴったり。",
+          mapUrl: "https://maps.app.goo.gl/C8EEepg632hKsW6k7",
+          imageUrl: "/manus-storage/hightide_38e6510e.webp",
+        },
+      ],
+    },
+    {
+      id: "culture",
+      icon: "⛩",
+      title: "カルチャースポット",
+      tagline: "日本の暮らしの文化にふれる",
+      spots: [
+        {
+          id: 16,
+          name: "住吉神社",
+          hours: "9:00–17:00",
+          description:
+            "全国に2,100社ある住吉神社の始祖とされる由緒ある神社。旅の安全を祈願して、土地の神様にご挨拶を。",
+          mapUrl: "https://maps.app.goo.gl/Mbk1QXfotJVjJf6T7",
+          imageUrl: "/manus-storage/sumiyoshi_b027ed2f.webp",
+        },
+      ],
+    },
+  ],
+  taxiCardTitle: "yah.homes 清川 — タクシーカード",
+  taxiCardBody:
+    "タクシーの運転手さんに行き先を伝えるときは、この文章を見せてください：",
+  taxiCardJapanese:
+    "「〒810-0011 福岡県福岡市中央区清川３丁目３－１　目的地はホテルではなく見た目は普通の一軒家です。」",
+  mapListTitle: "Googleマップリスト",
+  mapListBody: "全16スポットをGoogleマップにピン留めしています。QRを読み取るか、リンクをタップしてください。",
+  mapListUrl: "https://maps.app.goo.gl/Q9WvY6tSinSvKEm46",
+  downloadPdfLabel: "PDFガイドをダウンロード",
+  backToHomeLabel: "← ホームに戻る",
 };
 
 // ─── Korean ──────────────────────────────────────────────────────────────────
@@ -808,4 +1001,4 @@ const th: LocalsPageData = {
   backToHomeLabel: "← กลับหน้าหลัก",
 };
 
-export const localsData: Record<Lang, LocalsPageData> = { en, ko, zh, th };
+export const localsData: Record<Lang, LocalsPageData> = { en, ja, ko, zh, th };

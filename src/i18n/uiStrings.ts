@@ -14,6 +14,13 @@ export interface UiStrings {
 }
 
 export const uiStrings: Record<Locale, UiStrings> = {
+  ja: {
+    bookingHeadline: ["ご来訪を、", "心よりお待ちしています。"],
+    backToHome: "ホームへ戻る",
+    directAnswer:
+      "yah.homes は、福岡市中心部にある新築一棟貸しヴィラ2棟——グループ全員がひとつ屋根の下で過ごせるプライベートな家です。清川は最大7名（Airbnb ★{kr}・レビュー{kc}件）、高砂は最大6名（★{tr}・{tc}件）。どちらも福岡空港から車で約20分、繁華街・天神へも徒歩圏です。",
+    ratingAsOf: "評価は{date}時点",
+  },
   en: {
     bookingHeadline: ["We are truly looking forward", "to having you stay with us."],
     backToHome: "Back to Home",

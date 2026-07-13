@@ -6,7 +6,7 @@ Last updated: {{UPDATED}}. This file follows the llms.txt standard (https://llms
 
 ## Pages
 
-- [Home](https://yah.homes/): Brand overview, properties, reviews, FAQ (also in [Korean](https://yah.homes/ko/), [Traditional Chinese](https://yah.homes/zh/), [Thai](https://yah.homes/th/))
+- [Home](https://yah.homes/): Brand overview, properties, reviews, FAQ (also in [Japanese](https://yah.homes/ja/), [Korean](https://yah.homes/ko/), [Traditional Chinese](https://yah.homes/zh/), [Thai](https://yah.homes/th/))
 - [Kiyokawa — property details & booking](https://yah.homes/booking/kiyokawa/): Up to 7 guests, 3 bedrooms, riverside Kiyokawa district
 - [Takasago — property details & booking](https://yah.homes/booking/takasago/): Up to 6 guests, 3 bedrooms, near Yakuin
 - [Local Guide](https://yah.homes/locals/): 16 curated spots within walking distance of Kiyokawa
