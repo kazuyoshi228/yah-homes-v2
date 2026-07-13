@@ -108,8 +108,7 @@ const PROPERTY_META = [
                   srcset={`${p.imageMobile} 480w, ${p.image768} 768w, ${p.image} 902w`}
                   sizes="(max-width: 640px) 92vw, (max-width: 900px) 45vw, 430px"
                   alt={p.name}
-                  fetchpriority={i === 0 ? "high" : "low"}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  loading="lazy"
                   decoding="async"
                   width="902"
                   height="1280"

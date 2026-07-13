@@ -47,7 +47,7 @@ const homeHref = localizedPath(lang, "/");
       {ui.bookingHeadline[0]}<br />{ui.bookingHeadline[1]}
     </h1>
     <div class="bk-divider" aria-hidden="true"></div>
-    <div class="animate-fade-in" style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;animation-delay:200ms;">
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
       <a href={AIRBNB_LINKS.kiyokawa} target="_blank" rel="noopener noreferrer" class="bk-btn">
         Book Kiyokawa on Airbnb
         <Fragment set:html={lucide("externalLink", { size: 13, strokeWidth: 2.5 })} />
