@@ -1,0 +1,435 @@
+---
+/* =============================================================
+   yah.homes Navbar — 旧 Navbar.tsx の忠実移植（Astro/静的版）
+   メニュー順: Home / About / Locals / Language / Contact
+   ヒーロー上: 透明背景＋白ロゴ・白文字 → スクロール後: 白背景＋黒
+   言語切替: PCドロップダウン + モバイルハンバーガー
+   ============================================================= */
+import LogoYah from "./LogoYah.astro";
+import { LOCALES, localizedPath, type Locale } from "../i18n/config";
+import { translations } from "../i18n/translations";
+import { lucide } from "../lib/lucide";
+
+interface Props {
+  lang: Locale;
+  /** 現在ページの論理パス（言語切替リンクの生成に使用） */
+  path: string;
+}
+const { lang, path } = Astro.props;
+const t = translations[lang];
+
+const homeHref = localizedPath(lang, "/");
+const aboutHref = localizedPath(lang, "/about");
+const localsHref = localizedPath(lang, "/locals");
+const contactHref = `${homeHref}#contact`;
+
+const langList = LOCALES.map((code) => ({
+  code,
+  label: t.nav.langNames[code],
+  href: localizedPath(code, path),
+}));
+---
+
+<nav id="site-nav" class="hero-visible" style="padding-top: env(safe-area-inset-top, 0px);">
+  <div class="nav-inner">
+    <!-- Logo -->
+    <a href={homeHref} class="nav-logo" aria-label="yah. home">
+      <LogoYah height="36px" fill="currentColor" style="transition: fill 0.3s ease;" />
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="nav-desktop">
+      <a href={homeHref} class="nav-btn">{t.nav.home}</a>
+      <a href={aboutHref} class="nav-btn">{t.nav.about}</a>
+      <a href={localsHref} class="nav-btn">{t.nav.locals}</a>
+
+      <!-- Language dropdown -->
+      <div class="lang-wrap" id="lang-wrap">
+        <button class="nav-btn lang-toggle" id="lang-toggle" aria-haspopup="true" aria-expanded="false">
+          <Fragment set:html={lucide("globe", { size: 13, strokeWidth: 1.8 })} />
+          <span>{t.nav.language}</span>
+          <span class="chev"><Fragment set:html={lucide("chevronDown", { size: 10, strokeWidth: 2 })} /></span>
+        </button>
+        <div class="lang-menu" id="lang-menu" role="menu">
+          {
+            langList.map((l) => (
+              <a
+                href={l.href}
+                role="menuitem"
+                class="lang-item"
+                data-active={l.code === lang ? "true" : undefined}
+              >
+                {l.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Contact pill -->
+      <a href={contactHref} class="contact-pill">
+        <Fragment set:html={lucide("mail", { size: 13, strokeWidth: 1.8 })} />
+        {t.nav.contact}
+      </a>
+    </div>
+
+    <!-- Mobile hamburger -->
+    <button class="hamburger" id="hamburger" aria-label={t.nav.menuOpen} aria-expanded="false">
+      <span class="hl hl1"></span>
+      <span class="hl hl2"></span>
+      <span class="hl hl3"></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu backdrop -->
+  <div class="menu-backdrop" id="menu-backdrop" aria-hidden="true"></div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu">
+    <a href={homeHref} class="mm-item">{t.nav.home}</a>
+    <a href={aboutHref} class="mm-item">{t.nav.about}</a>
+    <a href={localsHref} class="mm-item">{t.nav.locals}</a>
+    <a href={contactHref} class="mm-item">
+      <Fragment set:html={lucide("mail", { size: 13, strokeWidth: 1.8 })} />
+      {t.nav.contact}
+    </a>
+    <div class="mm-lang">
+      <p class="mm-lang-label">{t.nav.language}</p>
+      {
+        langList.map((l) => (
+          <a href={l.href} class="mm-lang-item" data-active={l.code === lang ? "true" : undefined}>
+            <span class="dot" />
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<style>
+  #site-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: #ffffff;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+  }
+  #site-nav.hero-visible {
+    background: transparent;
+  }
+  #site-nav.scrolled:not(.hero-visible) {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .nav-logo {
+    color: #231815;
+    display: block;
+  }
+  #site-nav.hero-visible .nav-logo {
+    color: #ffffff;
+  }
+
+  .nav-desktop {
+    display: none;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #111111;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .nav-btn:hover {
+    opacity: 0.6;
+  }
+  #site-nav.hero-visible .nav-btn {
+    color: #ffffff;
+  }
+
+  .lang-wrap {
+    position: relative;
+  }
+  .chev :global(svg) {
+    transition: transform 0.2s;
+  }
+  .lang-wrap.open .chev :global(svg) {
+    transform: rotate(180deg);
+  }
+  .lang-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    min-width: 130px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    z-index: 100;
+  }
+  .lang-wrap.open .lang-menu {
+    display: block;
+    animation: navDropIn 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  .lang-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: #555555;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .lang-item:hover {
+    background: #f0f0f0;
+  }
+  .lang-item[data-active="true"] {
+    font-weight: 500;
+    color: #111111;
+    background: #f7f7f7;
+  }
+
+  .contact-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1rem;
+    margin-left: 0.25rem;
+    border-radius: 999px;
+    border: 1px solid #111111;
+    color: #111111;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .contact-pill:hover {
+    background: #111111;
+    color: #ffffff;
+  }
+  #site-nav.hero-visible .contact-pill {
+    border-color: rgba(255, 255, 255, 0.85);
+    color: #ffffff;
+  }
+  #site-nav.hero-visible .contact-pill:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* Hamburger */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0.5rem 0.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    min-height: 44px;
+    justify-content: center;
+  }
+  .hl {
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: #111111;
+    transition: all 0.2s;
+  }
+  #site-nav.hero-visible .hl {
+    background: #ffffff;
+  }
+  #site-nav.menu-open .hl1 {
+    transform: rotate(45deg) translate(4px, 4px);
+  }
+  #site-nav.menu-open .hl2 {
+    opacity: 0;
+  }
+  #site-nav.menu-open .hl3 {
+    transform: rotate(-45deg) translate(4px, -4px);
+  }
+  /* メニュー展開中は背景を白にして視認性を確保 */
+  #site-nav.menu-open {
+    background: #ffffff;
+  }
+  #site-nav.menu-open .nav-logo {
+    color: #231815;
+  }
+  #site-nav.menu-open .hl {
+    background: #111111;
+  }
+
+  .menu-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: transparent;
+  }
+  #site-nav.menu-open .menu-backdrop {
+    display: block;
+  }
+
+  .mobile-menu {
+    display: none;
+    border-top: 1px solid #f3f4f6;
+    background: #ffffff;
+    padding: 1rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    position: relative;
+    z-index: 51;
+  }
+  #site-nav.menu-open .mobile-menu {
+    display: block;
+    animation: menuSlideDown 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  .mm-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #111111;
+    padding: 0.5rem 0;
+    min-height: 44px;
+    text-decoration: none;
+  }
+  .mm-lang {
+    margin-top: 0.75rem;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 0.75rem;
+  }
+  .mm-lang-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #aaaaaa;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .mm-lang-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: #666666;
+    text-decoration: none;
+  }
+  .mm-lang-item[data-active="true"] {
+    font-weight: 500;
+    color: #111111;
+  }
+  .mm-lang-item .dot {
+    width: 4px;
+    height: 4px;
+    flex-shrink: 0;
+  }
+  .mm-lang-item[data-active="true"] .dot {
+    border-radius: 50%;
+    background: #111111;
+  }
+
+  @media (min-width: 768px) {
+    .nav-desktop {
+      display: flex;
+    }
+    .hamburger,
+    .mobile-menu,
+    .menu-backdrop {
+      display: none !important;
+    }
+  }
+
+  @keyframes navDropIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  @keyframes menuSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (display-mode: standalone) {
+    #site-nav {
+      padding-top: env(safe-area-inset-top, 44px) !important;
+    }
+  }
+</style>
+
+<script>
+  // スクロール状態（ヒーロー上=透明/白文字 → 白背景/黒文字）
+  const nav = document.getElementById("site-nav");
+  const langWrap = document.getElementById("lang-wrap");
+  const langToggle = document.getElementById("lang-toggle");
+  const hamburger = document.getElementById("hamburger");
+  const backdrop = document.getElementById("menu-backdrop");
+
+  function onScroll() {
+    if (!nav) return;
+    nav.classList.toggle("scrolled", window.scrollY > 20);
+    nav.classList.toggle("hero-visible", window.scrollY < window.innerHeight * 0.85 && !nav.classList.contains("menu-open"));
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // 言語ドロップダウン
+  langToggle?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = langWrap?.classList.toggle("open");
+    langToggle.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  document.addEventListener("mousedown", (e) => {
+    if (langWrap && !langWrap.contains(e.target as Node)) {
+      langWrap.classList.remove("open");
+      langToggle?.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // モバイルメニュー
+  function closeMenu() {
+    nav?.classList.remove("menu-open");
+    hamburger?.setAttribute("aria-expanded", "false");
+    onScroll();
+  }
+  hamburger?.addEventListener("click", () => {
+    const open = nav?.classList.toggle("menu-open");
+    hamburger.setAttribute("aria-expanded", open ? "true" : "false");
+    if (open) nav?.classList.remove("hero-visible");
+    else onScroll();
+  });
+  backdrop?.addEventListener("click", closeMenu);
+</script>

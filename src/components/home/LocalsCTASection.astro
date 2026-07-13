@@ -1,0 +1,94 @@
+---
+/* LocalsCTASection — 旧 LocalsCTASection.tsx の忠実移植
+   ダーク背景・ゴールドラベル・大見出し・アウトラインCTA（矢印） */
+import { translations } from "../../i18n/translations";
+import { localizedPath, type Locale } from "../../i18n/config";
+import { lucide } from "../../lib/lucide";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+const localsHref = localizedPath(lang, "/locals");
+---
+
+<section class="locals-cta">
+  <div class="texture" aria-hidden="true"></div>
+  <div class="inner">
+    <p class="label">{t.localsCta.sectionLabel}</p>
+    <h2 class="heading">{t.localsCta.heading}</h2>
+    <p class="body">{t.localsCta.body}</p>
+    <a href={localsHref} class="cta-btn">
+      {t.localsCta.btn}
+      <Fragment set:html={lucide("arrowRight", { size: 14, strokeWidth: 2 })} />
+    </a>
+  </div>
+</section>
+
+<style>
+  .locals-cta {
+    position: relative;
+    overflow: hidden;
+    background: #111111;
+    padding: 6rem 1.5rem;
+  }
+  .texture {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(ellipse at 70% 50%, rgba(180, 140, 80, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .inner {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #b49050;
+    margin-bottom: 1.5rem;
+  }
+  .heading {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .body {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.75;
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.22s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .cta-btn:hover {
+    background: #ffffff;
+    color: #111111;
+    border-color: #ffffff;
+  }
+</style>

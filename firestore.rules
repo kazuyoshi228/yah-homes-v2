@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// yah.homes Firestore ルール — 初期値は全 deny（ロックダウン）。
+// 機能追加時にコレクション単位で明示的に許可する（無断変更禁止・要承認）。
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // デフォルト: すべて拒否
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

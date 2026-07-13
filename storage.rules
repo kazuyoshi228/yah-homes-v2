@@ -1,0 +1,12 @@
+rules_version = '2';
+
+// yah.homes Storage ルール — 初期値は全 deny（ロックダウン）。
+// 公開アセットは Hosting(public/) で配信するため、Storage は既定で非公開とする。
+// 機能追加時にパス単位で明示的に許可する（無断変更禁止・要承認）。
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,148 @@
+---
+/* yah.homes DirectorSection — 旧 DirectorSection.tsx の忠実移植
+   ポートレート＋名前 → intro → セクション2 → 室内写真1 → セクション3 → 室内写真2 → セクション4 */
+import { translations } from "../i18n/translations";
+import type { Locale } from "../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const d = translations[lang].director;
+
+const IMG_DIRECTOR = "/manus-storage/director-photo_def5f1a6.webp";
+const IMG_DIRECTOR_480 = "/manus-storage/director-photo_def5f1a6-480.webp";
+const IMG_DIRECTOR_768 = "/manus-storage/director-photo_def5f1a6-768.webp";
+const IMG_INTERIOR_1 = "/manus-storage/kiyokawa-016_2d29d1cf.webp";
+const IMG_INTERIOR_1_480 = "/manus-storage/kiyokawa-016_2d29d1cf-480.webp";
+const IMG_INTERIOR_1_768 = "/manus-storage/kiyokawa-016_2d29d1cf-768.webp";
+const IMG_INTERIOR_2 = "/manus-storage/kiyokawa-008_e5eb0fbc.webp";
+const IMG_INTERIOR_2_480 = "/manus-storage/kiyokawa-008_e5eb0fbc-480.webp";
+const IMG_INTERIOR_2_768 = "/manus-storage/kiyokawa-008_e5eb0fbc-768.webp";
+---
+
+<section id="director" style="background:#ffffff;padding-bottom:6rem;">
+  <!-- Message from Director -->
+  <div style="max-width:900px;margin:0 auto;padding:5rem 1.5rem 3rem;">
+    <div class="reveal">
+      <h3 class="sub-head">{d.sectionHeading}</h3>
+      <div style="max-width:250px;margin-bottom:2.5rem;">
+        <div class="img-zoom">
+          <img
+            src={IMG_DIRECTOR}
+            srcset={`${IMG_DIRECTOR_480} 480w, ${IMG_DIRECTOR_768} 768w, ${IMG_DIRECTOR} 900w`}
+            sizes="250px"
+            alt={`${d.directorName} — ${d.directorTitle}`}
+            loading="lazy"
+            decoding="async"
+            width="900"
+            height="1200"
+            style="width:100%;display:block;"
+          />
+        </div>
+        <p class="dir-name">{d.directorName}</p>
+        <p class="dir-role">{d.directorTitle}</p>
+      </div>
+      <div>
+        {d.intro.map((para) => <p class="body-p">{para}</p>)}
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem 3rem;">
+    <div class="reveal">
+      <h3 class="sub-head">{d.section2Heading}</h3>
+      <div>
+        {d.section2Body.map((para) => <p class="body-p">{para}</p>)}
+      </div>
+    </div>
+  </div>
+
+  <!-- Interior image 1 -->
+  <div class="reveal">
+    <div class="img-zoom" style="max-width:700px;margin:0 auto 4rem;padding:0 1.5rem;">
+      <img
+        src={IMG_INTERIOR_1}
+        srcset={`${IMG_INTERIOR_1_480} 480w, ${IMG_INTERIOR_1_768} 768w, ${IMG_INTERIOR_1} 900w`}
+        sizes="(max-width: 768px) 100vw, 700px"
+        alt="Interior — yah.homes"
+        loading="lazy"
+        decoding="async"
+        width="900"
+        height="600"
+        style="width:100%;display:block;"
+      />
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem 3rem;">
+    <div class="reveal">
+      <h3 class="sub-head">{d.section3Heading}</h3>
+      <div>
+        {d.section3Body.map((para) => <p class="body-p">{para}</p>)}
+      </div>
+    </div>
+  </div>
+
+  <!-- Interior image 2 -->
+  <div class="reveal">
+    <div class="img-zoom" style="max-width:700px;margin:0 auto 4rem;padding:0 1.5rem;">
+      <img
+        src={IMG_INTERIOR_2}
+        srcset={`${IMG_INTERIOR_2_480} 480w, ${IMG_INTERIOR_2_768} 768w, ${IMG_INTERIOR_2} 900w`}
+        sizes="(max-width: 768px) 100vw, 700px"
+        alt="Bedroom — yah.homes"
+        loading="lazy"
+        decoding="async"
+        width="900"
+        height="600"
+        style="width:100%;display:block;"
+      />
+    </div>
+  </div>
+
+  <!-- Section 4 -->
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+    <div class="reveal">
+      <h3 class="sub-head">{d.section4Heading}</h3>
+      <div>
+        {d.section4Body.map((para) => <p class="body-p">{para}</p>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .sub-head {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 1.25rem;
+    letter-spacing: -0.01em;
+  }
+  .dir-name {
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+    margin-top: 1.25rem;
+  }
+  .dir-role {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #555555;
+  }
+  .body-p {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #444444;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+  .body-p:last-child {
+    margin-bottom: 0;
+  }
+</style>

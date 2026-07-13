@@ -1,0 +1,422 @@
+---
+/* yah.homes PropertiesSection — 旧 PropertiesSection.tsx の忠実移植
+   Wonder Here コピー＋ロゴ → 縦書き Properties ラベル＋2カラムカード
+   （3/4画像・photos バッジ・星評価・Airbnb / Booking.com / Gallery ボタン）
+   ギャラリーはバニラJSのライトボックスで再現 */
+import { translations } from "../../i18n/translations";
+import type { Locale } from "../../i18n/config";
+import { starRating } from "../../lib/lucide";
+import { GALLERIES } from "../../data/properties";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+
+const PROPERTY_META = [
+  {
+    id: "kiyokawa",
+    booking: "https://www.booking.com/Share-Tyhode",
+    airbnb:
+      "https://www.airbnb.jp/rooms/1427842426961787667?guests=1&adults=1&s=67&unique_share_id=4f784e83-f8e1-4d15-b98c-6e272b8da0a9",
+    image: "/manus-storage/kiyokawa-exterior_18a3409b.webp",
+    imageMobile: "/manus-storage/kiyokawa-exterior-480_cbb57d9a.webp",
+    gallery: GALLERIES.kiyokawa,
+    rating: 4.88,
+    reviewCount: 41,
+    name: t.properties.kiyokawa.name,
+    info: t.properties.kiyokawa.info,
+  },
+  {
+    id: "takasago",
+    booking: "https://www.booking.com/Share-K2G3CO",
+    airbnb:
+      "https://www.airbnb.jp/rooms/1497546315476018480?guests=1&adults=1&s=67&unique_share_id=5babfb67-49de-4d85-afa9-b80719dbd3c9",
+    image: "/manus-storage/takasago-exterior_d4f7ccff.webp",
+    imageMobile: "/manus-storage/takasago-exterior-480_0292d3a7.webp",
+    gallery: GALLERIES.takasago,
+    rating: 4.6,
+    reviewCount: 30,
+    name: t.properties.takasago.name,
+    info: t.properties.takasago.info,
+  },
+];
+---
+
+<section id="properties" style="background:#ffffff;padding-top:3rem;padding-bottom:6rem;">
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+    <!-- Wonder Here copy block -->
+    <div class="reveal-fade wonder-block">
+      {
+        t.properties.wonderBody.map((para, idx) => (
+          <p class={idx === 0 ? "wonder-lead" : "wonder-body"}>{para}</p>
+        ))
+      }
+      <p class="wonder-tagline">{t.properties.wonderTagline}</p>
+      <div style="margin-top:1.5rem;">
+        <img
+          src="/manus-storage/logo_yah_CMYK_cifo_0ad89aa7.svg"
+          alt="yah. Check in, Find Out."
+          style="height:150px;width:auto;display:block;"
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    <!-- Cards row: vertical label + grid -->
+    <div style="display:flex;gap:1.5rem;align-items:flex-start;">
+      <div class="reveal-fade v-label-wrap">
+        <span class="section-label-vertical">{t.properties.sectionLabel}</span>
+      </div>
+
+      <div class="properties-grid" style="flex:1;display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;">
+        {
+          PROPERTY_META.map((p, i) => (
+            <div
+              class="reveal prop-card"
+              style={`transition-delay:${i * 120}ms;`}
+            >
+              <button
+                class="img-zoom prop-img js-open-gallery"
+                data-property={p.id}
+                aria-label={`${p.name} gallery`}
+              >
+                <img
+                  src={p.image}
+                  srcset={`${p.imageMobile} 480w, ${p.image} 902w`}
+                  sizes="(max-width: 640px) 480px, 902px"
+                  alt={p.name}
+                  fetchpriority={i === 0 ? "high" : "low"}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  width="902"
+                  height="1280"
+                />
+                <span class="photos-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <circle cx="8.5" cy="8.5" r="1.5" />
+                    <polyline points="21 15 16 10 5 21" />
+                  </svg>
+                  {p.gallery.length} photos
+                </span>
+              </button>
+
+              <div style="padding:1.25rem 1rem;">
+                <h3 class="prop-name">{p.name}</h3>
+                <p class="prop-info">{p.info}</p>
+
+                <a href={p.airbnb} target="_blank" rel="noopener noreferrer" class="rating-badge">
+                  <Fragment set:html={starRating(p.rating, 12, `star-${p.id}`)} />
+                  <span class="rating-num">{p.rating}</span>
+                  <span class="rating-count">({p.reviewCount} {t.properties.reviewsLabel})</span>
+                </a>
+
+                <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                  <a href={p.airbnb} target="_blank" rel="noopener noreferrer" class="btn-booking">
+                    {t.properties.airbnbBtn}
+                  </a>
+                  <a href={p.booking} target="_blank" rel="noopener noreferrer" class="btn-booking">
+                    {t.properties.bookingBtn}
+                  </a>
+                  <button class="gallery-btn js-open-gallery" data-property={p.id}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <polyline points="21 15 16 10 5 21" />
+                    </svg>
+                    {t.properties.galleryBtn}
+                    <span style="font-size:0.75rem;font-weight:300;opacity:0.8;">({p.gallery.length})</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox overlay（バニラJS） -->
+  <div class="lightbox" id="prop-lightbox" hidden>
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous">‹</button>
+    <img class="lb-img" src="" alt="" />
+    <button class="lb-next" aria-label="Next">›</button>
+    <p class="lb-counter"></p>
+  </div>
+
+  <!-- ギャラリー画像リスト（JSON・JSが拾う） -->
+  <script
+    is:inline
+    type="application/json"
+    id="prop-galleries"
+    set:html={JSON.stringify({
+      kiyokawa: GALLERIES.kiyokawa,
+      takasago: GALLERIES.takasago,
+    })}
+  />
+</section>
+
+<style>
+  .wonder-block {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .wonder-lead {
+    font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: #111111;
+    white-space: pre-line;
+    margin-bottom: 1.25rem;
+  }
+  .wonder-body {
+    font-size: clamp(1rem, 1.8vw, 1.1rem);
+    font-weight: 400;
+    line-height: 1.85;
+    color: #444444;
+    white-space: pre-line;
+    margin-bottom: 1rem;
+  }
+  .wonder-tagline {
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #111111;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .v-label-wrap {
+    padding-top: 0.5rem;
+    flex-shrink: 0;
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .v-label-wrap {
+      display: flex;
+    }
+  }
+  .prop-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .prop-img {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+  }
+  .prop-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .photos-badge {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.6rem;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    pointer-events: none;
+  }
+  .prop-name {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.01em;
+  }
+  .prop-info {
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #888888;
+    margin-bottom: 0.75rem;
+  }
+  .rating-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid #e8e8e8;
+    border-radius: 3px;
+    background: #fafafa;
+    transition: border-color 0.2s;
+  }
+  .rating-badge:hover {
+    border-color: #111111;
+  }
+  .rating-num {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111111;
+    line-height: 1;
+  }
+  .rating-count {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: #888888;
+    line-height: 1;
+  }
+  .gallery-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: #1a56db;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.18s cubic-bezier(0.23, 1, 0.32, 1), transform 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .gallery-btn:hover {
+    background: #1e429f;
+  }
+  .gallery-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox[hidden] {
+    display: none;
+  }
+  .lb-img {
+    max-width: 92vw;
+    max-height: 86vh;
+    object-fit: contain;
+    display: block;
+  }
+  .lb-close,
+  .lb-prev,
+  .lb-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 2.25rem;
+    line-height: 1;
+    padding: 0.5rem 1rem;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+  }
+  .lb-close:hover,
+  .lb-prev:hover,
+  .lb-next:hover {
+    opacity: 1;
+  }
+  .lb-close {
+    top: max(0.75rem, env(safe-area-inset-top));
+    right: 0.75rem;
+  }
+  .lb-prev {
+    left: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+  }
+  .lb-next {
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+  }
+  .lb-counter {
+    position: absolute;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+</style>
+
+<script>
+  // ライトボックス（旧 Lightbox.tsx の代替・バニラJS）
+  const dataEl = document.getElementById("prop-galleries");
+  const galleries: Record<string, string[]> = dataEl ? JSON.parse(dataEl.textContent || "{}") : {};
+  const lb = document.getElementById("prop-lightbox") as HTMLElement | null;
+  const lbImg = lb?.querySelector(".lb-img") as HTMLImageElement | null;
+  const lbCounter = lb?.querySelector(".lb-counter") as HTMLElement | null;
+  let current: string[] = [];
+  let idx = 0;
+
+  function render() {
+    if (!lbImg || !lbCounter) return;
+    lbImg.src = current[idx] ?? "";
+    lbCounter.textContent = `${idx + 1} / ${current.length}`;
+  }
+  function openGallery(id: string) {
+    current = galleries[id] ?? [];
+    if (!current.length || !lb) return;
+    idx = 0;
+    render();
+    lb.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    if (!lb) return;
+    lb.hidden = true;
+    document.body.style.overflow = "";
+  }
+  function prev() {
+    idx = (idx - 1 + current.length) % current.length;
+    render();
+  }
+  function next() {
+    idx = (idx + 1) % current.length;
+    render();
+  }
+
+  document.querySelectorAll<HTMLElement>(".js-open-gallery").forEach((el) => {
+    el.addEventListener("click", () => openGallery(el.dataset.property || ""));
+  });
+  lb?.querySelector(".lb-close")?.addEventListener("click", close);
+  lb?.querySelector(".lb-prev")?.addEventListener("click", prev);
+  lb?.querySelector(".lb-next")?.addEventListener("click", next);
+  lb?.addEventListener("click", (e) => {
+    if (e.target === lb) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (lb?.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+  });
+</script>

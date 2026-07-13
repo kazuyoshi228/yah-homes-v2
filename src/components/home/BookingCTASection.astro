@@ -1,0 +1,30 @@
+---
+/* yah.homes BookingCTASection — 旧 BookingCTASection.tsx の忠実移植
+   「Ready To Explore Fukuoka?」— ダーク背景の締めCTA
+   （Direct Booking ドロップダウンは旧サイトでも display:none のため出さない） */
+import { translations } from "../../i18n/translations";
+import type { Locale } from "../../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+---
+
+<section style="background:#111111;padding:5rem 1.5rem;text-align:center;">
+  <div style="max-width:600px;margin:0 auto;">
+    <h2 class="cta-heading">{t.bookingCta.heading}</h2>
+  </div>
+</section>
+
+<style>
+  .cta-heading {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-weight: 500;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    margin-bottom: 0;
+  }
+</style>

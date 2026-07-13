@@ -1,0 +1,91 @@
+---
+/* yah.homes FeaturesSection — 旧 FeaturesSection.tsx の忠実移植
+   「Our features and strengths」箇条書き（lucideアイコン・上下ボーダー行） */
+import { translations } from "../../i18n/translations";
+import type { Locale } from "../../i18n/config";
+import { lucide, SALES_POINT_ICONS } from "../../lib/lucide";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+
+const allItems: { icon: string; text: string; subText?: string }[] = [
+  { icon: "star", text: t.features.leadHeadline, subText: t.features.leadBody || undefined },
+  ...t.features.items.map((item, index) => ({
+    icon: SALES_POINT_ICONS[index] ?? "sparkles",
+    text: item,
+  })),
+];
+---
+
+<div style="max-width:900px;margin:0 auto;padding:0 1.5rem 5rem;">
+  <h3 class="feat-heading">{t.features.heading}</h3>
+  <ul class="feat-list">
+    {
+      allItems.map((item, index) => (
+        <li class="feat-row" data-last={index === allItems.length - 1 ? "true" : undefined}>
+          <span class="feat-icon" aria-hidden="true">
+            <Fragment set:html={lucide(item.icon, { size: 16, strokeWidth: 1.5 })} />
+          </span>
+          <div style="margin:0;">
+            <p class="feat-text">{item.text}</p>
+            {item.subText && <p class="feat-sub">{item.subText}</p>}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .feat-heading {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  .feat-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .feat-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid #e8e8e8;
+  }
+  .feat-row[data-last="true"] {
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .feat-icon {
+    flex-shrink: 0;
+    color: #111111;
+    display: inline-flex;
+    align-items: center;
+    align-self: center;
+  }
+  .feat-text {
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    font-weight: 400;
+    color: #222222;
+    line-height: 1.85;
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .feat-sub {
+    font-size: clamp(0.9rem, 1.6vw, 1rem);
+    font-weight: 400;
+    color: #555555;
+    line-height: 1.75;
+    margin: 0.4rem 0 0 0;
+    letter-spacing: -0.005em;
+  }
+</style>

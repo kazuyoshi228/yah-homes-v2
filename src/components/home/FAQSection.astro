@@ -1,0 +1,123 @@
+---
+/* yah.homes FAQSection — 旧 FAQSection.tsx の忠実移植
+   15問×3カテゴリ・アコーディオン（+が45度回転）・FAQPage JSON-LD
+   アコーディオンは native <details> で再現（全文が静的HTMLに含まれ、検索/AIが読める） */
+import { faqData } from "../../data/faqData";
+import type { Locale } from "../../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const data = faqData[lang] ?? faqData.en;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: data.categories.flatMap((c) =>
+    c.items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    }))
+  ),
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<section id="faq" style="background:#ffffff;padding:5rem 0;border-top:1px solid #e8e8e8;">
+  <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+    <h2 class="faq-title">{data.title}</h2>
+
+    {
+      data.categories.map((cat) => (
+        <div style="margin-bottom:2.5rem;">
+          <p class="faq-cat">{cat.label}</p>
+          {cat.items.map((item) => (
+            <details class="faq-item">
+              <summary>
+                <span class="q">{item.q}</span>
+                <span class="plus" aria-hidden="true">+</span>
+              </summary>
+              <p class="a">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .faq-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 3rem;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  .faq-cat {
+    font-size: clamp(0.65rem, 1.2vw, 0.75rem);
+    font-weight: 500;
+    color: #999999;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .faq-item {
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .faq-item summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    cursor: pointer;
+  }
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .q {
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .plus {
+    font-size: 1.25rem;
+    color: #555555;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 0.1rem;
+    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .faq-item[open] .plus {
+    transform: rotate(45deg);
+  }
+  .a {
+    font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+    font-weight: 400;
+    color: #555555;
+    line-height: 1.8;
+    padding-bottom: 1.25rem;
+    margin: 0;
+  }
+</style>
+
+<script>
+  // 旧実装は「同時に開くのは1つ」の挙動 — details でも同じ動きにする
+  document.querySelectorAll<HTMLDetailsElement>(".faq-item").forEach((d) => {
+    d.addEventListener("toggle", () => {
+      if (d.open) {
+        document.querySelectorAll<HTMLDetailsElement>(".faq-item[open]").forEach((other) => {
+          if (other !== d) other.open = false;
+        });
+      }
+    });
+  });
+</script>

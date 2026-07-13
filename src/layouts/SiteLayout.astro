@@ -1,7 +1,8 @@
 ---
-// 公開ページ用レイアウト = BaseLayout(head) + Header + slot + Footer
+// 公開ページ用レイアウト = BaseLayout(head) + Navbar + slot + Footer
+// scroll reveal（.reveal / .reveal-fade → .visible）のオブザーバも全ページ共通で有効化
 import BaseLayout from "./BaseLayout.astro";
-import Header from "../components/Header.astro";
+import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import type { Locale } from "../i18n/config";
 
@@ -26,7 +27,16 @@ const { lang, path, title, description, ogImage, jsonLd, noindex } = Astro.props
   jsonLd={jsonLd}
   noindex={noindex}
 >
-  <Header lang={lang} path={path} />
+  <Navbar lang={lang} path={path} />
   <slot />
   <Footer lang={lang} />
+
+  <script>
+    // scroll reveal — 旧サイトの IntersectionObserver 動作を全ページ共通化
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add("visible")),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll(".reveal, .reveal-fade").forEach((el) => observer.observe(el));
+  </script>
 </BaseLayout>

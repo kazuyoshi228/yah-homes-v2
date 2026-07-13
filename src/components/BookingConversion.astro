@@ -1,0 +1,159 @@
+---
+/* 旧 Booking.tsx（/booking・/thankyou 共通のコンバージョンページ）の忠実移植
+   フルビューポートヒーロー + 「We are truly looking forward...」+ 青のAirbnb CTA×2
+   + Back to Home */
+import { localizedPath, type Locale } from "../i18n/config";
+import { lucide } from "../lib/lucide";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+
+const HERO_IMAGE = "/manus-storage/booking-hero-017_adbd7c1b.webp";
+const HERO_IMAGE_768 = "/manus-storage/booking-hero-768_afd7a389.webp";
+const HERO_IMAGE_1280 = "/manus-storage/booking-hero-1280_8d4eba34.webp";
+
+const AIRBNB_LINKS = {
+  kiyokawa:
+    "https://www.airbnb.jp/rooms/1427842426961787667?guests=1&adults=1&s=67&unique_share_id=4f784e83-f8e1-4d15-b98c-6e272b8da0a9",
+  takasago:
+    "https://www.airbnb.jp/rooms/1497546315476018480?guests=1&adults=1&s=67&unique_share_id=5babfb67-49de-4d85-afa9-b80719dbd3c9",
+};
+const homeHref = localizedPath(lang, "/");
+---
+
+<!-- Hero -->
+<section class="bk-hero">
+  <img
+    src={HERO_IMAGE}
+    srcset={`${HERO_IMAGE_768} 768w, ${HERO_IMAGE_1280} 1280w, ${HERO_IMAGE} 1920w`}
+    sizes="(max-width: 768px) 768px, (max-width: 1280px) 1280px, 1920px"
+    alt=""
+    aria-hidden="true"
+    fetchpriority="high"
+    decoding="async"
+    width="1920"
+    height="1455"
+    class="bk-hero-bg"
+  />
+  <div class="bk-hero-grad" aria-hidden="true"></div>
+
+  <div class="bk-content animate-fade-in" style="animation-delay:200ms;">
+    <h1 class="bk-headline">
+      We are truly looking forward<br />to having you stay with us.
+    </h1>
+    <div class="bk-divider" aria-hidden="true"></div>
+    <div style="display:flex;flex-wrap:wrap;gap:1rem;align-items:center;">
+      <a href={AIRBNB_LINKS.kiyokawa} target="_blank" rel="noopener noreferrer" class="bk-btn">
+        Book Kiyokawa on Airbnb
+        <Fragment set:html={lucide("externalLink", { size: 13, strokeWidth: 2.5 })} />
+      </a>
+      <a href={AIRBNB_LINKS.takasago} target="_blank" rel="noopener noreferrer" class="bk-btn">
+        Book Takasago on Airbnb
+        <Fragment set:html={lucide("externalLink", { size: 13, strokeWidth: 2.5 })} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Back to Home -->
+<section style="padding:4rem 1.5rem;text-align:center;background:#ffffff;">
+  <a href={homeHref} class="bk-back">
+    <Fragment set:html={lucide("chevronLeft", { size: 14, strokeWidth: 2.5 })} />
+    Back to Home
+  </a>
+</section>
+
+<style>
+  .bk-hero {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .bk-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 50%;
+    z-index: 0;
+  }
+  .bk-hero-grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.18) 40%, rgba(0, 0, 0, 0.72) 100%);
+    z-index: 1;
+  }
+  .bk-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3.5rem;
+  }
+  .bk-headline {
+    font-size: clamp(1.75rem, 5.5vw, 3.75rem);
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.75rem;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+  }
+  .bk-divider {
+    width: 2.5rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.55);
+    margin-bottom: 2rem;
+  }
+  .bk-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #ffffff;
+    background: #2b5be8;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    transition: background 0.18s cubic-bezier(0.23, 1, 0.32, 1), transform 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .bk-btn:hover {
+    background: #1a45c8;
+    transform: translateY(-1px);
+  }
+  .bk-btn:active {
+    transform: scale(0.97);
+  }
+  .bk-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111111;
+    background: transparent;
+    border: 1.5px solid #111111;
+    letter-spacing: 0.02em;
+    padding: 0.75rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.18s cubic-bezier(0.23, 1, 0.32, 1), color 0.18s cubic-bezier(0.23, 1, 0.32, 1),
+      transform 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .bk-back:hover {
+    background: #111111;
+    color: #ffffff;
+  }
+  .bk-back:active {
+    transform: scale(0.97);
+  }
+</style>

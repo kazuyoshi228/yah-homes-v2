@@ -1,7 +1,13 @@
 ---
+/* Locals — 旧 Locals.tsx の忠実移植
+   ヒーロー(屋台) → イントロ(青ボーダー) → カテゴリ別スポット(QR付きカード)
+   → タクシーカード → マップリスト(ダーク) → PDF/Back to Home/Back to Top
+   → BookingCTA */
 import SiteLayout from "../../layouts/SiteLayout.astro";
-import { LOCALES, localeParam, type Locale } from "../../i18n/config";
+import BookingCTASection from "../../components/home/BookingCTASection.astro";
+import { LOCALES, localeParam, localizedPath, type Locale } from "../../i18n/config";
 import { getPageMeta } from "../../lib/seo";
+import { lucide } from "../../lib/lucide";
 import { localsData } from "../../data/localsData";
 
 export function getStaticPaths() {
@@ -13,67 +19,480 @@ export function getStaticPaths() {
 
 const { lang } = Astro.props as { lang: Locale };
 const meta = getPageMeta("locals", lang);
-const d = localsData[lang];
+const t = localsData[lang];
+
+const LAMP_BLUE = "#2B5BE8";
+const HERO_IMAGE = "/manus-storage/yatai_55dbcb37.webp";
+const HERO_IMAGE_768 = "/manus-storage/yatai-768_a200d426.webp";
+const HERO_IMAGE_480 = "/manus-storage/yatai-480_27266015.webp";
+const PDF_URL = "/manus-storage/LocalGuideVol.1_7f8391c7.pdf";
+const MAP_LIST_URL = "https://maps.app.goo.gl/Q9WvY6tSinSvKEm46";
+const TAXI_MAP_URL = "https://maps.app.goo.gl/17Uioc8vhqJxnUzHA";
+
+const CATEGORY_ICONS: Record<string, string> = {
+  cafe: "coffee",
+  lunch: "utensilsCrossed",
+  market: "shoppingBasket",
+  culture: "landmark",
+};
+
+function qrUrl(url: string, size: number): string {
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(url)}&margin=4`;
+}
+
+// LocalBusiness ItemList JSON-LD（旧実装と同一・英語canonical基準）
+const allSpots = localsData.en.categories.flatMap((cat) =>
+  cat.spots.map((spot) => ({
+    "@type": "LocalBusiness",
+    name: spot.name,
+    description: spot.description,
+    openingHours: spot.hours,
+    url: spot.mapUrl,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Kiyokawa, Chuo-ku, Fukuoka",
+      addressCountry: "JP",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: "33.5857", longitude: "130.3959" },
+  }))
+);
+const localsJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "yah.homes Local Guide — Kiyokawa, Fukuoka",
+  description:
+    "Curated list of 16 recommended local spots near yah.homes Kiyokawa in Fukuoka, Japan. Includes cafes, restaurants, local markets, and cultural spots within walking distance.",
+  url: "https://yah.homes/locals",
+  numberOfItems: allSpots.length,
+  itemListElement: allSpots.map((spot, i) => ({ "@type": "ListItem", position: i + 1, item: spot })),
+};
+
+const homeHref = localizedPath(lang, "/");
 ---
 
-<SiteLayout lang={lang} path="/locals" title={meta.title} description={meta.description} jsonLd={meta.jsonLd}>
-  <section class="section container narrow">
-    <p class="eyebrow">{d.heroSubtitle}</p>
-    <h1 class="section-title">{d.heroTitle}</h1>
-    <h2 class="intro-title">{d.introTitle}</h2>
-    {d.introBody.map((p) => <p class="body-copy">{p}</p>)}
+<SiteLayout lang={lang} path="/locals" title={meta.title} description={meta.description} jsonLd={localsJsonLd}>
+  <!-- Hero -->
+  <section class="lc-hero">
+    <picture>
+      <source media="(max-width: 480px)" srcset={HERO_IMAGE_480} type="image/webp" />
+      <source media="(max-width: 768px)" srcset={HERO_IMAGE_768} type="image/webp" />
+      <img
+        src={HERO_IMAGE}
+        alt=""
+        aria-hidden="true"
+        fetchpriority="high"
+        decoding="async"
+        width="1440"
+        height="960"
+        class="lc-hero-bg"
+      />
+    </picture>
+    <div class="lc-hero-grad" aria-hidden="true"></div>
+    <div class="lc-hero-content animate-fade-in" style="animation-delay:200ms;">
+      <p class="lc-label">Local Guide — Fukuoka</p>
+      <h1 class="lc-title">{t.heroTitle}</h1>
+      <p class="lc-tagline">Find Out your favorite spots in the vibrant streets of Fukuoka.</p>
+      <!-- 言語スイッチャー（旧UIを踏襲・リンク版） -->
+      <div style="display:flex;gap:0.5rem;align-items:center;">
+        {
+          LOCALES.map((code) => (
+            <a
+              href={localizedPath(code, "/locals")}
+              class="lc-lang"
+              data-active={code === lang ? "true" : undefined}
+            >
+              {code.toUpperCase()}
+            </a>
+          ))
+        }
+      </div>
+    </div>
   </section>
 
-  {
-    d.categories.map((cat) => (
-      <section class="section container">
-        <div class="cat-head">
-          <span class="cat-icon" aria-hidden="true">{cat.icon}</span>
-          <div>
-            <h2 class="cat-title">{cat.title}</h2>
-            <p class="cat-tagline">{cat.tagline}</p>
-          </div>
-        </div>
-        <div class="locals-grid">
-          {cat.spots.map((s) => (
-            <article class="spot">
-              {s.imageUrl && (
-                <div class="spot-img img-zoom"><img src={s.imageUrl} alt={s.name} loading="lazy" /></div>
-              )}
-              <div class="spot-body">
-                <h3>{s.name}</h3>
-                {s.hours && <p class="spot-hours">{s.hours}</p>}
-                <p class="spot-desc">{s.description}</p>
-                {s.mapUrl && (
-                  <a class="spot-map link-underline" href={s.mapUrl} target="_blank" rel="noopener">Google Maps →</a>
-                )}
+  <!-- Intro -->
+  <section style="background:#fafafa;padding:3.5rem 0;">
+    <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+      <div style={`max-width:640px;border-left:3px solid ${LAMP_BLUE};padding-left:1.5rem;`}>
+        <h2 class="intro-title">
+          <span class="red-chip" aria-hidden="true"></span>
+          {t.introTitle}
+        </h2>
+        {t.introBody.map((para, i) => <p class="intro-p" style={i === 0 ? "margin:0;" : ""}>{para}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section style="background:#ffffff;padding:4rem 0 2rem;">
+    <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+      {
+        t.categories.map((cat) => (
+          <div style="margin-bottom:4rem;">
+            <div class="reveal-fade cat-head">
+              <span style={`color:${LAMP_BLUE};flex-shrink:0;margin-top:2px;`}>
+                <Fragment set:html={lucide(CATEGORY_ICONS[cat.id] ?? "coffee", { size: 18, strokeWidth: 1.5 })} />
+              </span>
+              <div>
+                <h2 class="cat-title">{cat.title}</h2>
+                <p class="cat-tagline">{cat.tagline}</p>
               </div>
-            </article>
-          ))}
+            </div>
+
+            <div class="locals-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;">
+              {cat.spots.map((spot, i) => (
+                <div class="reveal spot-card" style={`transition-delay:${i * 80}ms;`}>
+                  <div class="img-zoom" style="aspect-ratio:4/3;overflow:hidden;flex-shrink:0;">
+                    <img
+                      src={spot.imageUrl}
+                      alt={spot.name}
+                      loading="lazy"
+                      decoding="async"
+                      style="width:100%;height:100%;object-fit:cover;display:block;"
+                    />
+                  </div>
+                  <div style="padding:1.25rem;flex:1;display:flex;flex-direction:column;gap:0.75rem;">
+                    <div>
+                      <h3 class="spot-name">{spot.name}</h3>
+                      <p class="spot-hours">{spot.hours}</p>
+                    </div>
+                    <p class="spot-desc">{spot.description}</p>
+                    <div class="spot-foot">
+                      <img
+                        src={qrUrl(spot.mapUrl, 64)}
+                        alt="QR Code"
+                        width="64"
+                        height="64"
+                        loading="lazy"
+                        decoding="async"
+                        style="display:block;border-radius:4px;border:1px solid #e8e8e8;"
+                      />
+                      <a href={spot.mapUrl} target="_blank" rel="noopener noreferrer" class="spot-map">
+                        <Fragment set:html={lucide("mapPin", { size: 11, strokeWidth: 1.8 })} />
+                        Google Maps
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Taxi Card -->
+  <section style="background:#f5f5f5;padding:3.5rem 0;">
+    <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+      <div class="taxi-card">
+        <div style="flex:1;min-width:240px;">
+          <h2 class="taxi-title">{t.taxiCardTitle}</h2>
+          <p class="taxi-body">{t.taxiCardBody}</p>
+          <div class="taxi-jp">{t.taxiCardJapanese}</div>
         </div>
-      </section>
-    ))
-  }
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+          <img src={qrUrl(TAXI_MAP_URL, 100)} alt="QR Code" width="100" height="100" loading="lazy" style="display:block;border-radius:4px;border:1px solid #e8e8e8;" />
+          <a href={TAXI_MAP_URL} target="_blank" rel="noopener noreferrer" class="spot-map">
+            <Fragment set:html={lucide("mapPin", { size: 11, strokeWidth: 1.8 })} />
+            Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map List (dark) -->
+  <section style="background:#111111;padding:3.5rem 0;">
+    <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+      <div style="display:flex;gap:2.5rem;align-items:center;flex-wrap:wrap;">
+        <div style="flex:1;min-width:240px;">
+          <h2 class="ml-title">{t.mapListTitle}</h2>
+          <p class="ml-body">{t.mapListBody}</p>
+          <a href={MAP_LIST_URL} target="_blank" rel="noopener noreferrer" class="ml-btn">
+            <Fragment set:html={lucide("mapPin", { size: 13, strokeWidth: 1.8 })} />
+            Open Google Maps
+          </a>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:0.5rem;">
+          <img src={qrUrl(MAP_LIST_URL, 120)} alt="QR Code" width="120" height="120" loading="lazy" style="display:block;border-radius:4px;border:1px solid #e8e8e8;" />
+          <p style="font-size:0.65rem;color:#666666;margin:0;">Scan to open</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PDF / Back to Home / Back to Top -->
+  <section style="background:#ffffff;padding:3rem 0;">
+    <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
+      <a href={PDF_URL} download="LocalGuideVol1_yah.homes.pdf" class="pdf-btn">
+        <Fragment set:html={lucide("download", { size: 13, strokeWidth: 1.8 })} />
+        {t.downloadPdfLabel}
+      </a>
+      <a href={homeHref} class="ghost-btn">
+        <Fragment set:html={lucide("home", { size: 13, strokeWidth: 1.8 })} />
+        {t.backToHomeLabel}
+      </a>
+      <a href="#top" class="ghost-btn" style="margin-left:auto;" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <Fragment set:html={lucide("arrowUp", { size: 13, strokeWidth: 1.8 })} />
+        Back to Top
+      </a>
+    </div>
+  </section>
+
+  <BookingCTASection lang={lang} />
 </SiteLayout>
 
-<style>
-  .section { padding: 3rem 1.5rem; }
-  .narrow { max-width: 760px; }
-  .eyebrow { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 0.75rem; }
-  .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 500; margin-bottom: 1.5rem; }
-  .intro-title { font-size: 1.2rem; font-weight: 500; margin-bottom: 1rem; }
-  .body-copy { color: #333; margin-bottom: 1rem; }
-  .cat-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
-  .cat-icon { font-size: 1.75rem; }
-  .cat-title { font-size: 1.35rem; font-weight: 500; }
-  .cat-tagline { font-size: 0.85rem; color: var(--muted-foreground); }
-  .locals-grid { display: grid; gap: 1.5rem; }
-  .spot { border: 1px solid var(--border); background: #fff; display: flex; flex-direction: column; }
-  .spot-img { aspect-ratio: 4/3; overflow: hidden; }
-  .spot-img img { width: 100%; height: 100%; object-fit: cover; }
-  .spot-body { padding: 1rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; }
-  .spot-body h3 { font-size: 1.05rem; font-weight: 500; }
-  .spot-hours { font-size: 0.75rem; color: var(--muted-foreground); }
-  .spot-desc { font-size: 0.88rem; color: #444; }
-  .spot-map { font-size: 0.8rem; margin-top: 0.25rem; color: var(--foreground); }
+<style define:vars={{ lampBlue: LAMP_BLUE }}>
+  .lc-hero {
+    position: relative;
+    width: 100%;
+    min-height: 70vh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .lc-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    z-index: 0;
+  }
+  .lc-hero-grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.25) 40%, rgba(0, 0, 0, 0.78) 100%);
+    z-index: 1;
+  }
+  .lc-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3.5rem;
+  }
+  .lc-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 0.875rem;
+  }
+  .lc-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.75rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .lc-tagline {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: rgba(255, 255, 255, 0.82);
+    margin: 0 0 2rem;
+    max-width: 520px;
+    line-height: 1.55;
+  }
+  .lc-lang {
+    padding: 0.3rem 0.75rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .lc-lang[data-active="true"] {
+    font-weight: 700;
+    background: #ffffff;
+    color: #111111;
+    border-color: #ffffff;
+  }
+  .intro-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .red-chip {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #e8453c;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .intro-p {
+    font-size: 0.88rem;
+    color: #444444;
+    line-height: 1.8;
+    margin: 0.875rem 0 0;
+  }
+  .cat-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .cat-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .cat-tagline {
+    font-size: 0.8rem;
+    color: #888888;
+    margin: 0.2rem 0 0;
+  }
+  .spot-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .spot-name {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111111;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .spot-hours {
+    font-size: 0.72rem;
+    color: #888888;
+    margin: 0.25rem 0 0;
+    letter-spacing: 0.02em;
+  }
+  .spot-desc {
+    font-size: 0.82rem;
+    color: #444444;
+    line-height: 1.65;
+    margin: 0;
+    flex: 1;
+  }
+  .spot-foot {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f0f0f0;
+  }
+  .spot-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    color: var(--lampBlue);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .taxi-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 2rem;
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .taxi-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111111;
+    margin: 0 0 0.5rem;
+  }
+  .taxi-body {
+    font-size: 0.82rem;
+    color: #666666;
+    margin: 0 0 1rem;
+    line-height: 1.6;
+  }
+  .taxi-jp {
+    background: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+    font-size: 0.88rem;
+    color: #111111;
+    line-height: 1.8;
+  }
+  .ml-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 0.5rem;
+  }
+  .ml-body {
+    font-size: 0.85rem;
+    color: #aaaaaa;
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+  }
+  .ml-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: var(--lampBlue);
+    color: #ffffff;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+  .ml-btn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+  .pdf-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  .pdf-btn:hover {
+    opacity: 0.8;
+  }
+  .ghost-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    background: transparent;
+    color: #888888;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .ghost-btn:hover {
+    color: #111111;
+    border-color: #aaaaaa;
+  }
 </style>

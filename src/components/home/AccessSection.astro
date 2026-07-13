@@ -1,0 +1,104 @@
+---
+/* yah.homes AccessSection — 旧 AccessSection.tsx の忠実移植
+   2つの地図（Kiyokawa / Takasago）。旧実装は Google Maps JS API だったが、
+   静的サイトでは APIキー不要の埋め込みiframe（loading=lazy）で同等の見た目・機能を再現 */
+import { translations } from "../../i18n/translations";
+import type { Locale } from "../../i18n/config";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+
+const PROPERTIES = [
+  {
+    id: "kiyokawa",
+    name: "Kiyokawa",
+    lat: 33.57878443474098,
+    lng: 130.41265367002134,
+    googleMapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=33.57878443474098,130.41265367002134",
+  },
+  {
+    id: "takasago",
+    name: "Takasago",
+    lat: 33.579983254622924,
+    lng: 130.4062798261707,
+    googleMapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=33.579983254622924,130.4062798261707",
+  },
+];
+---
+
+<div style="max-width:900px;margin:0 auto;padding:0 1.5rem 6rem;">
+  <h2 class="access-title">{t.access.title}</h2>
+
+  <div class="access-maps-grid" style="display:flex;gap:2rem;flex-wrap:wrap;">
+    {
+      PROPERTIES.map((p) => (
+        <div style="flex:1 1 280px;min-width:0;">
+          <p class="map-name">{p.name}</p>
+          <div class="map-box">
+            <iframe
+              src={`https://maps.google.com/maps?q=${p.lat},${p.lng}&z=14&output=embed`}
+              title={`${p.name} map`}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              style="width:100%;height:100%;border:0;display:block;"
+            />
+          </div>
+          <a href={p.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="map-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg>
+            {t.access.openInGoogleMaps}
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .access-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 2rem;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+  }
+  .map-name {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .map-box {
+    width: 100%;
+    height: 340px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background: #f5f5f5;
+  }
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: #888888;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+  .map-link:hover {
+    color: #111111;
+  }
+</style>

@@ -1,0 +1,180 @@
+---
+/* yah.homes HeroSection — 旧 HeroSection.tsx の忠実移植
+   フルビューポート・背景画像＋グラデーション・キャッチコピー2行・
+   セールスポイント（lucideアイコン）・Airbnb CTA（赤ピル） */
+import { translations } from "../../i18n/translations";
+import type { Locale } from "../../i18n/config";
+import { lucide, SALES_POINT_ICONS } from "../../lib/lucide";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+
+const HERO_IMAGE = "/manus-storage/hero-dining-006-opt_1d801c69.webp";
+const HERO_IMAGE_768 = "/manus-storage/hero-dining-768_41dc6825.webp";
+const AIRBNB_URL =
+  "https://www.airbnb.jp/rooms/1427842426961787667?guests=1&adults=1&s=67&unique_share_id=4f784e83-f8e1-4d15-b98c-6e272b8da0a9";
+---
+
+<section class="hero">
+  <img
+    src={HERO_IMAGE}
+    srcset={`${HERO_IMAGE_768} 768w, ${HERO_IMAGE} 1440w`}
+    sizes="(max-width: 768px) 768px, 1440px"
+    alt=""
+    aria-hidden="true"
+    fetchpriority="high"
+    decoding="async"
+    width="1440"
+    height="983"
+    class="hero-bg"
+  />
+  <div class="hero-grad" aria-hidden="true"></div>
+
+  <div class="hero-content animate-fade-in" style="animation-delay:200ms;">
+    <h1 class="hero-catch">
+      {t.hero.catchcopy[0]}<br />{t.hero.catchcopy[1]}
+    </h1>
+
+    <div class="hero-divider" aria-hidden="true"></div>
+
+    <ul class="hero-points">
+      {
+        t.hero.salesPoints.map((point, i) => (
+          <li>
+            <span class="pt-icon" aria-hidden="true">
+              <Fragment
+                set:html={lucide(SALES_POINT_ICONS[i] ?? "sparkles", {
+                  size: 14,
+                  strokeWidth: 1.8,
+                  color: "rgba(255,255,255,0.9)",
+                })}
+              />
+            </span>
+            <span>{point}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="hero-ctas">
+      <a href={AIRBNB_URL} target="_blank" rel="noopener noreferrer" class="airbnb-pill">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M12 2C8.5 2 5.5 5.5 5.5 9.5c0 2.5 1.2 4.8 3.2 6.5L12 22l3.3-6c2-1.7 3.2-4 3.2-6.5C18.5 5.5 15.5 2 12 2zm0 10a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
+          ></path>
+        </svg>
+        Book on Airbnb
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+    z-index: 0;
+  }
+  .hero-grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0.18) 40%,
+      rgba(0, 0, 0, 0.72) 100%
+    );
+    z-index: 1;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3.5rem;
+  }
+  .hero-catch {
+    font-size: clamp(2.25rem, 7vw, 5rem);
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.75rem;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+  }
+  .hero-divider {
+    width: 2.5rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.55);
+    margin-bottom: 1.25rem;
+  }
+  .hero-points {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .hero-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: clamp(0.8rem, 1.7vw, 0.9375rem);
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.55;
+    letter-spacing: 0.005em;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+  }
+  .pt-icon {
+    line-height: 1.55;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    opacity: 0.9;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .airbnb-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background: #ff5a5f;
+    color: #ffffff;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    box-shadow: 0 2px 12px rgba(255, 90, 95, 0.35);
+    transition: opacity 0.18s ease, transform 0.15s ease;
+  }
+  .airbnb-pill:hover {
+    opacity: 0.85;
+    transform: translateY(-2px);
+  }
+  .airbnb-pill:active {
+    transform: scale(0.97);
+  }
+</style>

@@ -1,0 +1,319 @@
+---
+/* yah.homes OurReviewSection — 旧 OurReviewSection.tsx + ReviewCarousel.tsx の忠実移植
+   見出し → 評価バッジ → Pickup Reviews（横スクロール・言語トグル・Review JSON-LD）
+   → 改善リスト → クロージング */
+import { translations } from "../../i18n/translations";
+import type { Locale } from "../../i18n/config";
+import { starRating } from "../../lib/lucide";
+import { REVIEWS } from "../../data/reviewsData";
+
+interface Props {
+  lang: Locale;
+}
+const { lang } = Astro.props;
+const t = translations[lang];
+const r = t.review;
+
+const RATINGS = [
+  { id: "kiyokawa", rating: 4.77, reviewCount: 43, label: t.properties.kiyokawa.name },
+  { id: "takasago", rating: 4.65, reviewCount: 34, label: t.properties.takasago.name },
+];
+
+// Review JSON-LD（旧 ReviewCarousel と同一構造）
+const reviewJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Guest Reviews — yah.homes",
+  description: "Pickup guest reviews for yah.homes Kiyokawa and Takasago, Fukuoka, Japan",
+  itemListElement: REVIEWS.map((rv, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "Review",
+      author: { "@type": "Person", name: rv.reviewer },
+      datePublished: rv.date,
+      reviewRating: { "@type": "Rating", ratingValue: rv.rating, bestRating: 5 },
+      reviewBody: rv.english,
+      itemReviewed: {
+        "@type": "LodgingBusiness",
+        name: `yah.homes ${rv.property}`,
+        url: `https://yah.homes/booking/${rv.property.toLowerCase()}`,
+      },
+    },
+  })),
+};
+
+function fullStars(rating: number): string {
+  return [1, 2, 3, 4, 5]
+    .map(
+      (i) =>
+        `<svg width="11" height="11" viewBox="0 0 24 24"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" fill="${i <= rating ? "#111111" : "#dddddd"}" stroke="#111111" stroke-width="1.5"/></svg>`
+    )
+    .join("");
+}
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(reviewJsonLd)} />
+
+<section style="background:#ffffff;padding:0 1.5rem 6rem;">
+  <div style="max-width:900px;margin:0 auto;">
+    <h2 class="rev-heading">{r.heading}</h2>
+    <p class="rev-lead">{r.leadText}</p>
+
+    <!-- Airbnb rating badges -->
+    <div style="display:flex;flex-wrap:wrap;gap:1.5rem;margin-bottom:3.5rem;">
+      {
+        RATINGS.map((prop) => (
+          <div class="rate-card">
+            <span class="rate-label">{prop.label}</span>
+            <div style="display:flex;align-items:center;gap:0.5rem;">
+              <Fragment set:html={starRating(prop.rating, 16, `rev-${prop.id}`)} />
+              <span class="rate-num">{prop.rating.toFixed(2)}</span>
+            </div>
+            <span class="rate-count">{prop.reviewCount} {t.properties.reviewsLabel}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Pickup Review Carousel -->
+    <div style="margin-bottom:3.5rem;">
+      <h3 class="pickup-heading">Pickup Reviews</h3>
+      <div class="rev-scroll">
+        {
+          REVIEWS.map((rv) => {
+            const defaultShowOriginal = rv.originalLang !== "日本語";
+            return (
+              <article class="rev-card" itemscope itemtype="https://schema.org/Review">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                  <div>
+                    <span class="rev-author" itemprop="author">{rv.reviewer}</span>
+                    <span class="rev-from">{rv.from} · {rv.platform}</span>
+                  </div>
+                  <span class="rev-prop-tag">{rv.property}</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <Fragment set:html={fullStars(rv.rating)} />
+                  <span class="rev-date">{rv.date}</span>
+                </div>
+                <p
+                  class="rev-body js-rev-body"
+                  itemprop="reviewBody"
+                  data-original={rv.original}
+                  data-english={rv.english}
+                  data-showing={defaultShowOriginal ? "original" : "english"}
+                  data-jp={defaultShowOriginal ? undefined : "true"}
+                >
+                  {defaultShowOriginal ? rv.original : rv.english}
+                </p>
+                <button
+                  class="rev-toggle js-rev-toggle"
+                  data-lang-label={rv.originalLang}
+                >
+                  {defaultShowOriginal ? "View in English" : `View in ${rv.originalLang}`}
+                </button>
+              </article>
+            );
+          })
+        }
+      </div>
+      <p class="scroll-hint">← scroll →</p>
+    </div>
+
+    <div style="width:2rem;height:1px;background:#cccccc;margin-bottom:3rem;"></div>
+
+    <!-- Improvement -->
+    <h3 class="imp-heading">{r.improvementHeading}</h3>
+    <p class="imp-intro">{r.improvementIntro}</p>
+    <ul class="imp-list">
+      {r.improvements.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="imp-closing">{r.closingText}</p>
+  </div>
+</section>
+
+<style>
+  .rev-heading {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.2;
+    margin: 0 0 2.5rem;
+    white-space: pre-line;
+  }
+  .rev-lead {
+    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    color: #444444;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 680px;
+  }
+  .rate-card {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 1.25rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 200px;
+  }
+  .rate-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+  }
+  .rate-num {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111111;
+  }
+  .rate-count {
+    font-size: 0.8rem;
+    color: #888888;
+  }
+  .pickup-heading {
+    font-size: clamp(0.85rem, 2vw, 0.95rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin: 0 0 1.25rem;
+  }
+  .rev-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    scrollbar-width: none;
+  }
+  .rev-card {
+    flex-shrink: 0;
+    width: clamp(260px, 72vw, 320px);
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: #ffffff;
+    scroll-snap-align: start;
+  }
+  .rev-author {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #111111;
+    display: block;
+  }
+  .rev-from {
+    font-size: 0.72rem;
+    color: #aaaaaa;
+    letter-spacing: 0.04em;
+  }
+  .rev-prop-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888888;
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+  .rev-date {
+    font-size: 0.7rem;
+    color: #aaaaaa;
+  }
+  .rev-body {
+    font-size: 0.82rem;
+    color: #333333;
+    line-height: 1.75;
+    margin: 0;
+    white-space: pre-line;
+    flex-grow: 1;
+  }
+  .rev-toggle {
+    align-self: flex-start;
+    font-size: 0.7rem;
+    color: #888888;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    letter-spacing: 0.02em;
+    transition: color 0.15s ease;
+  }
+  .rev-toggle:hover {
+    color: #111111;
+  }
+  .scroll-hint {
+    font-size: 0.68rem;
+    color: #cccccc;
+    margin-top: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+  .imp-heading {
+    font-size: clamp(1rem, 2.5vw, 1.25rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 1rem;
+  }
+  .imp-intro {
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    color: #444444;
+    line-height: 1.8;
+    margin-bottom: 1.75rem;
+    max-width: 680px;
+  }
+  .imp-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .imp-list li {
+    font-size: clamp(0.88rem, 1.8vw, 0.97rem);
+    color: #555555;
+    line-height: 1.7;
+    padding-left: 1.25rem;
+    position: relative;
+  }
+  .imp-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 1px;
+    background: #aaaaaa;
+    display: block;
+  }
+  .imp-closing {
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    color: #444444;
+    line-height: 1.8;
+    max-width: 680px;
+  }
+</style>
+
+<script>
+  // レビューの原文⇄英訳トグル（旧 ReviewCard の state を data 属性で再現）
+  document.querySelectorAll<HTMLButtonElement>(".js-rev-toggle").forEach((btn) => {
+    const body = btn.parentElement?.querySelector<HTMLElement>(".js-rev-body");
+    if (!body) return;
+    btn.addEventListener("click", () => {
+      const showingOriginal = body.dataset.showing === "original";
+      body.textContent = showingOriginal ? body.dataset.english ?? "" : body.dataset.original ?? "";
+      body.dataset.showing = showingOriginal ? "english" : "original";
+      btn.textContent = showingOriginal
+        ? `View in ${btn.dataset.langLabel}`
+        : "View in English";
+    });
+  });
+</script>

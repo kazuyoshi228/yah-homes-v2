@@ -1,0 +1,42 @@
+{
+  "hosting": {
+    "public": "dist",
+    "trailingSlash": true,
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "redirects": [
+      { "source": "/home", "destination": "/", "type": 301 },
+      { "source": "/ko/home", "destination": "/ko/", "type": 301 },
+      { "source": "/zh/home", "destination": "/zh/", "type": 301 },
+      { "source": "/th/home", "destination": "/th/", "type": 301 },
+      { "source": "/korean", "destination": "/ko/", "type": 301 }
+    ],
+    "headers": [
+      {
+        "source": "/_astro/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "/fonts/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "/manus-storage/**",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "predeploy": ["npm --prefix \"$RESOURCE_DIR\" run build"]
+    }
+  ]
+}
