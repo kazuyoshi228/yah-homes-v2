@@ -21,8 +21,13 @@ const t = translations[lang];
 const homeHref = localizedPath(lang, "/");
 const aboutHref = localizedPath(lang, "/about");
 const localsHref = localizedPath(lang, "/locals");
-const bookingHref = localizedPath(lang, "/booking");
 const contactHref = `${homeHref}#contact`;
+
+// Booking ドロップダウン（旧 Navbar が構想していた物件直行リンク）
+const bookingItems = [
+  { label: "Kiyokawa", href: localizedPath(lang, "/booking/kiyokawa") },
+  { label: "Takasago", href: localizedPath(lang, "/booking/takasago") },
+];
 
 const langList = LOCALES.map((code) => ({
   code,
@@ -43,7 +48,23 @@ const langList = LOCALES.map((code) => ({
       <a href={homeHref} class="nav-btn">{t.nav.home}</a>
       <a href={aboutHref} class="nav-btn">{t.nav.about}</a>
       <a href={localsHref} class="nav-btn">{t.nav.locals}</a>
-      <a href={bookingHref} class="nav-btn">{t.nav.properties}</a>
+
+      <!-- Booking dropdown（旧構想: Kiyokawa / Takasago 直行） -->
+      <div class="booking-wrap" id="booking-wrap">
+        <button class="nav-btn booking-toggle" id="booking-toggle" aria-haspopup="true" aria-expanded="false">
+          {t.nav.properties}
+          <span class="chev"><Fragment set:html={lucide("chevronDown", { size: 10, strokeWidth: 2 })} /></span>
+        </button>
+        <div class="booking-menu" role="menu">
+          {
+            bookingItems.map((item) => (
+              <a href={item.href} role="menuitem" class="booking-item">
+                {item.label}
+              </a>
+            ))
+          }
+        </div>
+      </div>
 
       <!-- Language dropdown -->
       <div class="lang-wrap" id="lang-wrap">
@@ -91,7 +112,14 @@ const langList = LOCALES.map((code) => ({
     <a href={homeHref} class="mm-item">{t.nav.home}</a>
     <a href={aboutHref} class="mm-item">{t.nav.about}</a>
     <a href={localsHref} class="mm-item">{t.nav.locals}</a>
-    <a href={bookingHref} class="mm-item">{t.nav.properties}</a>
+    <div class="mm-booking">
+      <p class="mm-booking-label">{t.nav.properties}</p>
+      {
+        bookingItems.map((item) => (
+          <a href={item.href} class="mm-booking-item">— {item.label}</a>
+        ))
+      }
+    </div>
     <a href={contactHref} class="mm-item">
       <Fragment set:html={lucide("mail", { size: 13, strokeWidth: 1.8 })} />
       {t.nav.contact}
@@ -167,6 +195,53 @@ const langList = LOCALES.map((code) => ({
   }
   #site-nav.hero-visible .nav-btn {
     color: #ffffff;
+  }
+
+  /* Booking dropdown（旧 Navbar の隠しドロップダウン仕様） */
+  .booking-wrap {
+    position: relative;
+  }
+  .booking-wrap .chev :global(svg) {
+    transition: transform 0.2s;
+  }
+  .booking-wrap.open .chev :global(svg) {
+    transform: rotate(180deg);
+  }
+  .booking-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    min-width: 160px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    z-index: 100;
+  }
+  .booking-wrap.open .booking-menu {
+    display: block;
+    animation: navDropInCenter 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  }
+  .booking-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #111111;
+    text-decoration: none;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.15s;
+  }
+  .booking-item:last-child {
+    border-bottom: none;
+  }
+  .booking-item:hover {
+    background: #f5f5f5;
   }
 
   .lang-wrap {
@@ -318,6 +393,27 @@ const langList = LOCALES.map((code) => ({
     min-height: 44px;
     text-decoration: none;
   }
+  .mm-booking {
+    padding: 0.5rem 0 0.25rem;
+  }
+  .mm-booking-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111111;
+    padding: 0.5rem 0 0.25rem;
+  }
+  .mm-booking-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #555555;
+    padding: 0.375rem 0 0.375rem 0.75rem;
+    min-height: 40px;
+    text-decoration: none;
+  }
+
   .mm-lang {
     margin-top: 0.75rem;
     border-top: 1px solid #f0f0f0;
@@ -376,6 +472,16 @@ const langList = LOCALES.map((code) => ({
       transform: translateY(0) scale(1);
     }
   }
+  @keyframes navDropInCenter {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-6px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+  }
   @keyframes menuSlideDown {
     from {
       opacity: 0;
@@ -414,11 +520,28 @@ const langList = LOCALES.map((code) => ({
     e.stopPropagation();
     const open = langWrap?.classList.toggle("open");
     langToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    bookingWrap?.classList.remove("open");
   });
+
+  // Booking ドロップダウン
+  const bookingWrap = document.getElementById("booking-wrap");
+  const bookingToggle = document.getElementById("booking-toggle");
+  bookingToggle?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const open = bookingWrap?.classList.toggle("open");
+    bookingToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    langWrap?.classList.remove("open");
+  });
+
+  // 外側クリックで両ドロップダウンを閉じる
   document.addEventListener("mousedown", (e) => {
     if (langWrap && !langWrap.contains(e.target as Node)) {
       langWrap.classList.remove("open");
       langToggle?.setAttribute("aria-expanded", "false");
+    }
+    if (bookingWrap && !bookingWrap.contains(e.target as Node)) {
+      bookingWrap.classList.remove("open");
+      bookingToggle?.setAttribute("aria-expanded", "false");
     }
   });
 
