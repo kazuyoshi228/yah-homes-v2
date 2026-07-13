@@ -58,6 +58,10 @@ export const faqData: Record<string, FaqData> = {
             a: "yah.homes清川は、新築一棟貸しの家に最大7名までご宿泊いただけます（寝室3室・ダブル3台+シングル1台）。6名までのグループには高砂もご利用いただけます。",
           },
           {
+            q: "福岡で6人で泊まれるヴィラはありますか？",
+            a: "はい。yah.homes高砂は最大6名の一棟貸しヴィラです。寝室3室（ダブル1台+シングル4台）・トイレ2つ・洗面台3つで、6人グループでも朝の支度が渋滞しません。渡辺通駅から徒歩5〜10分の都心立地。7名なら清川（最大7名）をご利用ください。",
+          },
+          {
             q: "天神や博多駅の近くに一棟貸しの宿はありますか？最寄り駅はどこですか？",
             a: "はい。どちらも福岡市中心部にあります。高砂は渡辺通駅1番出口から徒歩5〜10分で、薬院も徒歩圏です。清川は渡辺通駅1番出口から徒歩10〜15分——タクシーまたはレンタカーがおすすめです（天神まで車で約8分）。",
           },
@@ -172,6 +176,10 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "Where can 7 people stay together in Fukuoka?",
             a: "yah.homes Kiyokawa accommodates up to 7 guests in one newly built private house (3 bedrooms, 3 double beds + 1 single bed), within walking distance of Tenjin. For groups of up to 6, yah.homes Takasago is also available.",
+          },
+          {
+            q: "Is there a villa for 6 people in Fukuoka?",
+            a: "Yes. yah.homes Takasago is a whole-house villa for up to 6 guests — 3 bedrooms (1 double + 4 single beds), 2 toilets, and 3 washbasins, so even a group of 6 won't queue in the morning. It's a 5–10 minute walk from Watanabe-dori Station in central Fukuoka. For 7 guests, choose Kiyokawa (up to 7).",
           },
           {
             q: "Is there a whole-house rental near Tenjin or Hakata Station? What is the nearest station?",
@@ -290,6 +298,10 @@ export const faqData: Record<string, FaqData> = {
             a: "yah.homes 기요카와는 신축 독채 한 채에 최대 7명까지 숙박할 수 있습니다(침실 3개, 더블 3+싱글 1). 텐진까지 도보권이며, 최대 6명 그룹은 다카사고도 이용 가능합니다.",
           },
           {
+            q: "후쿠오카에 6인이 묵을 수 있는 숙소가 있나요?",
+            a: "네. yah.homes 다카사고는 최대 6명의 독채 빌라입니다. 침실 3개(더블 1+싱글 4)·화장실 2개·세면대 3개로, 6인 그룹도 아침 준비가 밀리지 않습니다. 와타나베도리역에서 도보 5~10분의 도심 입지입니다. 7명이라면 기요카와(최대 7명)를 이용해 주세요.",
+          },
+          {
             q: "텐진이나 하카타역 근처에 독채 숙소가 있나요? 가장 가까운 역은 어디인가요?",
             a: "네. 두 숙소 모두 후쿠오카 중심부에 있습니다. 다카사고는 와타나베도리역 1번 출구에서 도보 5~10분이며 야쿠인도 도보권입니다. 기요카와는 와타나베도리역 1번 출구에서 도보 10~15분으로, 택시나 렌터카를 추천합니다(텐진까지 차로 약 8분).",
           },
@@ -406,6 +418,10 @@ export const faqData: Record<string, FaqData> = {
             a: "yah.homes 清川是一整棟新建包棟民宿，最多可入住7人（3間臥室、3張雙人床+1張單人床）。最多6人的團體也可選擇高砂包棟。",
           },
           {
+            q: "福岡有適合6人入住的包棟別墅嗎？",
+            a: "有。yah.homes 高砂是最多6人的包棟別墅——3間臥室（雙人床1張+單人床4張）、2間廁所、3個洗手台，6人團體早上梳洗也不用排隊。距渡邊通站步行5～10分鐘的市中心位置。7人的話請選擇清川（最多7人）。",
+          },
+          {
             q: "天神或博多站附近有包棟住宿嗎？最近的車站是哪一站？",
             a: "有。兩棟包棟民宿都位於福岡市中心：高砂距渡邊通站1號出口步行5～10分鐘，藥院也在步行範圍內；清川距渡邊通站1號出口步行10～15分鐘，建議搭計程車或自駕（開車到天神約8分鐘）。",
           },
@@ -520,6 +536,10 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "มีที่พักในฟุกุโอกะที่พักด้วยกัน 7 คนได้ไหม?",
             a: "yah.homes คิโยกาวะ รองรับได้สูงสุด 7 คนในบ้านส่วนตัวทั้งหลัง (3 ห้องนอน เตียงดับเบิล 3 + เตียงเดี่ยว 1) เดินถึงเทนจินได้ กลุ่มไม่เกิน 6 คนสามารถเลือกทาคาซาโกะได้เช่นกัน",
+          },
+          {
+            q: "มีวิลล่าสำหรับ 6 คนในฟุกุโอกะไหม?",
+            a: "มี yah.homes ทาคาซาโกะ คือวิลล่าเช่าทั้งหลังสำหรับสูงสุด 6 คน — 3 ห้องนอน (เตียงดับเบิล 1 + เตียงเดี่ยว 4), ห้องส้วม 2 ห้อง และอ่างล้างหน้า 3 จุด กลุ่ม 6 คนก็ไม่ต้องต่อคิวตอนเช้า อยู่ใจกลางเมือง เดินจากสถานีวาตานาเบะโดริ 5–10 นาที หากมากัน 7 คน เลือกคิโยกาวะ (สูงสุด 7 คน)",
           },
           {
             q: "มีบ้านเช่าทั้งหลังใกล้เทนจินหรือสถานีฮากาตะไหม? สถานีที่ใกล้ที่สุดคือสถานีไหน?",
