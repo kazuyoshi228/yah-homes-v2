@@ -76,9 +76,9 @@ const HOME: LocaleText = {
       "yah.homes는 일본 후쿠오카의 통째 빌라 렌탈 브랜드입니다. 기요카와(최대 7명)와 다카사고(최대 6명) — 가족 여행, 단체 여행에 완벽한 독립 주택. Airbnb 또는 Booking.com에서 예약 가능.",
   },
   zh: {
-    title: "yah.homes | 福岡整棟別墅租賃 — 家庭旅行·團體旅遊專用住宿",
+    title: "yah.homes | 福岡包棟民宿・整棟別墅 — 家庭·團體旅行專用住宿",
     description:
-      "yah.homes 是日本福岡的整棟別墅租賃品牌。清川（最多7人）和高砂（最多6人）——適合家庭旅行、團體旅遊的全棟專用住宿。可透過 Airbnb 或 Booking.com 預訂。",
+      "yah.homes 是福岡市中心的包棟民宿品牌。清川（最多7人）和高砂（最多6人）——適合家庭旅行、親子住宿、團體旅遊的整棟包棟別墅。可透過 Airbnb 或 Booking.com 預訂。",
   },
   th: {
     title:
@@ -162,7 +162,7 @@ const BOOKING: LocaleText = {
       "yah.homes 후쿠오카를 Airbnb에서 예약하세요 — 기요카와(최대 7명)·다카사고(최대 6명). SIMMONS 매트리스와 풀 키친을 갖춘 신축 통째 빌라입니다.",
   },
   zh: {
-    title: "立即預訂 | yah.homes — 福岡整棟住宿",
+    title: "立即預訂 | yah.homes — 福岡包棟民宿",
     description:
       "透過 Airbnb 預訂 yah.homes 福岡 — 清川（最多7人）與高砂（最多6人）。配備 SIMMONS 床墊與完整廚房的新建整棟住宿。",
   },
@@ -190,9 +190,9 @@ const KIYOKAWA: LocaleText = {
       "yah.homes 기요카와 직접 예약. 후쿠오카 기요카와의 신축 통째 빌라, 최대 7명. 침실 3개, SIMMONS 매트리스, 풀 키친, 전용 주차장. Airbnb 평점 4.77/5.",
   },
   zh: {
-    title: "yah.homes 清川 | 直接預訂 — 福岡整棟別墅",
+    title: "yah.homes 清川 | 福岡包棟民宿 — 最多7人・直接預訂",
     description:
-      "直接預訂 yah.homes 清川。福岡清川新建整棟別墅，最多7人。3間臥室，SIMMONS頂級床墊，完整廚房，私人停車場。Airbnb評分4.77/5。",
+      "直接預訂 yah.homes 清川。福岡市中心的新建包棟民宿，最多7人。3間臥室，SIMMONS頂級床墊，完整廚房，私人停車場。Airbnb評分4.77/5。",
   },
   th: {
     title: "yah.homes คิโยกาวะ | จองตรง — วิลล่าทั้งหลังในฟุกุโอกะ",
@@ -218,9 +218,9 @@ const TAKASAGO: LocaleText = {
       "yah.homes 다카사고 직접 예약. 후쿠오카의 통째 빌라, 최대 6명. 침실 3개, SIMMONS 매트리스, 풀 키친. Airbnb 평점 4.67/5.",
   },
   zh: {
-    title: "yah.homes 高砂 | 直接預訂 — 福岡整棟住宿",
+    title: "yah.homes 高砂 | 福岡包棟民宿 — 最多6人・直接預訂",
     description:
-      "直接預訂 yah.homes 高砂。福岡整棟住宿，最多6人。3間臥室，SIMMONS床墊，完整廚房。Airbnb評分4.67/5。",
+      "直接預訂 yah.homes 高砂。福岡市中心的包棟民宿，最多6人。3間臥室，SIMMONS床墊，渡邊通站步行5～10分鐘。Airbnb評分4.67/5。",
   },
   th: {
     title: "yah.homes ทาคาซาโกะ | จองตรง — ที่พักทั้งหลังในฟุกุโอกะ",

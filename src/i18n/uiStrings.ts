@@ -39,7 +39,7 @@ export const uiStrings: Record<Locale, UiStrings> = {
     bookingHeadline: ["我們由衷期待", "您的光臨。"],
     backToHome: "返回首頁",
     directAnswer:
-      "yah.homes 是位於日本福岡市中心的兩棟新建整棟包棟別墅 — 讓全家人、全團隊同住一個屋簷下的私人之家。清川最多可住7人（★{kr}·{kc}則Airbnb評價），高砂最多可住6人（★{tr}·{tc}則評價）。兩棟距福岡機場車程約20分鐘，步行即達鬧區天神。",
+      "yah.homes 是位於日本福岡市中心的兩棟全新包棟民宿（整棟別墅） — 讓全家人、全團隊同住一個屋簷下的私人之家。清川最多可住7人（★{kr}·{kc}則Airbnb評價），高砂最多可住6人（★{tr}·{tc}則評價）。兩棟距福岡機場車程約20分鐘，步行即達鬧區天神。",
     ratingAsOf: "評分截至 {date}",
   },
   th: {
