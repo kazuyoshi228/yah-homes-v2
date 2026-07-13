@@ -435,8 +435,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     },
     floorPlan: {
       title: "Floor Plan",
-      subtitle: "3-storey single-family home · 1F: Bathroom, Shower & Garage · 2F: Living/Dining/Kitchen & Theater Room · 3F: 3 Bedrooms & Balcony",
-      imageAlt: "Takasago floor plan – 1F bathroom, shower & garage, 2F living dining kitchen & theater room, 3F bedrooms & balcony",
+      subtitle: "3-storey single-family home · 1F: Entrance & Garage · 2F: Living/Dining/Kitchen, Theater Room, Bathroom & Shower · 3F: 3 Bedrooms & Balcony",
+      imageAlt: "Takasago floor plan – 1F entrance & garage, 2F living dining kitchen, theater room, bathroom & shower, 3F bedrooms & balcony",
     },
     contact: {
       title: "Have a Question?",
@@ -1096,8 +1096,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     },
     floorPlan: {
       title: "평면도",
-      subtitle: "3층 단독 주택 · 1층: 욕실, 샤워 & 차고 · 2층: 거실/식당/주방 & 시어터 룸 · 3층: 침실 3개 & 발코니",
-      imageAlt: "다카사고 평면도 – 1층 욕실, 샤워 & 차고, 2층 거실 식당 주방 & 시어터 룸, 3층 침실 & 발코니",
+      subtitle: "3층 단독 주택 · 1층: 현관 & 차고 · 2층: 거실/식당/주방, 시어터 룸, 욕실 & 샤워 부스 · 3층: 침실 3개 & 발코니",
+      imageAlt: "다카사고 평면도 – 1층 현관 & 차고, 2층 거실 식당 주방, 시어터 룸, 욕실 & 샤워 부스, 3층 침실 & 발코니",
     },
     contact: {
       title: "질문이 있으신가요?",
@@ -1411,8 +1411,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     },
     floorPlan: {
       title: "平面圖",
-      subtitle: "3 層獨棟住宅 · 1F：浴室、淋浴間 & 車庫 · 2F：客廳/餐廳/廚房 & 影音室 · 3F：3 間臥室 & 陽台",
-      imageAlt: "高砂平面圖 – 1F 浴室、淋浴間 & 車庫，2F 客廳餐廳廚房 & 影音室，3F 臥室 & 陽台",
+      subtitle: "3 層獨棟住宅 · 1F：玄關 & 車庫 · 2F：客廳/餐廳/廚房、影音室、浴室 & 淋浴間 · 3F：3 間臥室 & 陽台",
+      imageAlt: "高砂平面圖 – 1F 玄關 & 車庫，2F 客廳餐廳廚房、影音室、浴室 & 淋浴間，3F 臥室 & 陽台",
     },
     contact: {
       title: "有問題嗎？",
@@ -1726,8 +1726,8 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     },
     floorPlan: {
       title: "ผังพื้น",
-      subtitle: "บ้านเดี่ยว 3 ชั้น · ชั้น 1: ห้องน้ำ, ห้องอาบน้ำฝักบัว & โรงรถ · ชั้น 2: ห้องนั่งเล่น/ห้องอาหาร/ครัว & โฮมเธียเตอร์ · ชั้น 3: 3 ห้องนอน & ระเบียง",
-      imageAlt: "ผังพื้นทากาซาโกะ – ชั้น 1 ห้องน้ำ, ห้องอาบน้ำฝักบัว & โรงรถ, ชั้น 2 ห้องนั่งเล่น/ห้องอาหาร/ครัว & โฮมเธียเตอร์, ชั้น 3 ห้องนอน & ระเบียง",
+      subtitle: "บ้านเดี่ยว 3 ชั้น · ชั้น 1: ทางเข้า & โรงรถ · ชั้น 2: ห้องนั่งเล่น/ห้องอาหาร/ครัว, โฮมเธียเตอร์, ห้องอาบน้ำ & ฝักบัว · ชั้น 3: 3 ห้องนอน & ระเบียง",
+      imageAlt: "ผังพื้นทากาซาโกะ – ชั้น 1 ทางเข้า & โรงรถ, ชั้น 2 ห้องนั่งเล่น/ห้องอาหาร/ครัว, โฮมเธียเตอร์, ห้องอาบน้ำ & ฝักบัว, ชั้น 3 ห้องนอน & ระเบียง",
     },
     contact: {
       title: "มีคำถามไหม?",

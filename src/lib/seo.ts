@@ -107,7 +107,7 @@ const ABOUT: LocaleText = {
   zh: {
     title: "關於 yah.homes | 設計理念與總監",
     description:
-      "yah.homes — 由總監山田一義親自設計的福岡整棟別墅品牌。每間房間都由總監親身體驗後才迎接客人。",
+      "yah.homes — 由總監山田一慶親自設計的福岡整棟別墅品牌。每間房間都由總監親身體驗後才迎接客人。",
   },
   th: {
     title: "เกี่ยวกับ yah.homes | ปรัชญาการออกแบบ",
