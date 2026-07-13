@@ -264,6 +264,14 @@ const noindex = GUIDES_PREVIEW || guide.draft;
     color: #666666;
     margin: 1.4rem 0;
   }
+  /* 写真＝本文コラム幅まで・画角そのまま（全幅ヒーローにはしない） */
+  .gd-body :global(img) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 1.8rem 0;
+  }
   /* 表＝GEOの抽出面。モノクロ罫線・横スクロール許容 */
   .gd-body :global(table) {
     width: 100%;
