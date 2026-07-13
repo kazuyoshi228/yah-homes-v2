@@ -17,8 +17,25 @@ const updated = new Date().toISOString().slice(0, 10);
   <div
     style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;"
   >
-    <div>
+    <div style="display:flex;align-items:center;gap:1.25rem;">
       <LogoYah height="32px" fill="#231815" />
+      <!-- 公式Instagram（可視リンク＝エンティティ相互接続・モノクロでブランド準拠） -->
+      <a
+        href="https://www.instagram.com/yah.homes/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="yah.homes Instagram"
+        style="display:inline-flex;align-items:center;gap:0.35rem;color:#888888;text-decoration:none;font-size:0.75rem;letter-spacing:0.04em;"
+        onmouseover="this.style.color='#111111'"
+        onmouseout="this.style.color='#888888'"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        Instagram
+      </a>
     </div>
     <p style="font-size:0.75rem;font-weight:400;color:#aaaaaa;">
       {t.footer.rights}

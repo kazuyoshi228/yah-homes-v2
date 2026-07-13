@@ -37,6 +37,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     url: BASE_URL,
     logo: `${BASE_URL}/manus-storage/logo_yah_2dbf971f.svg`,
     sameAs: [
+      "https://www.instagram.com/yah.homes/",
       PROPERTIES.kiyokawa.airbnbUrl,
       PROPERTIES.takasago.airbnbUrl,
       PROPERTIES.kiyokawa.bookingUrl,
