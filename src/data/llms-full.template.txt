@@ -37,29 +37,29 @@ yah.homes is a curated collection of whole-house exclusive rental properties in 
 **Taxi card (Japanese):** 〒810-0011 福岡県福岡市中央区清川３丁目３－１（目的地はホテルではなく見た目は普通の一軒家です）
 **Type:** Whole-house exclusive rental (newly built villa)
 **Location:** Along the Naka River, Kiyokawa district, Chuo-ku, Fukuoka
-**Capacity:** Up to 8 guests
-**Bedrooms:** 4 bedrooms
-**Bathrooms:** 2 independent bathrooms
-**Floors:** 2-story building
-**Parking:** Private parking for 1 car (included)
+**Capacity:** Up to 7 guests
+**Bedrooms:** 3 bedrooms (BR1: 1 single bed / BR2: 2 double beds / BR3: 1 double bed)
+**Bathrooms:** 1 bathroom (1st floor) + 2 toilets (1st & 2nd floor)
+**Floors:** 3-story building (indoor stairs; bathroom on 1st floor)
+**Parking:** Private parking for 1 car (included) — fits compact to standard-size cars; for larger vehicles, coin parking nearby from about ¥800/night
 **Airbnb rating:** ★ {{K_RATING}} / 5.0 ({{K_COUNT}} guest reviews as of {{AS_OF}})
 **Opened:** 2025
 
 **Key amenities:**
 - SIMMONS mattresses in all bedrooms
 - Full kitchen with cooking equipment
-- 65-inch 4K TV
+- 55-inch TV
 - High-quality amplifier and tall-boy audio speakers (cinema-quality sound system)
 - High-speed Wi-Fi (fiber optic)
-- Washing machine and dryer
-- 2 independent bathrooms (no sharing between bedrooms)
-- Private parking (1 vehicle)
+- Drum-type washer-dryer (wash & dry in one cycle)
+- 2 toilets (1st & 2nd floor)
+- Private parking (1 vehicle, compact to standard size)
 - Bedside power outlets in all bedrooms
 - Air conditioning in all rooms
 
 **Ideal for:**
 - Families with children
-- Friend groups (up to 8 people)
+- Friend groups (up to 7 people)
 - Couples seeking privacy
 - Business travelers on extended stays (workcation)
 - International visitors wanting authentic Fukuoka residential experience
@@ -79,7 +79,7 @@ yah.homes is a curated collection of whole-house exclusive rental properties in 
 **Full address:** Takasago, Chuo-ku, Fukuoka, Japan
 **Type:** Whole-house exclusive rental — Maisonette-style independent building
 **Concept:** "Check In, Find Out." — experience Fukuoka's everyday richness like a local
-**Location:** Takasago, Chuo-ku, Fukuoka (within 20 min from Fukuoka Airport by car; walkable to Nishitetsu Yakuin Station)
+**Location:** Takasago, Chuo-ku, Fukuoka (within 20 min from Fukuoka Airport by car; 5–10 min walk from Watanabe-dori Station Exit 1; Yakuin also walkable)
 **Capacity:** Up to 6 guests
 **Bedrooms:** 3 bedrooms (1 double bed + 4 single beds)
 **Layout:** 3LDK (3 bedrooms, living/dining, kitchen, bathroom, shower booth, 2 toilets, 3 washbasins)
@@ -145,14 +145,14 @@ Pricing varies by season, length of stay, and platform. For accurate current pri
 **Neighborhood character:** Kiyokawa (清川) is a residential neighborhood in Chuo-ku (Central Ward), Fukuoka. It sits between the Naka River and the Yakuin/Daimyo commercial areas. The neighborhood is known for its authentic everyday food culture — local ramen shops, traditional udon restaurants, specialty coffee, and neighborhood markets — rather than tourist-oriented establishments.
 
 **Access from Fukuoka Airport:**
-- By subway: Fukuoka Airport → Hakata Station (5 min) → Watanabe-dori Station (3 min) → Walk 10 min to property
+- By subway: Fukuoka Airport → Hakata Station (5 min) → Watanabe-dori Station (3 min) → Walk 10–15 min to property (taxi or rental car recommended)
 - By taxi: Approximately 25–35 minutes, ¥2,500–¥3,500 (show taxi card above to driver)
 - By car: Approximately 30 minutes via expressway
 
 **Nearby landmarks:**
 - Naka River (walking distance)
 - Yakuin Station (Nishitetsu Tenjin Omuta Line): 10 min walk
-- Watanabe-dori Station (Fukuoka City Subway): 10 min walk
+- Watanabe-dori Station (Fukuoka City Subway, Exit 1): 10–15 min walk
 - Tenjin (Fukuoka's main shopping/entertainment district): 15 min walk or 5 min by subway
 - Hakata Station (Shinkansen hub): 15 min by subway
 
@@ -242,8 +242,8 @@ A: Day visitors (not staying overnight) are generally permitted in reasonable nu
 
 ### Facilities & Amenities
 
-**Q: Is parking available?**
-A: Yes. yah.homes kiyokawa includes private parking for 1 vehicle at no additional charge. Please note the parking space dimensions when booking if you have a larger vehicle.
+**Q: Is parking available? Does a large car fit?**
+A: Yes — both houses include one free private parking space. Takasago's space fits large minivans (a Toyota Alphard fits). Kiyokawa's space fits compact to standard-size cars; for larger vehicles, coin parking lots nearby cost from about ¥800 per night.
 
 **Q: Is Wi-Fi included?**
 A: Yes. High-speed fiber optic Wi-Fi is included at no additional charge. Password is provided in the welcome guide inside the property.
@@ -253,6 +253,12 @@ A: Yes. The kitchen includes a refrigerator, microwave, IH cooking range, rice c
 
 **Q: Is there a washing machine?**
 A: Yes. A washing machine (and dryer at kiyokawa) is available for guest use. Laundry detergent is provided.
+
+**Q: How many towels are provided?**
+A: One bath towel and one face towel per guest. Additional towels can be arranged on request in advance (a fee may apply).
+
+**Q: Are there convenience stores or supermarkets nearby?**
+A: Takasago — 7-Eleven and Lawson about 2 min on foot; 100-yen shop (Seria) and Sunny supermarket about 5 min. Kiyokawa — Lawson about 2 min on foot; drugstore within walking distance.
 
 **Q: What mattresses do you use?**
 A: All yah.homes properties use SIMMONS mattresses — the same brand used in luxury hotels worldwide. Sleep quality is a core design principle of yah.homes.

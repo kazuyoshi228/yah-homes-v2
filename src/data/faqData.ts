@@ -35,19 +35,19 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "Are the properties barrier-free / wheelchair accessible?",
-            a: "Both properties have steep staircases and are not barrier-free. Guests with mobility impairments or young children should take extra care. Please contact us before booking if you have any concerns.",
+            a: "Both houses are three-story homes with indoor stairs and are not barrier-free. The bathroom is on the 1st floor at Kiyokawa and on the 2nd floor at Takasago. Seniors and families with toddlers should take extra care on the stairs. Please contact us before booking if you have any concerns.",
           },
           {
-            q: "Is parking available?",
-            a: "Kiyokawa has one private parking space (free). Takasago has bigger on-site parking which you can park Miniban size car such as Toyota Alfard.",
+            q: "Is parking available? Does a large car fit?",
+            a: "Yes — both houses include one free private parking space. Takasago's space fits large minivans (a Toyota Alphard fits). Kiyokawa's space fits compact to standard-size cars; for larger vehicles, coin parking lots nearby cost from about ¥800 per night.",
           },
           {
             q: "Where can 7 people stay together in Fukuoka?",
             a: "yah.homes Kiyokawa accommodates up to 7 guests in one newly built private house (3 bedrooms, 3 double beds + 1 single bed), within walking distance of Tenjin. For groups of up to 6, yah.homes Takasago is also available.",
           },
           {
-            q: "Is there a whole-house rental near Tenjin or Hakata Station?",
-            a: "Yes. Both yah.homes properties are in central Fukuoka: Kiyokawa is about 15 minutes on foot from Watanabe-dori Station and 20 minutes to Tenjin; Takasago is about 8 minutes from Yakuin and 15 minutes to Tenjin. Hakata Station is about 25 minutes on foot from both.",
+            q: "Is there a whole-house rental near Tenjin or Hakata Station? What is the nearest station?",
+            a: "Yes. Both yah.homes properties are in central Fukuoka. Takasago is a 5–10 minute walk from Watanabe-dori Station (Exit 1), with Yakuin also within walking distance. Kiyokawa is a 10–15 minute walk from Watanabe-dori Station (Exit 1) — a taxi or rental car is recommended (about 8 minutes by car to Tenjin).",
           },
           {
             q: "How much does it cost per night, and where can I book?",
@@ -78,6 +78,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "What amenities are provided?",
             a: "Both properties include: high-speed Wi-Fi, SIMMONS premium mattresses, fully equipped kitchen (Cooktop, refrigerator, microwave, rice cooker, dishwasher), washing machine, air conditioning in all rooms, smart TV, toiletries, towels, and bed linens.",
+          },
+          {
+            q: "How many towels are provided?",
+            a: "One bath towel and one face towel are prepared per guest. If you need more, please message us in advance (additional towels may incur a fee). Both houses have washing machines — Kiyokawa's is a washer-dryer — so you can also launder towels during longer stays.",
+          },
+          {
+            q: "Are there convenience stores or supermarkets nearby?",
+            a: "Yes. Takasago: 7-Eleven and Lawson are about a 2-minute walk, with a 100-yen shop (Seria) and the Sunny supermarket about 5 minutes away. Kiyokawa: Lawson is about a 2-minute walk, and a drugstore is also within walking distance.",
           },
           {
             q: "Are pets allowed?",
@@ -115,7 +123,7 @@ export const faqData: Record<string, FaqData> = {
         items: [
           {
             q: "기요카와와 다카사고의 차이점은 무엇인가요?",
-            a: "기요카와는 최대 7명 수용, 더블베드 3개 + 싱글베드 1개, 전용 주차장, 나카가와 강변 위치입니다. 다카사고는 최대 6명 수용, 다카사고역 도보권 주택가 위치입니다. 두 숙소 모두 신축 독채 렌탈로 풀 키친과 SIMMONS 프리미엄 매트리스를 갖추고 있습니다.",
+            a: "기요카와는 최대 7명 수용, 더블베드 3개 + 싱글베드 1개, 전용 주차장, 나카가와 강변 위치입니다. 다카사고는 최대 6명 수용, 야쿠인·와타나베도리역 도보권 주택가 위치입니다. 두 숙소 모두 신축 독채 렌탈로 풀 키친과 SIMMONS 프리미엄 매트리스를 갖추고 있습니다.",
           },
           {
             q: "완전한 독채인가요? 다른 투숙객이 들어오나요?",
@@ -127,19 +135,19 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "배리어프리(휠체어 접근 가능)인가요?",
-            a: "두 숙소 모두 계단이 가파르며 배리어프리가 아닙니다. 이동에 불편함이 있으신 분은 예약 전 문의해 주세요.",
+            a: "두 숙소 모두 3층 구조의 단독주택으로 실내 계단이 있으며 배리어프리가 아닙니다. 욕실은 기요카와 1층, 다카사고 2층에 있습니다. 어르신이나 유아 동반 시 계단 이용에 주의해 주세요. 우려되는 점은 예약 전에 문의해 주세요.",
           },
           {
-            q: "주차 가능한가요?",
-            a: "기요카와에는 전용 주차 공간 1대분이 있습니다(무료). 다카사고에는 전용 주차장이 없으며, 근처에 유료 주차장이 있습니다.",
+            q: "주차 가능한가요? 대형차도 주차되나요?",
+            a: "네 — 두 숙소 모두 무료 전용 주차 1대분이 있습니다. 다카사고는 대형 미니밴(토요타 알파드급)도 주차 가능합니다. 기요카와는 콤팩트~스탠다드 사이즈까지 가능하며, 대형 차량은 인근 코인 주차장(1박 약 ¥800~)을 이용해 주세요.",
           },
           {
             q: "후쿠오카에서 7명이 함께 묵을 수 있는 숙소가 있나요?",
             a: "yah.homes 기요카와는 신축 독채 한 채에 최대 7명까지 숙박할 수 있습니다(침실 3개, 더블 3+싱글 1). 텐진까지 도보권이며, 최대 6명 그룹은 다카사고도 이용 가능합니다.",
           },
           {
-            q: "텐진이나 하카타역 근처에 통째 빌라가 있나요?",
-            a: "네. 두 숙소 모두 후쿠오카 중심부에 있습니다. 기요카와는 와타나베도리역 도보 약 15분·텐진 도보 약 20분, 다카사고는 야쿠인 도보 약 8분·텐진 도보 약 15분입니다. 하카타역까지는 두 곳 모두 도보 약 25분입니다.",
+            q: "텐진이나 하카타역 근처에 독채 숙소가 있나요? 가장 가까운 역은 어디인가요?",
+            a: "네. 두 숙소 모두 후쿠오카 중심부에 있습니다. 다카사고는 와타나베도리역 1번 출구에서 도보 5~10분이며 야쿠인도 도보권입니다. 기요카와는 와타나베도리역 1번 출구에서 도보 10~15분으로, 택시나 렌터카를 추천합니다(텐진까지 차로 약 8분).",
           },
           {
             q: "1박 요금은 얼마인가요? 어디서 예약하나요?",
@@ -170,6 +178,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "어떤 편의시설이 제공되나요?",
             a: "고속 Wi-Fi, SIMMONS 프리미엄 매트리스, 풀 키친(IH 쿡탑, 냉장고, 전자레인지, 밥솥, 식기세척기), 세탁기/건조기, 전 객실 에어컨, 스마트 TV, 세면도구, 수건, 침구류가 포함됩니다.",
+          },
+          {
+            q: "수건은 몇 장 제공되나요?",
+            a: "게스트 1인당 배스타올 1장과 페이스타올 1장이 준비되어 있습니다. 추가가 필요하시면 사전에 메시지로 문의해 주세요(추가 요금이 발생할 수 있습니다). 두 숙소 모두 세탁기가 있어(기요카와는 건조 겸용) 장기 체류 시 세탁도 가능합니다.",
+          },
+          {
+            q: "근처에 편의점이나 슈퍼마켓이 있나요?",
+            a: "네. 다카사고: 세븐일레븐과 로손이 도보 약 2분, 100엔숍 세리아와 슈퍼 서니가 도보 약 5분 거리입니다. 기요카와: 로손이 도보 약 2분, 드러그스토어도 도보권입니다.",
           },
           {
             q: "반려동물 동반이 가능한가요?",
@@ -207,7 +223,7 @@ export const faqData: Record<string, FaqData> = {
         items: [
           {
             q: "清川和高砂有什麼不同？",
-            a: "清川最多可容納7人，設有3張雙人床+1張單人床，附私人停車位，位於那珂川河畔。高砂最多可容納6人，位於高砂站步行範圍內的住宅區。兩處均為全新獨棟出租，配備完整廚房和SIMMONS頂級床墊。",
+            a: "清川最多可容納7人，設有3張雙人床+1張單人床，附私人停車位，位於那珂川河畔。高砂最多可容納6人，位於藥院、渡邊通站步行範圍內的住宅區。兩棟均為全新包棟民宿（整棟出租），配備完整廚房和SIMMONS頂級床墊。",
           },
           {
             q: "是完全獨棟嗎？其他客人會進來嗎？",
@@ -219,19 +235,19 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "住宿是否無障礙設施？",
-            a: "兩處住宿均有陡峭的樓梯，不具備無障礙設施。行動不便的客人請在預訂前聯繫我們。",
+            a: "兩棟皆為三層樓建築，室內有樓梯，不具備無障礙設施。浴室位置：清川在1樓、高砂在2樓。長輩或幼兒同行時上下樓梯請特別留意。如有疑慮，請於預訂前與我們聯繫。",
           },
           {
-            q: "有停車位嗎？",
-            a: "清川有1個私人停車位（免費）。高砂沒有專用停車場，附近有收費停車場。",
+            q: "有停車位嗎？大型車停得下嗎？",
+            a: "有 — 兩棟皆附1個免費專用停車位。高砂的車位可停大型休旅車（Toyota Alphard 實際可停）。清川的車位適合小型至標準尺寸車輛，大型車請利用附近的投幣停車場（每晚約¥800起）。",
           },
           {
-            q: "福岡有可以7人一起入住的住宿嗎？",
-            a: "yah.homes 清川是一整棟新建獨棟住宅，最多可入住7人（3間臥室、3張雙人床+1張單人床），步行可達天神。最多6人的團體也可選擇高砂。",
+            q: "福岡有可以7人一起入住的包棟民宿嗎？",
+            a: "yah.homes 清川是一整棟新建包棟民宿，最多可入住7人（3間臥室、3張雙人床+1張單人床）。最多6人的團體也可選擇高砂包棟。",
           },
           {
-            q: "天神或博多站附近有整棟出租住宿嗎？",
-            a: "有。兩處住宿都位於福岡市中心：清川距渡邊通站步行約15分鐘、天神約20分鐘；高砂距藥院步行約8分鐘、天神約15分鐘。兩處距博多站皆步行約25分鐘。",
+            q: "天神或博多站附近有包棟住宿嗎？最近的車站是哪一站？",
+            a: "有。兩棟包棟民宿都位於福岡市中心：高砂距渡邊通站1號出口步行5～10分鐘，藥院也在步行範圍內；清川距渡邊通站1號出口步行10～15分鐘，建議搭計程車或自駕（開車到天神約8分鐘）。",
           },
           {
             q: "每晚房價多少？在哪裡預訂？",
@@ -262,6 +278,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "提供哪些設施？",
             a: "兩處均提供：高速Wi-Fi、SIMMONS頂級床墊、完整廚房（IH電磁爐、冰箱、微波爐、電飯鍋、洗碗機）、洗衣機/烘乾機、全室空調、智能電視、盥洗用品、毛巾和床上用品。",
+          },
+          {
+            q: "提供幾條毛巾？",
+            a: "每位房客備有浴巾1條與洗臉毛巾1條。如需追加請事先傳訊息告知（可能酌收費用）。兩棟皆有洗衣機（清川為洗脫烘一體機），長住期間也能自行清洗。",
+          },
+          {
+            q: "附近有便利商店或超市嗎？",
+            a: "有。高砂：7-ELEVEN和LAWSON步行約2分鐘，百元店Seria與Sunny超市約5分鐘。清川：LAWSON步行約2分鐘，藥妝店也在步行範圍內。",
           },
           {
             q: "可以攜帶寵物嗎？",
@@ -299,7 +323,7 @@ export const faqData: Record<string, FaqData> = {
         items: [
           {
             q: "ความแตกต่างระหว่าง Kiyokawa และ Takasago คืออะไร?",
-            a: "Kiyokawa รองรับได้สูงสุด 7 คน มีเตียงดับเบิล 3 เตียง + เตียงเดี่ยว 1 เตียง มีที่จอดรถส่วนตัว ตั้งอยู่ริมแม่น้ำ Nakagawa Takasago รองรับได้สูงสุด 6 คน อยู่ในย่านที่พักอาศัยใกล้สถานี Takasago ทั้งสองแห่งเป็นบ้านพักใหม่ทั้งหลัง มีครัวครบครัน และที่นอน SIMMONS พรีเมียม",
+            a: "Kiyokawa รองรับได้สูงสุด 7 คน มีเตียงดับเบิล 3 เตียง + เตียงเดี่ยว 1 เตียง มีที่จอดรถส่วนตัว ตั้งอยู่ริมแม่น้ำ Nakagawa Takasago รองรับได้สูงสุด 6 คน อยู่ในย่านที่พักอาศัยเดินถึงสถานี Watanabe-dori และย่าน Yakuin ได้ ทั้งสองแห่งเป็นบ้านพักใหม่ทั้งหลัง มีครัวครบครัน และที่นอน SIMMONS พรีเมียม",
           },
           {
             q: "เป็นบ้านพักส่วนตัวทั้งหลังหรือไม่? มีผู้เข้าพักอื่นหรือไม่?",
@@ -311,19 +335,19 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "ที่พักเหมาะสำหรับผู้พิการหรือไม่?",
-            a: "ทั้งสองแห่งมีบันไดชัน และไม่มีสิ่งอำนวยความสะดวกสำหรับผู้พิการ กรุณาติดต่อเราก่อนจองหากมีข้อกังวล",
+            a: "ทั้งสองหลังเป็นบ้าน 3 ชั้นที่มีบันไดภายใน และไม่มีสิ่งอำนวยความสะดวกสำหรับผู้พิการ ห้องอาบน้ำของ Kiyokawa อยู่ชั้น 1 ส่วน Takasago อยู่ชั้น 2 ผู้สูงอายุและครอบครัวที่มีเด็กเล็กกรุณาระมัดระวังเรื่องบันได หากมีข้อกังวลกรุณาติดต่อเราก่อนจอง",
           },
           {
-            q: "มีที่จอดรถหรือไม่?",
-            a: "Kiyokawa มีที่จอดรถส่วนตัว 1 คัน (ฟรี) Takasago ไม่มีที่จอดรถ แต่มีที่จอดรถแบบเสียเงินอยู่ใกล้เคียง",
+            q: "มีที่จอดรถหรือไม่? รถขนาดใหญ่จอดได้ไหม?",
+            a: "มี — ทั้งสองหลังมีที่จอดรถส่วนตัวฟรี 1 คัน Takasago จอดมินิแวนขนาดใหญ่ได้ (Toyota Alphard จอดได้จริง) Kiyokawa เหมาะกับรถขนาดเล็กถึงมาตรฐาน รถขนาดใหญ่สามารถใช้ลานจอดแบบหยอดเหรียญใกล้เคียง (ประมาณ ¥800 ต่อคืนขึ้นไป)",
           },
           {
             q: "มีที่พักในฟุกุโอกะที่พักด้วยกัน 7 คนได้ไหม?",
             a: "yah.homes คิโยกาวะ รองรับได้สูงสุด 7 คนในบ้านส่วนตัวทั้งหลัง (3 ห้องนอน เตียงดับเบิล 3 + เตียงเดี่ยว 1) เดินถึงเทนจินได้ กลุ่มไม่เกิน 6 คนสามารถเลือกทาคาซาโกะได้เช่นกัน",
           },
           {
-            q: "มีบ้านเช่าทั้งหลังใกล้เทนจินหรือสถานีฮากาตะไหม?",
-            a: "มี ทั้งสองแห่งอยู่ใจกลางฟุกุโอกะ: คิโยกาวะ เดินจากสถานีวาตานาเบะโดริประมาณ 15 นาที ถึงเทนจินประมาณ 20 นาที ทาคาซาโกะ เดินจากยาคุอินประมาณ 8 นาที ถึงเทนจินประมาณ 15 นาที ทั้งสองแห่งเดินถึงสถานีฮากาตะประมาณ 25 นาที",
+            q: "มีบ้านเช่าทั้งหลังใกล้เทนจินหรือสถานีฮากาตะไหม? สถานีที่ใกล้ที่สุดคือสถานีไหน?",
+            a: "มี ทั้งสองแห่งอยู่ใจกลางฟุกุโอกะ: ทาคาซาโกะ เดินจากสถานีวาตานาเบะโดริ (ทางออก 1) ประมาณ 5–10 นาที และเดินถึงย่านยาคุอินได้ คิโยกาวะ เดินจากสถานีวาตานาเบะโดริ (ทางออก 1) ประมาณ 10–15 นาที แนะนำแท็กซี่หรือรถเช่า (ขับถึงเทนจินประมาณ 8 นาที)",
           },
           {
             q: "ราคาต่อคืนเท่าไหร่ และจองได้ที่ไหน?",
@@ -354,6 +378,14 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "มีสิ่งอำนวยความสะดวกอะไรบ้าง?",
             a: "ทั้งสองแห่งมี: Wi-Fi ความเร็วสูง, ที่นอน SIMMONS พรีเมียม, ครัวครบครัน (เตาแม่เหล็กไฟฟ้า, ตู้เย็น, ไมโครเวฟ, หม้อหุงข้าว, เครื่องล้างจาน), เครื่องซักผ้า/เครื่องอบผ้า, แอร์ทุกห้อง, Smart TV, ของใช้ส่วนตัว, ผ้าขนหนู และผ้าปูที่นอน",
+          },
+          {
+            q: "มีผ้าขนหนูให้กี่ผืน?",
+            a: "มีผ้าเช็ดตัว 1 ผืนและผ้าเช็ดหน้า 1 ผืนต่อผู้เข้าพัก 1 ท่าน หากต้องการเพิ่มกรุณาแจ้งล่วงหน้าทางข้อความ (อาจมีค่าใช้จ่ายเพิ่มเติม) ทั้งสองหลังมีเครื่องซักผ้า (Kiyokawa เป็นเครื่องซัก-อบ) จึงซักผ้าได้ระหว่างการพักระยะยาว",
+          },
+          {
+            q: "มีร้านสะดวกซื้อหรือซูเปอร์มาร์เก็ตใกล้ๆ ไหม?",
+            a: "มี Takasago: 7-Eleven และ Lawson เดินประมาณ 2 นาที ร้าน 100 เยน Seria และซูเปอร์ Sunny ประมาณ 5 นาที Kiyokawa: Lawson เดินประมาณ 2 นาที และมีร้านขายยาในระยะเดิน",
           },
           {
             q: "อนุญาตให้นำสัตว์เลี้ยงมาได้หรือไม่?",
