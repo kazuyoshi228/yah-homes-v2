@@ -106,6 +106,32 @@ const htmlLang = HREFLANG[lang];
       }
       gtag("js", new Date());
       gtag("config", "G-VJ5DDRML79");
+
+      // GA4 イベント計測（クリック委譲・リンク先ドメインで自動判定）
+      document.addEventListener("click", function (e) {
+        var a = e.target && e.target.closest ? e.target.closest("a") : null;
+        if (!a) return;
+        var href = a.getAttribute("href") || "";
+        var path = location.pathname;
+        // 物件判定: URLのroom ID or 現在ページのパス
+        var property =
+          href.indexOf("1427842426961787667") > -1 || path.indexOf("kiyokawa") > -1
+            ? "kiyokawa"
+            : href.indexOf("1497546315476018480") > -1 || path.indexOf("takasago") > -1
+              ? "takasago"
+              : "general";
+        if (href.indexOf("airbnb") > -1) {
+          gtag("event", "click_airbnb", { property: property, page_path: path });
+        } else if (href.indexOf("booking.com") > -1) {
+          gtag("event", "click_booking_com", { property: property, page_path: path });
+        } else if (href === "#booking") {
+          gtag("event", "click_booking_calendar", { property: property, page_path: path });
+        } else if (href.indexOf("instagram.com") > -1) {
+          gtag("event", "click_instagram", { page_path: path });
+        } else if (href.indexOf("prtimes.jp") > -1) {
+          gtag("event", "click_press", { page_path: path });
+        }
+      });
     </script>
   </head>
   <body>

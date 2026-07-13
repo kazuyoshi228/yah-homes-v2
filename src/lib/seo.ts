@@ -252,6 +252,8 @@ function lodgingJsonLd(opts: {
     },
     maximumAttendeeCapacity: opts.capacity,
     numberOfRooms: opts.rooms,
+    // 料金の手がかり（具体額は季節変動のためレンジ表記）
+    priceRange: "¥¥¥",
     // 鮮度シグナル（評価取得日）とエンティティ接続
     dateModified: RATING_AS_OF,
     ...(opts.sameAs ? { sameAs: opts.sameAs } : {}),
@@ -287,7 +289,10 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
         url: `${BASE_URL}/booking/takasago/`,
         description:
           "Whole-house rental for up to 6 guests in Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, high-speed Wi-Fi.",
-        addressLocality: "Fukuoka",
+        // 住所は Google ビジネスプロフィール登録値（2026-07-13 確認）
+        streetAddress: "Takasago 1-18-7",
+        addressLocality: "Chuo-ku, Fukuoka",
+        postalCode: "810-0011",
         rating: PROPERTIES.takasago.rating,
         reviewCount: PROPERTIES.takasago.reviewCount,
         capacity: PROPERTIES.takasago.capacity,

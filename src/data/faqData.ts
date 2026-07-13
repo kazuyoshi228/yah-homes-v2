@@ -49,6 +49,10 @@ export const faqData: Record<string, FaqData> = {
             q: "Is there a whole-house rental near Tenjin or Hakata Station?",
             a: "Yes. Both yah.homes properties are in central Fukuoka: Kiyokawa is about 15 minutes on foot from Watanabe-dori Station and 20 minutes to Tenjin; Takasago is about 8 minutes from Yakuin and 15 minutes to Tenjin. Hakata Station is about 25 minutes on foot from both.",
           },
+          {
+            q: "How much does it cost per night, and where can I book?",
+            a: "Rates vary by season, day of the week, and number of guests. Enter your dates on Airbnb or the booking calendar on each property page to see exact prices. Cleaning fees and minimum-night requirements are listed under Booking Conditions on each property page.",
+          },
         ],
       },
       {
@@ -136,6 +140,10 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "텐진이나 하카타역 근처에 통째 빌라가 있나요?",
             a: "네. 두 숙소 모두 후쿠오카 중심부에 있습니다. 기요카와는 와타나베도리역 도보 약 15분·텐진 도보 약 20분, 다카사고는 야쿠인 도보 약 8분·텐진 도보 약 15분입니다. 하카타역까지는 두 곳 모두 도보 약 25분입니다.",
+          },
+          {
+            q: "1박 요금은 얼마인가요? 어디서 예약하나요?",
+            a: "요금은 시즌·요일·인원에 따라 달라집니다. Airbnb 또는 각 숙소 페이지의 예약 캘린더에 날짜를 입력하면 정확한 요금이 표시됩니다. 청소비와 최소 숙박일은 각 숙소 페이지의 예약 조건에서 확인할 수 있습니다.",
           },
         ],
       },
@@ -225,6 +233,10 @@ export const faqData: Record<string, FaqData> = {
             q: "天神或博多站附近有整棟出租住宿嗎？",
             a: "有。兩處住宿都位於福岡市中心：清川距渡邊通站步行約15分鐘、天神約20分鐘；高砂距藥院步行約8分鐘、天神約15分鐘。兩處距博多站皆步行約25分鐘。",
           },
+          {
+            q: "每晚房價多少？在哪裡預訂？",
+            a: "房價依季節、星期與人數而異。在 Airbnb 或各房源頁面的預訂日曆輸入日期即可查看確切價格。清潔費與最少入住晚數請參閱各房源頁面的預訂條件。",
+          },
         ],
       },
       {
@@ -312,6 +324,10 @@ export const faqData: Record<string, FaqData> = {
           {
             q: "มีบ้านเช่าทั้งหลังใกล้เทนจินหรือสถานีฮากาตะไหม?",
             a: "มี ทั้งสองแห่งอยู่ใจกลางฟุกุโอกะ: คิโยกาวะ เดินจากสถานีวาตานาเบะโดริประมาณ 15 นาที ถึงเทนจินประมาณ 20 นาที ทาคาซาโกะ เดินจากยาคุอินประมาณ 8 นาที ถึงเทนจินประมาณ 15 นาที ทั้งสองแห่งเดินถึงสถานีฮากาตะประมาณ 25 นาที",
+          },
+          {
+            q: "ราคาต่อคืนเท่าไหร่ และจองได้ที่ไหน?",
+            a: "ราคาแตกต่างกันตามฤดูกาล วันในสัปดาห์ และจำนวนผู้เข้าพัก กรอกวันที่ใน Airbnb หรือปฏิทินการจองในหน้าของแต่ละที่พักเพื่อดูราคาที่แน่นอน ค่าทำความสะอาดและจำนวนคืนขั้นต่ำดูได้ที่เงื่อนไขการจองในหน้าที่พัก",
           },
         ],
       },

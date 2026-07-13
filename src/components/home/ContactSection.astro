@@ -157,6 +157,9 @@ const CONTACT_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/c
         body: JSON.stringify({ name, email, message, website, lang: form.dataset.lang }),
       });
       if (!res.ok) throw new Error("bad_status");
+      // GA4: 問い合わせ送信イベント
+      // @ts-expect-error gtag はグローバル
+      if (typeof gtag === "function") gtag("event", "contact_submit", { lang: form.dataset.lang });
       // 成功: フォームを successMsg に置き換え（旧実装と同じ挙動）
       const done = document.createElement("div");
       done.style.cssText = "text-align:center;padding:3rem 0;";
