@@ -287,7 +287,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "Check-in Information",
       time: "Check-in: 4:00 PM – 11:00 PM",
       checkout: "Check-out: by 10:00 AM",
-      method: "Fully contactless self check-in via smart lock. Access code will be sent 24 hours before arrival.",
+      method: "Fully contactless self check-in via security lock. Access code will be sent 24 hours before arrival.",
       idVerification: "ID verification required before check-in (passport or government-issued ID).",
     },
     conditions: {
@@ -318,7 +318,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         },
         {
           q: "What is the check-in process?",
-          a: "Fully contactless self check-in via smart lock. You'll receive the access code 24 hours before arrival. No need to meet anyone.",
+          a: "Fully contactless self check-in via security lock. You'll receive the access code 24 hours before arrival. No need to meet anyone.",
         },
         {
           q: "Is early check-in or late check-out available?",
@@ -1072,7 +1072,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "체크인 안내",
       time: "체크인: 오후 4시 – 오후 11시",
       checkout: "체크아웃: 오전 10시까지",
-      method: "스마트 잠금장치로 완전 비대면 셀프 체크인. 도착 24시간 전에 액세스 코드가 전송됩니다.",
+      method: "보안 잠금장치로 완전 비대면 셀프 체크인. 도착 24시간 전에 액세스 코드가 전송됩니다.",
       idVerification: "체크인 전 신분증 확인 필요 (여권 또는 정부 발급 신분증).",
     },
     conditions: {
@@ -1095,7 +1095,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       items: [
         { q: "주차 가능한가요?", a: "네, 무료 전용 주차 공간 1대가 포함되어 있습니다." },
         { q: "어린 자녀가 있는 가족에게 적합한가요?", a: "물론입니다. 요청 시 아기 침대, 유아용 의자, 아기 욕조를 제공합니다." },
-        { q: "체크인 절차는 어떻게 되나요?", a: "스마트 잠금장치로 완전 비대면 셀프 체크인. 도착 24시간 전에 액세스 코드를 받게 됩니다." },
+        { q: "체크인 절차는 어떻게 되나요?", a: "보안 잠금장치로 완전 비대면 셀프 체크인. 도착 24시간 전에 액세스 코드를 받게 됩니다." },
         { q: "얼리 체크인 또는 레이트 체크아웃이 가능한가요?", a: "가용성에 따라 가능합니다. 사전에 문의해 주세요." },
         { q: "반려동물 동반이 가능한가요?", a: "죄송합니다. 반려동물은 허용되지 않습니다. 안내견은 사전 연락 후 가능합니다." },
         { q: "흡연이 가능한가요?", a: "실내 흡연은 금지되어 있습니다. 지정된 야외 흡연 공간이 있습니다." },
@@ -1391,7 +1391,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "入住資訊",
       time: "入住：下午 4:00 – 晚上 11:00",
       checkout: "退房：上午 10:00 前",
-      method: "透過智慧鎖完全無接觸自助入住。抵達前 24 小時將發送存取碼。",
+      method: "透過電子安全鎖完全無接觸自助入住。抵達前 24 小時將發送存取碼。",
       idVerification: "入住前需進行身份驗證（護照或政府核發身份證件）。",
     },
     conditions: {
@@ -1414,7 +1414,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       items: [
         { q: "有停車位嗎？", a: "有，包含一個免費私人停車位。" },
         { q: "適合帶幼兒的家庭嗎？", a: "當然。我們可依要求提供嬰兒床、兒童高腳椅和嬰兒浴盆。" },
-        { q: "入住流程是什麼？", a: "透過智慧鎖完全無接觸自助入住。抵達前 24 小時您將收到存取碼，無需與任何人會面。" },
+        { q: "入住流程是什麼？", a: "透過電子安全鎖完全無接觸自助入住。抵達前 24 小時您將收到存取碼，無需與任何人會面。" },
         { q: "可以提早入住或延遲退房嗎？", a: "視空房情況而定，請提前聯絡我們。" },
         { q: "可以攜帶寵物嗎？", a: "很抱歉，本房源不允許攜帶寵物。導盲犬請事先通知。" },
         { q: "可以吸菸嗎？", a: "室內禁止吸菸，室外有指定吸菸區。" },
@@ -1710,7 +1710,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "ข้อมูลการเช็คอิน",
       time: "เช็คอิน: 16:00 – 23:00 น.",
       checkout: "เช็คเอาต์: ก่อน 10:00 น.",
-      method: "เช็คอินด้วยตัวเองแบบไม่ต้องพบใครผ่านสมาร์ทล็อค รหัสเข้าถึงจะส่งให้ 24 ชั่วโมงก่อนเดินทางมาถึง",
+      method: "เช็คอินด้วยตัวเองแบบไม่ต้องพบใครผ่านล็อคนิรภัย รหัสเข้าถึงจะส่งให้ 24 ชั่วโมงก่อนเดินทางมาถึง",
       idVerification: "ต้องยืนยันตัวตนก่อนเช็คอิน (หนังสือเดินทางหรือบัตรประชาชน)",
     },
     conditions: {
@@ -1733,7 +1733,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       items: [
         { q: "มีที่จอดรถไหม?", a: "มีที่จอดรถส่วนตัว 1 คัน ฟรี" },
         { q: "เหมาะสำหรับครอบครัวที่มีเด็กเล็กไหม?", a: "เหมาะมากครับ เรามีเปลเด็ก เก้าอี้สูง และอ่างอาบน้ำเด็กให้บริการตามคำขอ" },
-        { q: "ขั้นตอนเช็คอินเป็นอย่างไร?", a: "เช็คอินด้วยตัวเองแบบไม่ต้องพบใครผ่านสมาร์ทล็อค คุณจะได้รับรหัสเข้าถึง 24 ชั่วโมงก่อนมาถึง" },
+        { q: "ขั้นตอนเช็คอินเป็นอย่างไร?", a: "เช็คอินด้วยตัวเองแบบไม่ต้องพบใครผ่านล็อคนิรภัย คุณจะได้รับรหัสเข้าถึง 24 ชั่วโมงก่อนมาถึง" },
         { q: "สามารถเช็คอินก่อนหรือเช็คเอาต์หลังได้ไหม?", a: "ขึ้นอยู่กับความพร้อมของห้องพัก กรุณาติดต่อล่วงหน้า" },
         { q: "นำสัตว์เลี้ยงมาได้ไหม?", a: "ขออภัย ที่พักนี้ไม่อนุญาตให้นำสัตว์เลี้ยงมา สุนัขนำทางได้หากแจ้งล่วงหน้า" },
         { q: "สูบบุหรี่ได้ไหม?", a: "ห้ามสูบบุหรี่ภายในที่พัก มีพื้นที่สูบบุหรี่กลางแจ้งที่กำหนดไว้" },

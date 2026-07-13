@@ -93,7 +93,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "喫煙はできますか？",
-            a: "いいえ。どちらも室内は完全禁煙です。敷地内での喫煙もご遠慮ください。",
+            a: "いいえ。どちらも室内は完全禁煙です。喫煙は屋外の所定のスペースをご利用ください。",
           },
           {
             q: "騒音に関するルールはありますか？",
@@ -193,7 +193,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "Is smoking allowed?",
-            a: "No. Both properties are strictly non-smoking indoors. Smoking is not permitted anywhere on the premises.",
+            a: "No. Both properties are strictly non-smoking indoors. A designated outdoor smoking area is available.",
           },
           {
             q: "Are there noise restrictions?",
@@ -264,7 +264,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "셀프 체크인이 가능한가요?",
-            a: "네. 스마트 잠금 시스템을 사용합니다. 체크인 24시간 전에 Airbnb 또는 Booking.com 메시지로 도어 코드를 받으실 수 있습니다.",
+            a: "네. 보안 잠금 시스템을 사용합니다. 체크인 24시간 전에 Airbnb 또는 Booking.com 메시지로 도어 코드를 받으실 수 있습니다.",
           },
           {
             q: "후쿠오카 공항에서 숙소까지 어떻게 가나요?",
@@ -293,7 +293,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "흡연이 가능한가요?",
-            a: "아니요. 두 숙소 모두 실내 완전 금연입니다.",
+            a: "아니요. 두 숙소 모두 실내는 완전 금연입니다. 흡연은 지정된 야외 공간을 이용해 주세요.",
           },
           {
             q: "소음 제한이 있나요?",
@@ -364,7 +364,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "可以自助入住嗎？",
-            a: "可以。兩處住宿均使用智能門鎖系統。入住前24小時將通過Airbnb或Booking.com訊息發送門鎖密碼。",
+            a: "可以。兩處住宿均使用電子安全鎖系統。入住前24小時將通過Airbnb或Booking.com訊息發送門鎖密碼。",
           },
           {
             q: "從福岡機場如何到達住宿？",
@@ -393,7 +393,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "可以吸菸嗎？",
-            a: "不可以。兩處住宿室內嚴格禁菸。",
+            a: "不可以。兩處住宿室內嚴格禁菸。吸菸請利用指定的室外吸菸區。",
           },
           {
             q: "有噪音限制嗎？",
@@ -493,7 +493,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "สูบบุหรี่ได้หรือไม่?",
-            a: "ไม่ได้ ทั้งสองแห่งห้ามสูบบุหรี่ในร่มอย่างเคร่งครัด",
+            a: "ไม่ได้ ทั้งสองแห่งห้ามสูบบุหรี่ในร่มอย่างเคร่งครัด แต่มีพื้นที่สูบบุหรี่กลางแจ้งที่กำหนดไว้",
           },
           {
             q: "มีข้อจำกัดเรื่องเสียงรบกวนหรือไม่?",
