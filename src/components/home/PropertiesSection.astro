@@ -56,6 +56,8 @@ const PROPERTY_META = [
 
 <section id="properties" style="background:#ffffff;padding-top:3rem;padding-bottom:6rem;">
   <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
+    <!-- a11y: 見出し階層の維持（h1→h2→h3）— 視覚上は縦書きラベルが担うため sr-only -->
+    <h2 class="sr-only">{t.properties.sectionLabel}</h2>
     <!-- Wonder Here copy block -->
     <div class="reveal-fade wonder-block">
       <!-- GEO: 直接回答ブロック（定義文+数値・機械抽出用） -->
@@ -73,6 +75,8 @@ const PROPERTY_META = [
         <img
           src="/manus-storage/logo_yah_CMYK_cifo_0ad89aa7.svg"
           alt="yah. Check in, Find Out."
+          width="440"
+          height="150"
           style="height:150px;width:auto;display:block;"
           loading="lazy"
         />

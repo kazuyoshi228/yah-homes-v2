@@ -13,7 +13,8 @@ export default defineConfig({
   // 末尾スラッシュを常に付与。directory出力（/ko/index.html→/ko/）と
   // canonical/hreflang/sitemap をすべて末尾スラッシュで統一する。
   trailingSlash: "always",
-  build: { format: "directory" },
+  // inlineStylesheets: CSSをHTMLに埋め込み、レンダリングブロックの往復を排除（PSI: FCP改善）
+  build: { format: "directory", inlineStylesheets: "always" },
   // ルーティングは案A（src/pages/[...locale]/ の動的ルート＋getStaticPaths）で
   // 翻訳データ駆動で全言語を静的生成する。Astro組み込みi18nの物理フォルダ方式は使わない。
   integrations: [

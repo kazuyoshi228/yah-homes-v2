@@ -282,7 +282,7 @@ const conditionRows: string[] = [
       {
         gallery.map((src, i) => (
           <button class="g-item img-zoom js-pd-gallery" data-index={i} aria-label={`Photo ${i + 1}`}>
-            <img src={thumb(src)} alt={`${d.hero.propertyName} — ${i + 1}`} loading="lazy" decoding="async" />
+            <img src={thumb(src)} alt={`${d.hero.propertyName} — ${i + 1}`} width="480" height="320" loading="lazy" decoding="async" />
           </button>
         ))
       }

@@ -1,7 +1,17 @@
-# yah.homes — AI Reference Document (Summary)
-# This file follows the llms.txt standard (https://llmstxt.org)
-# Last updated: {{UPDATED}}
-# For the full reference (FAQ, detailed pricing, complete local guide, brand positioning): https://yah.homes/llms-full.txt
+# yah.homes
+
+> Whole-house rental accommodation brand in central Fukuoka, Japan, operated by Bonfire Inc. Two newly built private villas: Kiyokawa (up to 7 guests, ★{{K_RATING}} from {{K_COUNT}} Airbnb reviews) and Takasago (up to 6 guests, ★{{T_RATING}} from {{T_COUNT}} reviews). Concept: "Check In, Find Out."
+
+Last updated: {{UPDATED}}. This file follows the llms.txt standard (https://llmstxt.org).
+
+## Pages
+
+- [Home](https://yah.homes/): Brand overview, properties, reviews, FAQ (also in [Korean](https://yah.homes/ko/), [Traditional Chinese](https://yah.homes/zh/), [Thai](https://yah.homes/th/))
+- [Kiyokawa — property details & booking](https://yah.homes/booking/kiyokawa/): Up to 7 guests, 3 bedrooms, riverside Kiyokawa district
+- [Takasago — property details & booking](https://yah.homes/booking/takasago/): Up to 6 guests, 3 bedrooms, near Yakuin
+- [Local Guide](https://yah.homes/locals/): 16 curated spots within walking distance of Kiyokawa
+- [About](https://yah.homes/about/): Design philosophy and Director Kazuyoshi Yamada
+- [Full AI reference](https://yah.homes/llms-full.txt): FAQ, detailed pricing guidance, complete local guide, brand positioning
 
 ## About yah.homes
 
