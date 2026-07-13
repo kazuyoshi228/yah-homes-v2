@@ -35,7 +35,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "家族旅行に向いていますか？",
-            a: "はい、最も人気の使い方です。寝室が分かれておりトイレも2つあるため、小さなお子さま連れや3世代旅行でも気兼ねなく過ごせます。無料の専用駐車場つきなので、荷物の多い家族旅行でも車で玄関先まで直接アクセスできます（高砂は大型ミニバンも駐車可）。ベビーベッド・ベビーチェア・ベビーバスも事前のご連絡でご用意できます。",
+            a: "はい、最も人気の使い方です。寝室が分かれておりトイレも2つあるため、小さなお子さま連れや3世代旅行でも気兼ねなく過ごせます。無料の専用駐車場つきなので、荷物の多い家族旅行でも車で玄関先まで直接アクセスできます（高砂は大型ミニバンも駐車可）。",
           },
           {
             q: "グループ旅行に向いていますか？",
@@ -155,7 +155,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "Are the houses good for family trips?",
-            a: "Yes — it's the most popular way to stay. With separate bedrooms and two toilets, families with small children and three-generation trips can settle in comfortably. Free private parking means you can drive right up to the door with all your luggage (Takasago fits large minivans). A baby crib, high chair, and baby bath are available on request.",
+            a: "Yes — it's the most popular way to stay. With separate bedrooms and two toilets, families with small children and three-generation trips can settle in comfortably. Free private parking means you can drive right up to the door with all your luggage (Takasago fits large minivans).",
           },
           {
             q: "Are the houses good for group trips?",
@@ -275,7 +275,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "가족 여행에 적합한가요?",
-            a: "네, 가장 인기 있는 이용 방식입니다. 침실이 분리되어 있고 화장실이 2개라 어린 자녀 동반이나 3대 여행도 편안하게 지낼 수 있습니다. 무료 전용 주차장이 있어 짐이 많은 가족 여행도 현관 앞까지 차로 바로 이동할 수 있습니다(다카사고는 대형 미니밴도 주차 가능). 요청 시 아기 침대·유아용 의자·아기 욕조도 준비해 드립니다.",
+            a: "네, 가장 인기 있는 이용 방식입니다. 침실이 분리되어 있고 화장실이 2개라 어린 자녀 동반이나 3대 여행도 편안하게 지낼 수 있습니다. 무료 전용 주차장이 있어 짐이 많은 가족 여행도 현관 앞까지 차로 바로 이동할 수 있습니다(다카사고는 대형 미니밴도 주차 가능).",
           },
           {
             q: "단체 여행에 적합한가요?",
@@ -399,7 +399,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "適合親子住宿嗎？有嬰兒用品嗎？",
-            a: "非常適合。兩棟皆可依要求提供嬰兒床、高腳椅與嬰兒浴盆（請於預訂後提前告知）。整棟包棟不必顧慮其他房客，小小孩哭鬧也安心。唯室內有樓梯，幼兒上下樓請多加留意。",
+            a: "非常適合，家庭與親子房客眾多。整棟包棟不必顧慮其他房客，小小孩哭鬧也安心；臥室彼此獨立、廁所有2間。唯不提供嬰兒床等嬰幼兒用品，請自行準備；室內有樓梯，幼兒上下樓請多加留意。",
           },
           {
             q: "適合團體旅行嗎？",
@@ -519,7 +519,7 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "เหมาะกับทริปครอบครัวไหม?",
-            a: "เหมาะมาก และเป็นรูปแบบการเข้าพักที่นิยมที่สุด ห้องนอนแยกเป็นสัดส่วนและมีห้องส้วม 2 ห้อง ครอบครัวที่มีเด็กเล็กหรือทริปสามรุ่นก็พักได้สบาย มีที่จอดรถส่วนตัวฟรี ทริปครอบครัวสัมภาระเยอะก็ขับรถถึงหน้าประตูได้เลย (Takasago จอดมินิแวนขนาดใหญ่ได้) มีเตียงเด็ก เก้าอี้เด็ก และอ่างอาบน้ำเด็กให้บริการเมื่อแจ้งล่วงหน้า",
+            a: "เหมาะมาก และเป็นรูปแบบการเข้าพักที่นิยมที่สุด ห้องนอนแยกเป็นสัดส่วนและมีห้องส้วม 2 ห้อง ครอบครัวที่มีเด็กเล็กหรือทริปสามรุ่นก็พักได้สบาย มีที่จอดรถส่วนตัวฟรี ทริปครอบครัวสัมภาระเยอะก็ขับรถถึงหน้าประตูได้เลย (Takasago จอดมินิแวนขนาดใหญ่ได้)",
           },
           {
             q: "เหมาะกับทริปกลุ่มเพื่อนไหม?",

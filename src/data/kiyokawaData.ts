@@ -264,7 +264,6 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         "High-speed Wi-Fi",
         "Private parking (1 car, free)",
         "Simmons premium mattresses in all bedrooms",
-        "Baby crib & high chair available on request",
         "55-inch Smart TV + high-quality Japanese audio system",
         "Air conditioning in all rooms",
         "Work desk (1 person)",
@@ -314,7 +313,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         },
         {
           q: "Is the property suitable for families with young children?",
-          a: "Absolutely. We provide a baby crib, high chair, and baby bath on request.",
+          a: "Yes, families are very welcome. Please note we do not provide baby equipment such as cribs or high chairs — please bring your own. The house also has indoor stairs, so keep an eye on little ones.",
         },
         {
           q: "What is the check-in process?",
@@ -610,7 +609,6 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         "高速Wi-Fi",
         "専用駐車場（1台・無料）",
         "全寝室にシモンズ（SIMMONS）製プレミアムマットレス",
-        "ベビーベッド・ハイチェア（ご要望に応じてご用意）",
         "55インチスマートTV + 日本製の高品質オーディオ",
         "全室エアコン完備",
         "ワークデスク（1名用）",
@@ -661,7 +659,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         },
         {
           q: "小さな子ども連れでも利用できますか？",
-          a: "もちろんです。ご要望に応じてベビーベッド・ハイチェア・ベビーバスをご用意いたします。",
+          a: "はい、ご家族に人気です。ただし、ベビーベッド等の乳幼児用品のご用意はありません。恐れ入りますがお持ち込みをお願いします。室内に階段がありますので、小さなお子さまはご注意ください。",
         },
         {
           q: "チェックインはどのように行いますか？",
@@ -1049,7 +1047,6 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         "고속 Wi-Fi",
         "전용 주차장 (1대, 무료)",
         "전 침실 Simmons 프리미엄 매트리스",
-        "아기 침대 & 유아용 의자 (요청 시 제공)",
         "55인치 스마트 TV + 일본제 고품질 오디오",
         "전 객실 에어컨",
         "업무용 데스크 (1인)",
@@ -1094,7 +1091,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "자주 묻는 질문",
       items: [
         { q: "주차 가능한가요?", a: "네, 무료 전용 주차 공간 1대가 포함되어 있습니다." },
-        { q: "어린 자녀가 있는 가족에게 적합한가요?", a: "물론입니다. 요청 시 아기 침대, 유아용 의자, 아기 욕조를 제공합니다." },
+        { q: "어린 자녀가 있는 가족에게 적합한가요?", a: "네, 가족 단위로 인기가 많습니다. 다만 아기 침대 등 유아용품은 준비되어 있지 않으니 직접 지참해 주세요. 실내에 계단이 있어 어린아이는 주의가 필요합니다." },
         { q: "체크인 절차는 어떻게 되나요?", a: "보안 잠금장치로 완전 비대면 셀프 체크인. 도착 24시간 전에 액세스 코드를 받게 됩니다." },
         { q: "얼리 체크인 또는 레이트 체크아웃이 가능한가요?", a: "가용성에 따라 가능합니다. 사전에 문의해 주세요." },
         { q: "반려동물 동반이 가능한가요?", a: "죄송합니다. 반려동물은 허용되지 않습니다. 안내견은 사전 연락 후 가능합니다." },
@@ -1368,7 +1365,6 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
         "高速 Wi-Fi",
         "私人停車場（1 輛，免費）",
         "全臥室 Simmons 頂級床墊",
-        "提供嬰兒床 & 兒童高腳椅（需提前告知）",
         "55 吋智慧型電視 + 日本製高品質音響",
         "全室冷暖氣",
         "工作桌（1 人）",
@@ -1413,7 +1409,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "常見問題",
       items: [
         { q: "有停車位嗎？", a: "有，包含一個免費私人停車位。" },
-        { q: "適合帶幼兒的家庭嗎？", a: "當然。我們可依要求提供嬰兒床、兒童高腳椅和嬰兒浴盆。" },
+        { q: "適合帶幼兒的家庭嗎？", a: "適合，家庭房客很多。唯不提供嬰兒床、高腳椅等嬰幼兒用品，請自行準備。室內有樓梯，帶幼兒請多加留意。" },
         { q: "入住流程是什麼？", a: "透過密碼鎖完全無接觸自助入住。抵達前 24 小時您將收到存取碼，無需與任何人會面。" },
         { q: "可以提早入住或延遲退房嗎？", a: "視空房情況而定，請提前聯絡我們。" },
         { q: "可以攜帶寵物嗎？", a: "很抱歉，本房源不允許攜帶寵物。導盲犬請事先通知。" },
@@ -1732,7 +1728,7 @@ export const kiyokawaData: Record<Lang, KiyokawaTranslations> = {
       title: "คำถามที่พบบ่อย",
       items: [
         { q: "มีที่จอดรถไหม?", a: "มีที่จอดรถส่วนตัว 1 คัน ฟรี" },
-        { q: "เหมาะสำหรับครอบครัวที่มีเด็กเล็กไหม?", a: "เหมาะมากครับ เรามีเปลเด็ก เก้าอี้สูง และอ่างอาบน้ำเด็กให้บริการตามคำขอ" },
+        { q: "เหมาะสำหรับครอบครัวที่มีเด็กเล็กไหม?", a: "เหมาะมาก ครอบครัวเข้าพักกันเยอะ แต่เราไม่มีอุปกรณ์สำหรับทารก เช่น เปลเด็กหรือเก้าอี้สูง กรุณานำมาเอง และในบ้านมีบันได โปรดดูแลเด็กเล็กอย่างใกล้ชิด" },
         { q: "ขั้นตอนเช็คอินเป็นอย่างไร?", a: "เช็คอินด้วยตัวเองแบบไม่ต้องพบใครผ่านล็อคนิรภัย คุณจะได้รับรหัสเข้าถึง 24 ชั่วโมงก่อนมาถึง" },
         { q: "สามารถเช็คอินก่อนหรือเช็คเอาต์หลังได้ไหม?", a: "ขึ้นอยู่กับความพร้อมของห้องพัก กรุณาติดต่อล่วงหน้า" },
         { q: "นำสัตว์เลี้ยงมาได้ไหม?", a: "ขออภัย ที่พักนี้ไม่อนุญาตให้นำสัตว์เลี้ยงมา สุนัขนำทางได้หากแจ้งล่วงหน้า" },
