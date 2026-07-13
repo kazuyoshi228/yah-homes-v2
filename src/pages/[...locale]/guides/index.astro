@@ -1,0 +1,151 @@
+---
+/* ガイド一覧（/guides/）— 記事系の入口。map系の /locals とは役割を分ける */
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, localizedPath, type Locale } from "../../../i18n/config";
+import { getGuides, GUIDES_PREVIEW } from "../../../lib/guides";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const guides = (await getGuides()).filter((g) => g.translations[lang]);
+
+const META: Record<Locale, { title: string; description: string; heading: string; empty: string }> = {
+  ja: {
+    title: "福岡ガイド | yah.homes — 一棟貸し・ヴィラ・エリアの選び方",
+    description: "福岡の一棟貸し・ヴィラ選びやエリアの歩き方を、現地確認の一次情報でガイド。yah.homes編集。",
+    heading: "福岡ガイド",
+    empty: "ガイド記事は準備中です。",
+  },
+  en: {
+    title: "Fukuoka Guides | yah.homes",
+    description: "First-hand guides to choosing a whole-house stay and exploring Fukuoka, by yah.homes.",
+    heading: "Fukuoka Guides",
+    empty: "Guides are coming soon.",
+  },
+  ko: {
+    title: "후쿠오카 가이드 | yah.homes",
+    description: "후쿠오카 독채 숙소 선택과 지역 정보를 현지 확인 정보로 안내합니다.",
+    heading: "후쿠오카 가이드",
+    empty: "가이드를 준비 중입니다.",
+  },
+  zh: {
+    title: "福岡指南 | yah.homes — 包棟民宿・區域攻略",
+    description: "以實地確認的第一手資訊，介紹福岡包棟民宿的選擇方式與區域攻略。",
+    heading: "福岡指南",
+    empty: "指南準備中。",
+  },
+  th: {
+    title: "คู่มือฟุกุโอกะ | yah.homes",
+    description: "คู่มือเลือกที่พักทั้งหลังและเที่ยวฟุกุโอกะ จากข้อมูลที่ตรวจสอบจริง",
+    heading: "คู่มือฟุกุโอกะ",
+    empty: "กำลังเตรียมคู่มือ",
+  },
+};
+const m = META[lang];
+const noindex = GUIDES_PREVIEW || guides.length === 0;
+---
+
+<SiteLayout lang={lang} path="/guides" title={m.title} description={m.description} noindex={noindex}>
+  <section class="gl">
+    <div class="gl-container">
+      <p class="gl-eyebrow">Guides</p>
+      <h1 class="gl-heading">{m.heading}</h1>
+
+      {guides.length === 0 && <p class="gl-empty">{m.empty}</p>}
+
+      <div class="gl-list">
+        {
+          guides.map((g) => {
+            const t = g.translations[lang]!;
+            return (
+              <a href={localizedPath(lang, `/guides/${g.slug}`)} class="gl-item">
+                <h2 class="gl-item-title">{t.title}</h2>
+                <p class="gl-item-excerpt">{t.excerpt}</p>
+                <p class="gl-item-meta">
+                  {g.confirmedDate && <span>{g.confirmedDate}</span>}
+                  <span class="gl-item-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </p>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .gl {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+    min-height: 70vh;
+  }
+  .gl-container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .gl-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .gl-heading {
+    font-size: clamp(1.8rem, 5vw, 2.6rem);
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 2.5rem;
+  }
+  .gl-empty {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #888888;
+  }
+  .gl-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .gl-item {
+    display: block;
+    padding: 1.75rem 0;
+    border-top: 1px solid #eeeeee;
+    text-decoration: none;
+  }
+  .gl-item:last-child {
+    border-bottom: 1px solid #eeeeee;
+  }
+  .gl-item-title {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.5;
+    margin-bottom: 0.5rem;
+    transition: opacity 0.2s;
+  }
+  .gl-item:hover .gl-item-title {
+    opacity: 0.6;
+  }
+  .gl-item-excerpt {
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #666666;
+    margin-bottom: 0.6rem;
+  }
+  .gl-item-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: #aaaaaa;
+  }
+</style>

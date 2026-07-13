@@ -22,6 +22,8 @@ interface Props {
   jsonLd?: Record<string, unknown>;
   /** 管理画面など検索対象外ページは true */
   noindex?: boolean;
+  /** このページが存在する言語（ガイド記事など翻訳が部分的なページ用）。省略時は全言語 */
+  availableLocales?: Locale[];
 }
 
 const {
@@ -32,16 +34,19 @@ const {
   ogImage = OG_IMAGE,
   jsonLd,
   noindex = false,
+  availableLocales,
 } = Astro.props;
 
 // canonical は自ロケールの絶対URL
 const canonical = `${BASE_URL}${localizedPath(lang, path)}`;
-// hreflang は全ロケール＋x-default(=en)
-const alternates = LOCALES.map((loc) => ({
+// hreflang は「存在する言語」のみ＋x-default（en があれば en、無ければ先頭言語）
+const hreflangLocales: Locale[] = availableLocales ?? [...LOCALES];
+const alternates = hreflangLocales.map((loc) => ({
   hreflang: HREFLANG[loc],
   href: `${BASE_URL}${localizedPath(loc, path)}`,
 }));
-const xDefault = `${BASE_URL}${localizedPath(DEFAULT_LOCALE, path)}`;
+const xDefaultLocale = hreflangLocales.includes(DEFAULT_LOCALE) ? DEFAULT_LOCALE : hreflangLocales[0];
+const xDefault = `${BASE_URL}${localizedPath(xDefaultLocale, path)}`;
 // html lang 属性（zh は繁体字）
 const htmlLang = HREFLANG[lang];
 ---

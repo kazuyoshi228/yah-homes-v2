@@ -1,0 +1,389 @@
+---
+/* ガイド記事ページ（design_guides_pipeline.md・頭＝yah.homes描画）
+   magazine で編集された記事を、yah.homes のブランド（モノクロ・National2・
+   既存のタイポグラフィ文法）で静的生成する。翻訳が存在する言語のみ生成。 */
+import { marked } from "marked";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { localeParam, localizedPath, type Locale } from "../../../i18n/config";
+import { translations } from "../../../i18n/translations";
+import { getGuides, GUIDES_PREVIEW, type Guide, type GuideTranslation } from "../../../lib/guides";
+import { BASE_URL } from "../../../lib/seo";
+
+export async function getStaticPaths() {
+  const guides = await getGuides();
+  return guides.flatMap((guide) =>
+    guide.languages.map((lang) => ({
+      params: { locale: localeParam(lang), slug: guide.slug },
+      props: { guide, lang },
+    })),
+  );
+}
+
+const { guide, lang } = Astro.props as { guide: Guide; lang: Locale };
+const t = guide.translations[lang] as GuideTranslation;
+const siteT = translations[lang];
+const pagePath = `/guides/${guide.slug}`;
+
+// ── 本文: 編集メモ〔…〕を除去 → Markdown描画 → 内部リンクをロケール化 ──
+const cleanedBody = t.body.replace(/〔[\s\S]*?〕/g, "").replace(/\n{3,}/g, "\n\n");
+let bodyHtml = await marked.parse(cleanedBody, { gfm: true });
+bodyHtml = bodyHtml.replace(/href="(\/[^"#]*)(#[^"]*)?"/g, (_m, p: string, hash: string | undefined) => {
+  if (p.startsWith("/manus-storage")) return `href="${p}${hash ?? ""}"`;
+  return `href="${localizedPath(lang, p)}${hash ?? ""}"`;
+});
+
+// ── handoff → 物件カード ──
+const PROPERTY_HANDOFF: Record<string, { key: "kiyokawa" | "takasago" }> = {
+  "/booking/kiyokawa": { key: "kiyokawa" },
+  "/booking/takasago": { key: "takasago" },
+};
+const handoffProps = (guide.handoff ?? [])
+  .map((h) => PROPERTY_HANDOFF[h])
+  .filter(Boolean)
+  .map(({ key }) => ({
+    href: localizedPath(lang, `/booking/${key}`),
+    name: siteT.properties[key].name,
+    info: siteT.properties[key].info,
+  }));
+
+// ── メタ・構造化データ ──
+const dateModified = new Date(guide.updatedAt).toISOString().split("T")[0];
+const datePublished = guide.publishedAt ? new Date(guide.publishedAt).toISOString().split("T")[0] : dateModified;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: t.title,
+  description: t.excerpt,
+  inLanguage: lang,
+  datePublished,
+  dateModified,
+  url: `${BASE_URL}${localizedPath(lang, pagePath)}`,
+  publisher: { "@type": "Organization", name: "yah.homes", url: BASE_URL },
+  ...(guide.thumbnailUrl ? { image: guide.thumbnailUrl } : {}),
+};
+const faqJsonLd =
+  t.faq && t.faq.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: t.faq.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }
+    : null;
+
+const guidesIndexHref = localizedPath(lang, "/guides");
+const localsHref = localizedPath(lang, "/locals");
+const noindex = GUIDES_PREVIEW || guide.draft;
+---
+
+<SiteLayout
+  lang={lang}
+  path={pagePath}
+  title={t.metaTitle}
+  description={t.metaDescription}
+  jsonLd={jsonLd}
+  noindex={noindex}
+  availableLocales={guide.languages}
+>
+  {faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
+
+  <article class="gd">
+    <div class="gd-container">
+      <!-- ヘッダ -->
+      <header class="gd-header">
+        <p class="gd-eyebrow"><a href={guidesIndexHref}>Guides</a></p>
+        <h1 class="gd-title">{t.title}</h1>
+        <p class="gd-meta">
+          {guide.confirmedDate && <span>{lang === "ja" ? `${guide.confirmedDate} 確認` : `Verified ${guide.confirmedDate}`}</span>}
+          <span>yah.homes</span>
+        </p>
+      </header>
+
+      <!-- GEO: 直接回答（ホームの .direct-answer と同型） -->
+      {t.directAnswer && <p class="gd-answer">{t.directAnswer}</p>}
+
+      <!-- 本文 -->
+      <div class="gd-body" set:html={bodyHtml} />
+
+      <!-- FAQ -->
+      {
+        t.faq && t.faq.length > 0 && (
+          <section class="gd-faq">
+            <h2 class="gd-h2">FAQ</h2>
+            {t.faq.map((f) => (
+              <details class="gd-faq-item">
+                <summary>
+                  <span class="q">{f.q}</span>
+                  <span class="plus" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <p class="a">{f.a}</p>
+              </details>
+            ))}
+          </section>
+        )
+      }
+
+      <!-- handoff: 物件カード -->
+      {
+        handoffProps.length > 0 && (
+          <section class="gd-handoff">
+            <h2 class="gd-h2">{lang === "ja" ? "福岡・都心の一棟貸しなら" : "Stay with yah.homes"}</h2>
+            <div class="gd-cards">
+              {handoffProps.map((p) => (
+                <a href={p.href} class="gd-card">
+                  <span class="gd-card-name">{p.name}</span>
+                  <span class="gd-card-info">{p.info}</span>
+                  <span class="gd-card-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 水路: locals へ -->
+      <p class="gd-locals">
+        <a href={localsHref}>{lang === "ja" ? "滞在中のお店探しは ローカルガイド へ →" : "Explore our Local Guide →"}</a>
+      </p>
+    </div>
+  </article>
+</SiteLayout>
+
+<style>
+  .gd {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+  }
+  .gd-container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .gd-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .gd-eyebrow a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .gd-title {
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.3;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.9rem;
+  }
+  .gd-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    color: #aaaaaa;
+    margin-bottom: 2.5rem;
+  }
+  .gd-answer {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #555555;
+    border-left: 2px solid #e8e8e8;
+    padding-left: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .gd-h2 {
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin: 3rem 0 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #eeeeee;
+  }
+
+  /* ── 本文タイポグラフィ（モノクロ・読み物） ── */
+  .gd-body :global(h2) {
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin: 3rem 0 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .gd-body :global(h3) {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 2rem 0 0.9rem;
+  }
+  .gd-body :global(p) {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.95;
+    color: #333333;
+    margin-bottom: 1.2rem;
+  }
+  .gd-body :global(li) {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: #333333;
+    margin-bottom: 0.5rem;
+  }
+  .gd-body :global(ul),
+  .gd-body :global(ol) {
+    padding-left: 1.3rem;
+    margin-bottom: 1.4rem;
+  }
+  .gd-body :global(a) {
+    color: #111111;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .gd-body :global(strong) {
+    font-weight: 600;
+    color: #111111;
+  }
+  .gd-body :global(hr) {
+    border: none;
+    border-top: 1px solid #eeeeee;
+    margin: 2.5rem 0;
+  }
+  .gd-body :global(blockquote) {
+    border-left: 2px solid #e8e8e8;
+    padding-left: 1rem;
+    color: #666666;
+    margin: 1.4rem 0;
+  }
+  /* 表＝GEOの抽出面。モノクロ罫線・横スクロール許容 */
+  .gd-body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 1.6rem 0;
+    display: block;
+    overflow-x: auto;
+  }
+  .gd-body :global(th),
+  .gd-body :global(td) {
+    border: 1px solid #eeeeee;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    font-weight: 300;
+    color: #333333;
+    white-space: nowrap;
+  }
+  .gd-body :global(th) {
+    font-weight: 500;
+    color: #111111;
+    background: #fafafa;
+  }
+
+  /* ── FAQ（PropertyDetail と同文法） ── */
+  .gd-faq-item {
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .gd-faq-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #111111;
+  }
+  .gd-faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .gd-faq-item .plus {
+    color: #aaaaaa;
+    transition: transform 0.2s;
+  }
+  .gd-faq-item[open] .plus {
+    transform: rotate(45deg);
+  }
+  .gd-faq-item .a {
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #555555;
+    padding: 0 0 1.2rem;
+  }
+
+  /* ── handoff 物件カード（モノクロ・枠線） ── */
+  .gd-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  @media (min-width: 600px) {
+    .gd-cards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .gd-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.25rem 1.4rem;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    position: relative;
+  }
+  .gd-card-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111111;
+  }
+  .gd-card-info {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: #666666;
+  }
+  .gd-card-arrow {
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #111111;
+  }
+  .gd-card:hover {
+    background: #111111;
+  }
+  .gd-card:hover .gd-card-name,
+  .gd-card:hover .gd-card-arrow {
+    color: #ffffff;
+  }
+  .gd-card:hover .gd-card-info {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .gd-locals {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+  }
+  .gd-locals a {
+    color: #555555;
+    text-decoration: none;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 2px;
+  }
+  .gd-locals a:hover {
+    color: #111111;
+    border-color: #111111;
+  }
+</style>

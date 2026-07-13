@@ -14,8 +14,10 @@ interface Props {
   ogImage?: string;
   jsonLd?: Record<string, unknown>;
   noindex?: boolean;
+  /** 翻訳が存在する言語のみ hreflang を出す（ガイド記事用） */
+  availableLocales?: Locale[];
 }
-const { lang, path, title, description, ogImage, jsonLd, noindex } = Astro.props;
+const { lang, path, title, description, ogImage, jsonLd, noindex, availableLocales } = Astro.props;
 ---
 
 <BaseLayout
@@ -26,6 +28,7 @@ const { lang, path, title, description, ogImage, jsonLd, noindex } = Astro.props
   ogImage={ogImage}
   jsonLd={jsonLd}
   noindex={noindex}
+  availableLocales={availableLocales}
 >
   <Navbar lang={lang} path={path} />
   <slot />
