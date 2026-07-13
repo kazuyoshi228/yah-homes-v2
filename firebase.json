@@ -4,6 +4,7 @@
     "trailingSlash": true,
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "redirects": [
+      { "source": "/sitemap.xml", "destination": "/sitemap-index.xml", "type": 301 },
       { "source": "/home", "destination": "/", "type": 301 },
       { "source": "/ko/home", "destination": "/ko/", "type": 301 },
       { "source": "/zh/home", "destination": "/zh/", "type": 301 },

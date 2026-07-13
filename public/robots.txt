@@ -48,4 +48,4 @@ User-agent: CCBot
 Allow: /
 
 # Sitemap
-Sitemap: https://yah.homes/sitemap.xml
+Sitemap: https://yah.homes/sitemap-index.xml
