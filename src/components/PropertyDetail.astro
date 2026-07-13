@@ -81,13 +81,14 @@ const conditionRows: string[] = [
     class="pd-hero-bg"
   />
   <div class="pd-hero-grad" aria-hidden="true"></div>
-  <div class="pd-hero-content animate-fade-in" style="animation-delay:200ms;">
+  <!-- LCP対策: 見出しは即時描画 -->
+  <div class="pd-hero-content">
     <p class="pd-area">{d.hero.area}</p>
     <h1 class="pd-name">{d.hero.propertyName}</h1>
     <p class="pd-tagline">{d.hero.tagline}</p>
     <p class="pd-capacity">{d.hero.capacity}</p>
     <!-- Book Now（Airbnb直行）はユーザー指示により削除（2026-07-13）— Beds24誘導のみ残す -->
-    <div class="pd-hero-ctas">
+    <div class="pd-hero-ctas animate-fade-in" style="animation-delay:200ms;">
       <a href="#booking" class="pd-cta-secondary">{d.booking.title}</a>
     </div>
   </div>

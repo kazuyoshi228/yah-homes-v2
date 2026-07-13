@@ -31,6 +31,7 @@ const PROPERTY_META = [
     airbnb:
       "https://www.airbnb.jp/rooms/1427842426961787667?guests=1&adults=1&s=67&unique_share_id=4f784e83-f8e1-4d15-b98c-6e272b8da0a9",
     image: "/manus-storage/kiyokawa-exterior_18a3409b.webp",
+    image768: "/manus-storage/kiyokawa-exterior_18a3409b-768.webp",
     imageMobile: "/manus-storage/kiyokawa-exterior-480_cbb57d9a.webp",
     gallery: GALLERIES.kiyokawa,
     rating: Number(PROPERTIES.kiyokawa.rating),
@@ -44,6 +45,7 @@ const PROPERTY_META = [
     airbnb:
       "https://www.airbnb.jp/rooms/1497546315476018480?guests=1&adults=1&s=67&unique_share_id=5babfb67-49de-4d85-afa9-b80719dbd3c9",
     image: "/manus-storage/takasago-exterior_d4f7ccff.webp",
+    image768: "/manus-storage/takasago-exterior_d4f7ccff-768.webp",
     imageMobile: "/manus-storage/takasago-exterior-480_0292d3a7.webp",
     gallery: GALLERIES.takasago,
     rating: Number(PROPERTIES.takasago.rating),
@@ -103,8 +105,8 @@ const PROPERTY_META = [
               >
                 <img
                   src={p.image}
-                  srcset={`${p.imageMobile} 480w, ${p.image} 902w`}
-                  sizes="(max-width: 640px) 480px, 902px"
+                  srcset={`${p.imageMobile} 480w, ${p.image768} 768w, ${p.image} 902w`}
+                  sizes="(max-width: 640px) 92vw, (max-width: 900px) 45vw, 430px"
                   alt={p.name}
                   fetchpriority={i === 0 ? "high" : "low"}
                   loading={i === 0 ? "eager" : "lazy"}

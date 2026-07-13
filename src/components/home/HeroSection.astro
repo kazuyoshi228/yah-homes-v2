@@ -33,14 +33,15 @@ const AIRBNB_URL =
   />
   <div class="hero-grad" aria-hidden="true"></div>
 
-  <div class="hero-content animate-fade-in" style="animation-delay:200ms;">
+  <!-- LCP対策: H1は即時描画（opacity:0開始の要素はLCP候補にならない）。フェードは補助要素のみ -->
+  <div class="hero-content">
     <h1 class="hero-catch">
       {t.hero.catchcopy[0]}<br />{t.hero.catchcopy[1]}
     </h1>
 
     <div class="hero-divider" aria-hidden="true"></div>
 
-    <ul class="hero-points">
+    <ul class="hero-points animate-fade-in" style="animation-delay:200ms;">
       {
         t.hero.salesPoints.map((point, i) => (
           <li>
@@ -59,7 +60,7 @@ const AIRBNB_URL =
       }
     </ul>
 
-    <div class="hero-ctas">
+    <div class="hero-ctas animate-fade-in" style="animation-delay:200ms;">
       <a href={AIRBNB_URL} target="_blank" rel="noopener noreferrer" class="airbnb-pill">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path

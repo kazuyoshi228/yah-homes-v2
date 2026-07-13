@@ -86,7 +86,8 @@ const homeHref = localizedPath(lang, "/");
       />
     </picture>
     <div class="lc-hero-grad" aria-hidden="true"></div>
-    <div class="lc-hero-content animate-fade-in" style="animation-delay:200ms;">
+    <!-- LCP対策: 見出しは即時描画 -->
+    <div class="lc-hero-content">
       <p class="lc-label">Local Guide — Fukuoka</p>
       <h1 class="lc-title">{t.heroTitle}</h1>
       <p class="lc-tagline">Find Out your favorite spots in the vibrant streets of Fukuoka.</p>
