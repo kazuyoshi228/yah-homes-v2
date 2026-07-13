@@ -27,7 +27,11 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "完全な一棟貸しですか？ほかのゲストが入ることはありますか？",
-            a: "はい、清川・高砂とも100%プライベートな一棟貸しです。滞在中にほかのゲストやホストが立ち入ることはなく、部屋全体を貸切でお使いいただけます。",
+            a: "はい、清川・高砂とも1日1組限定・一軒家を丸ごと貸切でお使いいただく100%プライベートな一棟貸しです。滞在中にほかのゲストやホストが立ち入ることはありません。",
+          },
+          {
+            q: "どんな旅行に向いていますか？",
+            a: "寝室が分かれておりトイレも2つあるため、家族旅行・3世代旅行に特に人気です。高砂は洗面台が3つあり、朝の支度が重なる女子旅にも好評。卒業旅行や社員旅行などのグループ利用、ワークデスク完備でワーケーションにも向いています。1日1組・一軒家丸ごと貸切なので、周りに気兼ねなくお過ごしいただけます。",
           },
           {
             q: "最大何名まで泊まれますか？",
@@ -131,7 +135,11 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "Are the properties entire homes? Can other guests enter?",
-            a: "Yes, both Kiyokawa and Takasago are 100% private whole-house rentals. No other guests or hosts will enter during your stay. You have exclusive use of the entire property.",
+            a: "Yes, both Kiyokawa and Takasago are 100% private whole-house rentals — one group per day, with the entire house exclusively yours. No other guests or hosts will enter during your stay.",
+          },
+          {
+            q: "What kinds of trips are the houses good for?",
+            a: "With separate bedrooms and two toilets, they are especially popular for family trips and three-generation travel. Takasago has three washbasins, which groups of friends love for busy mornings. They also suit graduation trips, company retreats, and workcations (work desk provided). Since each house hosts one group per day with the whole home to yourselves, you can relax without worrying about other guests.",
           },
           {
             q: "How many guests can stay?",
@@ -235,7 +243,11 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "완전한 독채인가요? 다른 투숙객이 들어오나요?",
-            a: "네, 두 숙소 모두 100% 프라이빗 독채 렌탈입니다. 체류 중 다른 투숙객이나 호스트가 출입하지 않습니다.",
+            a: "네, 두 숙소 모두 하루 한 팀 한정으로 단독주택 전체를 통째로 빌리는 100% 프라이빗 독채입니다. 체류 중 다른 투숙객이나 호스트가 출입하지 않습니다.",
+          },
+          {
+            q: "어떤 여행에 적합한가요?",
+            a: "침실이 분리되어 있고 화장실이 2개라 가족 여행·3대 여행에 특히 인기입니다. 다카사고는 세면대가 3개여서 아침 준비가 겹치는 우정 여행에도 좋습니다. 졸업 여행이나 워크숍 등 그룹 이용, 업무용 책상이 있어 워케이션에도 적합합니다. 하루 한 팀, 집 전체를 통째로 사용하므로 눈치 볼 필요 없이 지낼 수 있습니다.",
           },
           {
             q: "최대 몇 명까지 숙박 가능한가요?",
@@ -339,7 +351,11 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "是完全獨棟嗎？其他客人會進來嗎？",
-            a: "是的，兩處住宿均為100%私人獨棟出租。入住期間不會有其他客人或房東進入。",
+            a: "是的，兩棟皆為一天一組限定、整棟房子完全包棟的100%私人住宿。入住期間不會有其他客人或房東進入。",
+          },
+          {
+            q: "適合什麼樣的旅行？",
+            a: "臥室彼此獨立、廁所有2間，特別受家庭旅行與三代同堂旅行歡迎。高砂有3個洗手台，早上輪流梳洗的閨蜜旅行也很方便。也適合畢業旅行、員工旅遊等團體，以及附工作桌的Workcation。一天只接待一組、整棟包棟，可以完全不受打擾地度過。",
           },
           {
             q: "最多可以住幾個人？",
@@ -443,7 +459,11 @@ export const faqData: Record<string, FaqData> = {
           },
           {
             q: "เป็นบ้านพักส่วนตัวทั้งหลังหรือไม่? มีผู้เข้าพักอื่นหรือไม่?",
-            a: "ใช่ ทั้ง Kiyokawa และ Takasago เป็นบ้านพักส่วนตัวทั้งหลัง 100% ไม่มีผู้เข้าพักหรือเจ้าของบ้านเข้ามาในระหว่างที่คุณพัก",
+            a: "ใช่ ทั้ง Kiyokawa และ Takasago รับเพียงวันละ 1 กลุ่ม และคุณได้ใช้บ้านเดี่ยวทั้งหลังแบบเหมาหมด 100% ส่วนตัว ไม่มีผู้เข้าพักอื่นหรือเจ้าของบ้านเข้ามาระหว่างที่คุณพัก",
+          },
+          {
+            q: "เหมาะกับทริปแบบไหน?",
+            a: "ห้องนอนแยกเป็นสัดส่วนและมีห้องส้วม 2 ห้อง จึงเป็นที่นิยมสำหรับทริปครอบครัวและทริปสามรุ่น Takasago มีอ่างล้างหน้า 3 จุด สะดวกสำหรับทริปเพื่อนสาวที่ต้องเตรียมตัวตอนเช้าพร้อมกัน เหมาะกับทริปฉลองเรียนจบ ทริปบริษัท และ Workcation (มีโต๊ะทำงาน) รับวันละ 1 กลุ่มและได้บ้านทั้งหลัง จึงพักผ่อนได้อย่างเป็นส่วนตัวเต็มที่",
           },
           {
             q: "รองรับผู้เข้าพักได้กี่คน?",
