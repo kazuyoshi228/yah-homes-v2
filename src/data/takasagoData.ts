@@ -273,7 +273,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     conditions: {
       title: "Booking Conditions",
       minNights: "Minimum stay: 2 nights",
-      cancellation: "Cancellation: Free up to 7 days before check-in. 50% charge within 7 days.",
+      cancellation: "Cancellation: Please contact us for details.",
       cleaningFee: "Cleaning fee: Included in the rate",
       extraGuest: "Extra guest fee: ¥10,000 per person over the declared headcount",
       noiseRule: "Quiet hours apply. Please be considerate of neighbours.",
@@ -314,7 +314,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
         },
         {
           q: "What is the cancellation policy?",
-          a: "Free cancellation up to 7 days before check-in. Within 7 days, a 50% charge applies.",
+          a: "Please contact us for details.",
         },
         {
           q: "Is the property accessible for guests with mobility limitations?",
@@ -618,7 +618,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     conditions: {
       title: "ご予約条件",
       minNights: "最低宿泊数：2泊",
-      cancellation: "キャンセル：チェックイン7日前まで無料。それ以降は宿泊料金の50%を申し受けます。",
+      cancellation: "キャンセル：詳しくは、お問い合わせください。",
       cleaningFee: "清掃料金：宿泊料金に含まれます",
       extraGuest: "追加ゲスト料金：申告人数を超える場合、お一人につき¥10,000",
       noiseRule: "夜間はお静かにお過ごしください。ご近所への配慮をお願いいたします。",
@@ -961,7 +961,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     conditions: {
       title: "예약 조건",
       minNights: "최소 숙박: 2박",
-      cancellation: "취소 정책: 체크인 7일 전까지 무료 취소. 7일 이내 취소 시 50% 요금 부과.",
+      cancellation: "취소 정책: 자세한 내용은 문의해 주세요.",
       cleaningFee: "청소비: 요금에 포함",
       extraGuest: "추가 게스트 요금: 신고 인원 초과 시 1인당 ¥10,000",
       noiseRule: "야간 정숙 시간이 있습니다. 이웃을 배려해 주세요.",
@@ -982,7 +982,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
         { q: "조기 체크인 또는 늦은 체크아웃이 가능한가요?", a: "객실 상황에 따라 다릅니다. 사전에 문의해 주세요." },
         { q: "반려동물을 데려올 수 있나요?", a: "죄송하지만 반려동물은 허용되지 않습니다. 사전 통보 시 안내견은 환영합니다." },
         { q: "흡연이 가능한가요?", a: "실내 금연입니다. 지정된 야외 흡연 구역이 있습니다." },
-        { q: "취소 정책은 어떻게 되나요?", a: "체크인 7일 전까지 무료 취소. 7일 이내에는 50% 요금이 부과됩니다." },
+        { q: "취소 정책은 어떻게 되나요?", a: "자세한 내용은 문의해 주세요." },
         { q: "거동이 불편한 게스트도 이용 가능한가요?", a: "숙소 내 계단이 가파릅니다. 휠체어 접근이나 배리어 프리 시설은 없습니다. 계단 이용이 편한 게스트에게 권장합니다." },
         { q: "결제는 어떻게 하나요?", a: "계좌이체 및 신용카드를 받습니다. 예약 시 결제 방법을 확인하기 위해 직접 문의해 주세요." },
       ],
@@ -1276,7 +1276,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     conditions: {
       title: "預訂條件",
       minNights: "最短住宿：2 晚",
-      cancellation: "取消政策：入住前 7 天可免費取消。7 天內取消收取 50% 費用。",
+      cancellation: "取消政策：詳情請與我們聯繫。",
       cleaningFee: "清潔費：已含在費率中",
       extraGuest: "額外房客費：超出申報人數每人 ¥10,000",
       noiseRule: "有安靜時段規定。請體諒鄰居。",
@@ -1297,7 +1297,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
         { q: "可以提早入住或延遲退房嗎？", a: "視房間狀況而定。請提前聯絡我們。" },
         { q: "可以攜帶寵物嗎？", a: "很遺憾，不允許攜帶寵物。事先通知可攜帶導盲犬。" },
         { q: "可以吸菸嗎？", a: "房源內禁止吸菸。有指定的戶外吸菸區。" },
-        { q: "取消政策是什麼？", a: "入住前 7 天可免費取消。7 天內取消將收取 50% 費用。" },
+        { q: "取消政策是什麼？", a: "詳情請與我們聯繫。" },
         { q: "行動不便的房客可以入住嗎？", a: "請注意，房源內的樓梯較陡。該住宅不提供輪椅通道或無障礙設施。我們建議能夠輕鬆上下樓梯的房客入住。" },
         { q: "如何付款？", a: "接受銀行轉帳和信用卡。預訂時請直接聯絡我們確認付款方式。" },
       ],
@@ -1591,7 +1591,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
     conditions: {
       title: "เงื่อนไขการจอง",
       minNights: "พักขั้นต่ำ: 2 คืน",
-      cancellation: "นโยบายยกเลิก: ยกเลิกฟรีก่อน 7 วัน หากยกเลิกภายใน 7 วันจะเสียค่าใช้จ่าย 50%",
+      cancellation: "นโยบายยกเลิก: กรุณาติดต่อเราสำหรับรายละเอียด",
       cleaningFee: "ค่าทำความสะอาด: รวมอยู่ในราคาแล้ว",
       extraGuest: "ค่าผู้เข้าพักเพิ่ม: ¥10,000 ต่อคนที่เกินจากจำนวนที่แจ้งไว้",
       noiseRule: "กรุณาระวังเสียงรบกวนในช่วงกลางคืน",
@@ -1612,7 +1612,7 @@ export const takasagoData: Record<Lang, TakasagoTranslations> = {
         { q: "สามารถเช็คอินก่อนหรือเช็คเอาต์หลังได้ไหม?", a: "ขึ้นอยู่กับความพร้อมของห้องพัก กรุณาติดต่อล่วงหน้า" },
         { q: "นำสัตว์เลี้ยงมาได้ไหม?", a: "ขออภัย ที่พักนี้ไม่อนุญาตให้นำสัตว์เลี้ยงมา สุนัขนำทางได้หากแจ้งล่วงหน้า" },
         { q: "สูบบุหรี่ได้ไหม?", a: "ห้ามสูบบุหรี่ภายในที่พัก มีพื้นที่สูบบุหรี่กลางแจ้งที่กำหนดไว้" },
-        { q: "นโยบายยกเลิกเป็นอย่างไร?", a: "ยกเลิกฟรีก่อน 7 วัน หากยกเลิกภายใน 7 วันจะเสียค่าใช้จ่าย 50%" },
+        { q: "นโยบายยกเลิกเป็นอย่างไร?", a: "กรุณาติดต่อเราสำหรับรายละเอียด" },
         { q: "ผู้ที่มีปัญหาการเคลื่อนไหวสามารถเข้าพักได้ไหม?", a: "โปรดทราบว่าบันไดภายในที่พักค่อนข้างชัน ไม่เหมาะสำหรับผู้ใช้รถเข็นหรือผู้ที่ต้องการสิ่งอำนวยความสะดวกสำหรับผู้พิการ" },
         { q: "ชำระเงินอย่างไร?", a: "รับชำระผ่านโอนเงินและบัตรเครดิต กรุณาติดต่อเราโดยตรงเพื่อยืนยันวิธีการชำระเงินเมื่อทำการจอง" },
       ],

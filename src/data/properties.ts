@@ -67,8 +67,8 @@ export const GALLERIES: Record<Property["key"], string[]> = {
     "takasago-gallery-010_1c4ae918", "takasago-gallery-011_ed82275f", "takasago-gallery-012_f5749bc4",
     "takasago-gallery-013_5552bc3c", "takasago-gallery-014_02981af9", "takasago-gallery-015_34f34c09",
     "takasago-gallery-016_551d076d", "takasago-gallery-017_10e566e7", "takasago-gallery-018_31492c5d",
-    "takasago-gallery-019_d4b0817e", "takasago-gallery-020_c36a94e7", "takasago-gallery-021_03f41d0e",
-    "takasago-gallery-022_0bbe4f59", "takasago-gallery-023_19c93cc8", "takasago-gallery-024_53f3d9fe",
+    "takasago-gallery-019_d4b0817e", "takasago-gallery-020_c36a94e7", 
+    
     "takasago-gallery-025_58ae56f8", "takasago-gallery-026_f7acfeaa", "takasago-gallery-027_0d82272d",
     "takasago-gallery-028_8031891b",
   ].map((n) => `${IMG}/${n}.webp`),
