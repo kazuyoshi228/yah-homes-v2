@@ -21,6 +21,7 @@ const t = translations[lang];
 const homeHref = localizedPath(lang, "/");
 const aboutHref = localizedPath(lang, "/about");
 const localsHref = localizedPath(lang, "/locals");
+const guidesHref = localizedPath(lang, "/guides");
 const contactHref = `${homeHref}#contact`;
 
 // Booking ドロップダウン（旧 Navbar が構想していた物件直行リンク）
@@ -48,6 +49,7 @@ const langList = LOCALES.map((code) => ({
       <a href={homeHref} class="nav-btn">{t.nav.home}</a>
       <a href={aboutHref} class="nav-btn">{t.nav.about}</a>
       <a href={localsHref} class="nav-btn">{t.nav.locals}</a>
+      <a href={guidesHref} class="nav-btn">{t.nav.guides}</a>
 
       <!-- Booking dropdown（旧構想: Kiyokawa / Takasago 直行） -->
       <div class="booking-wrap" id="booking-wrap">
@@ -112,6 +114,7 @@ const langList = LOCALES.map((code) => ({
     <a href={homeHref} class="mm-item">{t.nav.home}</a>
     <a href={aboutHref} class="mm-item">{t.nav.about}</a>
     <a href={localsHref} class="mm-item">{t.nav.locals}</a>
+    <a href={guidesHref} class="mm-item">{t.nav.guides}</a>
     <div class="mm-booking">
       <p class="mm-booking-label">{t.nav.properties}</p>
       {

@@ -15,6 +15,7 @@ export interface Translations {
     about: string;
     properties: string;
     locals: string;
+    guides: string;
     language: string;
     langNames: { en: string; ja: string; ko: string; zh: string; th: string };
     menuOpen: string;
@@ -169,6 +170,7 @@ const en: Translations = {
     about: "About",
     properties: "Booking",
     locals: "Locals",
+    guides: "Guides",
     language: "Language",
     langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "Open menu",
@@ -343,6 +345,7 @@ const ko: Translations = {
     about: "소개",
     properties: "예약",
     locals: "로컬",
+    guides: "가이드",
     language: "언어",
     langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "메뉴 열기",
@@ -516,6 +519,7 @@ const zh: Translations = {
     about: "關於我們",
     properties: "預訂",
     locals: "居民指南",
+    guides: "指南",
     language: "語言",
     langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "開啟選單",
@@ -689,6 +693,7 @@ const th: Translations = {
     about: "เกี่ยวกับเรา",
     properties: "จองที่พัก",
     locals: "คู่มือท้องถิ่น",
+    guides: "คู่มือ",
     language: "ภาษา",
     langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "เปิดเมนู",
@@ -862,6 +867,7 @@ const ja: Translations = {
     about: "yah.homesについて",
     properties: "予約",
     locals: "ローカル",
+    guides: "ガイド",
     language: "言語",
     langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "メニューを開く",
