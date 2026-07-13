@@ -314,10 +314,6 @@ const conditionRows: string[] = [
       ))
     }
     <div style="margin-top:2.5rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <a href={p.airbnbUrl} target="_blank" rel="noopener noreferrer" class="pd-cta-dark">
-        {d.faq.bookButton}
-        <Fragment set:html={lucide("externalLink", { size: 13, strokeWidth: 2.5 })} />
-      </a>
       <a href={localizedPath(lang, "/")} class="pd-cta-ghost">{ui.backToHome}</a>
     </div>
   </div>
