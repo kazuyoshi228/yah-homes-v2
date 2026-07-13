@@ -859,7 +859,7 @@ const ja: Translations = {
   nav: {
     home: "ホーム",
     contact: "お問い合わせ",
-    about: "私たちについて",
+    about: "yah.homesについて",
     properties: "予約",
     locals: "ローカル",
     language: "言語",
@@ -941,10 +941,10 @@ const ja: Translations = {
   },
   story: {
     sectionLabel: "Wonder Here",
-    heading: "あなたの家を、旅先にも。\nyah.homes.",
+    heading: "Your Home, Away from Home.\nyah.homes.",
     body: [
-      "yah は「やあ！」——日本語の気さくな挨拶から生まれた名前です。yah.homes は、世界中から福岡を訪れる旅人を迎えるための一棟貸しの宿。ディレクターが自ら設計した空間で、旅先でも「本当の我が家」のようにくつろいでいただけます。",
-      "物件はどれも、街の個性で選んだ場所にあります。どこで眠るかが、旅のかたちを決めると信じているからです。",
+      "yah は「やあ！」——日本語の気さくな挨拶から生まれた名前です。yah.homes は、世界中から福岡を訪れる旅人を迎えるための一棟貸しの宿です。ディレクターが自ら設計した空間で、旅先でも「本当の我が家」のようにくつろいでいただけます。",
+      "物件はどれも、街の個性で選んだ場所にあります。宿の質も、旅のかたちを決める大きな要因である、と信じているからです。",
     ],
   },
   director: {
@@ -988,7 +988,7 @@ const ja: Translations = {
     closingText: "これからも一人ひとりの声に誠実に耳を傾け、より良い滞在をお届けできるよう努めてまいります。",
   },
   contact: {
-    sectionLabel: "お問い合わせ",
+    sectionLabel: "Contact",
     heading: "お問い合わせ",
     subheading: "お気軽にご連絡ください。",
     namePlaceholder: "お名前",
