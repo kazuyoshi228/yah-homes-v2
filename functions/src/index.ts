@@ -8,13 +8,23 @@
  *   メール通知は行わない方針（2026-07-13）— Firestore 保存のみ。受信確認はコンソールの contacts コレクション。
  */
 import { onRequest } from "firebase-functions/v2/https";
+import { defineSecret } from "firebase-functions/params";
+import { logger } from "firebase-functions/v2";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import nodemailer from "nodemailer";
 
 initializeApp();
 const db = getFirestore();
 
 const REGION = "asia-northeast1";
+
+// メール通知用シークレット（`firebase functions:secrets:set` で登録）
+// SMTP_USER: 送信元 Gmail/Workspace アドレス / SMTP_PASS: アプリパスワード /
+// CONTACT_NOTIFY_TO: 通知の宛先アドレス
+const SMTP_USER = defineSecret("SMTP_USER");
+const SMTP_PASS = defineSecret("SMTP_PASS");
+const CONTACT_NOTIFY_TO = defineSecret("CONTACT_NOTIFY_TO");
 
 // 許可オリジン（本番・Firebaseデフォルト・devチャンネル・ローカル）
 const ALLOWED_ORIGINS = [
@@ -36,7 +46,9 @@ export const health = onRequest({ region: REGION }, (_req, res) => {
   res.status(200).json({ status: "ok", service: "yah.homes", ts: Date.now() });
 });
 
-export const contact = onRequest({ region: REGION }, async (req, res) => {
+export const contact = onRequest(
+  { region: REGION, secrets: [SMTP_USER, SMTP_PASS, CONTACT_NOTIFY_TO] },
+  async (req, res) => {
   const origin = corsOrigin(req.headers.origin as string | undefined);
   if (origin) {
     res.set("Access-Control-Allow-Origin", origin);
@@ -92,5 +104,36 @@ export const contact = onRequest({ region: REGION }, async (req, res) => {
     status: "new",
   });
 
+  // メール通知（失敗しても問い合わせ保存は成功扱い — 非致命）
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: { user: SMTP_USER.value(), pass: SMTP_PASS.value() },
+    });
+    await transporter.sendMail({
+      from: `"yah.homes Contact" <${SMTP_USER.value()}>`,
+      to: CONTACT_NOTIFY_TO.value(),
+      replyTo: emailStr,
+      subject: `【yah.homes】お問い合わせ: ${nameStr}`,
+      text: [
+        `名前: ${nameStr}`,
+        `メール: ${emailStr}`,
+        `言語: ${langStr}`,
+        ``,
+        `--- メッセージ ---`,
+        messageStr,
+        ``,
+        `--- メタ ---`,
+        `Referer: ${req.headers.referer ?? "-"}`,
+        `確認: https://console.firebase.google.com/u/0/project/yah-homes/firestore/databases/-default-/data/~2Fcontacts`,
+      ].join("\n"),
+    });
+  } catch (err) {
+    logger.error("contact mail notification failed", err);
+  }
+
   res.status(200).json({ ok: true });
-});
+  }
+);

@@ -1,0 +1,116 @@
+---
+/* Press / Media Coverage — 旧 KiyokawaBooking の Press セクションを
+   ブランド準拠（モノクロ）で復活。NewsArticle JSON-LD をビルド時焼き込み。 */
+import { PRESS, pressJsonLd, type PressItem } from "../data/pressData";
+
+interface Props {
+  /** 指定時はその物件のリリースのみ表示。省略時は全件（Home News用） */
+  property?: PressItem["property"];
+  /** 見出し（既定: News）とラベル（既定: Press） */
+  heading?: string;
+  label?: string;
+}
+const { property, heading = "News", label = "Press" } = Astro.props;
+const items = property ? PRESS.filter((p) => p.property === property) : PRESS;
+const jsonLd = pressJsonLd(items);
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<section class="press" style="background:#f7f7f7;padding:4rem 1.5rem;border-top:1px solid #e8e8e8;">
+  <div style="max-width:720px;margin:0 auto;">
+    <p class="press-label">{label}</p>
+    <h2 class="press-heading">{heading}</h2>
+    <div style="display:flex;flex-direction:column;gap:1rem;">
+      {
+        items.map((p) => (
+          <a href={p.url} target="_blank" rel="noopener noreferrer" class="press-card">
+            <div style="display:flex;align-items:flex-start;gap:1.25rem;">
+              <span class="press-chip">PR TIMES</span>
+              <div style="flex:1;min-width:0;">
+                <p class="press-date">{p.date}</p>
+                <p class="press-title">{p.title}</p>
+                <p class="press-desc">{p.description}</p>
+                <p class="press-link">prtimes.jp →</p>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .press-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .press-heading {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+  .press-card {
+    display: block;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 1.75rem 2rem;
+    text-decoration: none;
+    transition: box-shadow 200ms, border-color 200ms;
+  }
+  .press-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-color: #111111;
+  }
+  .press-chip {
+    flex-shrink: 0;
+    align-self: flex-start;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .press-date {
+    font-size: 0.75rem;
+    color: #888888;
+    margin-bottom: 0.4rem;
+  }
+  .press-title {
+    font-size: clamp(0.9rem, 2.2vw, 1rem);
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .press-desc {
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #666666;
+    margin-top: 0.75rem;
+    line-height: 1.7;
+  }
+  .press-link {
+    font-size: 0.8rem;
+    color: #111111;
+    margin-top: 0.75rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  @media (max-width: 520px) {
+    .press-card {
+      padding: 1.25rem 1.25rem;
+    }
+  }
+</style>

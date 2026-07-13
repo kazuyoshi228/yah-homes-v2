@@ -8,6 +8,7 @@ import { localizedPath } from "../i18n/config";
 import { lucide, starRating } from "../lib/lucide";
 import { PROPERTIES, GALLERIES, type Property } from "../data/properties";
 import { uiStrings } from "../i18n/uiStrings";
+import PressSection from "./PressSection.astro";
 
 // kiyokawaData / takasagoData は構造が同一（KiyokawaTranslations 相当）
 interface Props {
@@ -323,6 +324,9 @@ const conditionRows: string[] = [
     </div>
   </div>
 </section>
+
+<!-- Press / Media Coverage（旧サイトの復活・物件別フィルタ） -->
+<PressSection property={propertyKey} heading="Media Coverage" />
 
 <style>
   .pd-hero {
