@@ -1,6 +1,8 @@
 ---
 /* yah.homes StorySection — 旧 StorySection.tsx の忠実移植（写真のみのセクション） */
 const STORY_IMG = "/manus-storage/story-hero_803d730b.webp";
+const STORY_IMG_480 = "/manus-storage/story-hero_803d730b-480.webp";
+const STORY_IMG_768 = "/manus-storage/story-hero_803d730b-768.webp";
 ---
 
 <section id="about" style="background:#f7f7f7;padding:5rem 0;">
@@ -8,6 +10,8 @@ const STORY_IMG = "/manus-storage/story-hero_803d730b.webp";
     <div class="reveal-fade img-zoom" style="overflow:hidden;">
       <img
         src={STORY_IMG}
+        srcset={`${STORY_IMG_480} 480w, ${STORY_IMG_768} 768w, ${STORY_IMG} 900w`}
+        sizes="(max-width: 768px) 100vw, 900px"
         alt="yah.homes interior"
         loading="lazy"
         decoding="async"

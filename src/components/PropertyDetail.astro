@@ -1,0 +1,899 @@
+---
+/* 物件詳細ページ（Kiyokawa / Takasago 共通）— B7
+   kiyokawaData / takasagoData の実コンテンツを Home のデザイン文法で表示:
+   ヒーロー → 概要+評価バッジ → 説明(折りたたみ) → アメニティ → (フロアプラン)
+   → アクセス → チェックイン/条件/ハウスルール → Beds24 → ギャラリー+ライトボックス → FAQ */
+import type { Locale } from "../i18n/config";
+import { localizedPath } from "../i18n/config";
+import { lucide, starRating } from "../lib/lucide";
+import { PROPERTIES, GALLERIES, type Property } from "../data/properties";
+import { uiStrings } from "../i18n/uiStrings";
+
+// kiyokawaData / takasagoData は構造が同一（KiyokawaTranslations 相当）
+interface Props {
+  lang: Locale;
+  propertyKey: Property["key"];
+  data: any; // Record<Lang, KiyokawaTranslations> の1言語分
+  heroImage: string;
+  floorPlanImage?: string;
+}
+const { lang, propertyKey, data: d, heroImage, floorPlanImage } = Astro.props;
+const p = PROPERTIES[propertyKey];
+const gallery = GALLERIES[propertyKey];
+const ui = uiStrings[lang];
+
+const thumb = (src: string) => src.replace(/\.webp$/, "-480.webp");
+const hero480 = thumb(heroImage);
+const hero768 = heroImage.replace(/\.webp$/, "-768.webp");
+
+// FAQPage JSON-LD（物件別）
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: (d.faq?.items ?? []).map((item: { q: string; a: string }) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: item.a },
+  })),
+};
+
+const overviewCards = [
+  { label: d.ui.overviewLabels.bedrooms, value: d.overview.bedrooms },
+  { label: d.ui.overviewLabels.beds, value: d.overview.beds },
+  { label: d.ui.overviewLabels.maxGuests, value: d.overview.maxGuests },
+  { label: d.ui.overviewLabels.area, value: d.overview.area },
+];
+
+const descLists: { title: string; items: string[] }[] = [
+  d.propertyDescription.bedroomGuide,
+  d.propertyDescription.facilityGuide,
+  d.propertyDescription.equipment,
+  d.propertyDescription.amenitiesDetail,
+  d.propertyDescription.otherNotes,
+];
+
+const conditionRows: string[] = [
+  d.conditions.minNights,
+  d.conditions.cancellation,
+  d.conditions.cleaningFee,
+  d.conditions.extraGuest,
+  d.conditions.noiseRule,
+  d.conditions.petRule,
+  d.conditions.smokingRule,
+].filter(Boolean);
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+
+<!-- Hero -->
+<section class="pd-hero">
+  <img
+    src={heroImage}
+    srcset={`${hero480} 480w, ${hero768} 768w, ${heroImage} 1280w`}
+    sizes="100vw"
+    alt=""
+    aria-hidden="true"
+    fetchpriority="high"
+    decoding="async"
+    width="1280"
+    height="853"
+    class="pd-hero-bg"
+  />
+  <div class="pd-hero-grad" aria-hidden="true"></div>
+  <div class="pd-hero-content animate-fade-in" style="animation-delay:200ms;">
+    <p class="pd-area">{d.hero.area}</p>
+    <h1 class="pd-name">{d.hero.propertyName}</h1>
+    <p class="pd-tagline">{d.hero.tagline}</p>
+    <p class="pd-capacity">{d.hero.capacity}</p>
+    <div class="pd-hero-ctas">
+      <a href={p.airbnbUrl} target="_blank" rel="noopener noreferrer" class="pd-cta-primary">
+        {d.hero.bookNow}
+        <Fragment set:html={lucide("externalLink", { size: 13, strokeWidth: 2.5 })} />
+      </a>
+      <a href="#booking" class="pd-cta-secondary">{d.booking.title}</a>
+    </div>
+  </div>
+</section>
+
+<!-- Overview + Review badge -->
+<section class="pd-section">
+  <div class="pd-container">
+    <div class="pd-overview">
+      {
+        overviewCards.map((c) => (
+          <div class="ov-card">
+            <p class="ov-value">{c.value}</p>
+            <p class="ov-label">{c.label}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <a href={p.airbnbUrl} target="_blank" rel="noopener noreferrer" class="pd-review">
+      <Fragment set:html={starRating(Number(d.review.rating), 14, `pd-${propertyKey}`)} />
+      <span class="pd-review-num">{d.review.rating}</span>
+      <span class="pd-review-count">{d.review.count}</span>
+      <span class="pd-review-tag">{d.review.superhostLabel}</span>
+      <span class="pd-review-tag">{d.review.airbnbLabel}</span>
+    </a>
+  </div>
+</section>
+
+<!-- Description -->
+<section class="pd-section">
+  <div class="pd-container narrow">
+    <h2 class="pd-h2">{d.propertyDescription.title}</h2>
+    <p class="pd-body" style="white-space:pre-line;">{d.propertyDescription.intro}</p>
+
+    {
+      d.propertyDescription.highlights.map((h: { title: string; body: string }) => (
+        <div style="margin-top:1.75rem;">
+          <h3 class="pd-h3">{h.title}</h3>
+          <p class="pd-body" style="white-space:pre-line;">{h.body}</p>
+        </div>
+      ))
+    }
+
+    <details class="pd-more">
+      <summary>{d.propertyDescription.showMore}</summary>
+      <div>
+        {
+          descLists.map((sec) => (
+            <div style="margin-top:1.75rem;">
+              <h3 class="pd-h3">{sec.title}</h3>
+              <ul class="pd-list">
+                {sec.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          ))
+        }
+        <div style="margin-top:1.75rem;">
+          <h3 class="pd-h3">{d.propertyDescription.guestAccess.title}</h3>
+          <p class="pd-body" style="white-space:pre-line;">{d.propertyDescription.guestAccess.body}</p>
+        </div>
+        <div style="margin-top:1.75rem;">
+          <h3 class="pd-h3">{d.propertyDescription.registration.title}</h3>
+          <p class="pd-body">{d.propertyDescription.registration.body}</p>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- Amenities -->
+<section class="pd-section alt">
+  <div class="pd-container">
+    <h2 class="pd-h2">{d.amenityCategories.title}</h2>
+    <div class="am-grid">
+      {
+        d.amenityCategories.categories.map(
+          (cat: { name: string; items: { label: string; note?: string; unavailable?: boolean }[] }) => (
+            <div class="am-cat">
+              <h3 class="am-cat-name">{cat.name}</h3>
+              <ul class="am-items">
+                {cat.items.map((item) => (
+                  <li class="am-item" data-off={item.unavailable ? "true" : undefined}>
+                    <span class="am-icon" aria-hidden="true">
+                      <Fragment set:html={lucide(item.unavailable ? "x" : "check", { size: 14, strokeWidth: 2 })} />
+                    </span>
+                    <span>
+                      {item.label}
+                      {item.note && <span class="am-note"> — {item.note}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        )
+      }
+    </div>
+  </div>
+</section>
+
+{
+  floorPlanImage && (
+    <section class="pd-section">
+      <div class="pd-container narrow">
+        <h2 class="pd-h2">{d.floorPlan.title}</h2>
+        <p class="pd-sub">{d.floorPlan.subtitle}</p>
+        <img
+          src={floorPlanImage}
+          srcset={`${thumb(floorPlanImage)} 480w, ${floorPlanImage.replace(/\.webp$/, "-768.webp")} 768w, ${floorPlanImage} 1200w`}
+          sizes="(max-width: 768px) 100vw, 720px"
+          alt={d.floorPlan.imageAlt}
+          loading="lazy"
+          decoding="async"
+          style="width:100%;display:block;border:1px solid #e8e8e8;border-radius:4px;"
+        />
+      </div>
+    </section>
+  )
+}
+
+<!-- Access -->
+<section class="pd-section">
+  <div class="pd-container narrow">
+    <h2 class="pd-h2">{d.access.title}</h2>
+    <ul class="acc-list">
+      {
+        d.access.items.map((a: { from: string; time: string }) => (
+          <li class="acc-row">
+            <span class="acc-from">{a.from}</span>
+            <span class="acc-time">{a.time}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- Check-in / Conditions / House Rules -->
+<section class="pd-section alt">
+  <div class="pd-container">
+    <div class="info-cols">
+      <div>
+        <h2 class="pd-h2 sm">{d.checkin.title}</h2>
+        <ul class="pd-list">
+          <li>{d.checkin.time}</li>
+          <li>{d.checkin.checkout}</li>
+          <li>{d.checkin.method}</li>
+          <li>{d.checkin.idVerification}</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="pd-h2 sm">{d.conditions.title}</h2>
+        <ul class="pd-list">
+          {conditionRows.map((row) => <li>{row}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="pd-h2 sm">{d.houseRules.title}</h2>
+        <ul class="pd-list">
+          {d.houseRules.items.map((r: { rule: string }) => <li>{r.rule}</li>)}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Beds24 -->
+<section class="pd-section" id="booking">
+  <div class="pd-container">
+    <h2 class="pd-h2">{d.booking.title}</h2>
+    <p class="pd-sub">{d.booking.subtitle}</p>
+    <div class="beds24">
+      <iframe
+        src={`https://beds24.com/booking2.php?propid=${p.beds24PropId}&referer=iframe`}
+        title={`${d.hero.propertyName} availability`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- Gallery -->
+<section class="pd-section">
+  <div class="pd-container">
+    <h2 class="pd-h2">Gallery</h2>
+    <div class="pd-gallery">
+      {
+        gallery.map((src, i) => (
+          <button class="g-item img-zoom js-pd-gallery" data-index={i} aria-label={`Photo ${i + 1}`}>
+            <img src={thumb(src)} alt={`${d.hero.propertyName} — ${i + 1}`} loading="lazy" decoding="async" />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="pd-lightbox" hidden>
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous">‹</button>
+    <img class="lb-img" src="" alt="" />
+    <button class="lb-next" aria-label="Next">›</button>
+    <p class="lb-counter"></p>
+  </div>
+  <script is:inline type="application/json" id="pd-gallery-data" set:html={JSON.stringify(gallery)} />
+</section>
+
+<!-- FAQ -->
+<section class="pd-section alt">
+  <div class="pd-container narrow">
+    <h2 class="pd-h2">{d.faq.title}</h2>
+    {
+      d.faq.items.map((item: { q: string; a: string }) => (
+        <details class="pd-faq">
+          <summary>
+            <span class="q">{item.q}</span>
+            <span class="plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="a" style="white-space:pre-line;">{item.a}</p>
+        </details>
+      ))
+    }
+    <div style="margin-top:2.5rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+      <a href={p.airbnbUrl} target="_blank" rel="noopener noreferrer" class="pd-cta-dark">
+        {d.faq.bookButton}
+        <Fragment set:html={lucide("externalLink", { size: 13, strokeWidth: 2.5 })} />
+      </a>
+      <a href={localizedPath(lang, "/")} class="pd-cta-ghost">{ui.backToHome}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pd-hero {
+    position: relative;
+    width: 100%;
+    min-height: 88svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .pd-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .pd-hero-grad {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.72) 100%);
+    z-index: 1;
+  }
+  .pd-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3.5rem;
+    color: #fff;
+  }
+  .pd-area {
+    font-size: clamp(0.65rem, 1.4vw, 0.8rem);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 0.75rem;
+  }
+  .pd-name {
+    font-size: clamp(2rem, 6vw, 4rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
+  }
+  .pd-tagline {
+    font-size: clamp(0.9rem, 2vw, 1.05rem);
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 540px;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+  }
+  .pd-capacity {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.75);
+    letter-spacing: 0.03em;
+    margin-bottom: 1.75rem;
+  }
+  .pd-hero-ctas {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .pd-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #ffffff;
+    color: #111111;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.18s, transform 0.15s;
+  }
+  .pd-cta-primary:hover {
+    background: #f0f0f0;
+    transform: translateY(-1px);
+  }
+  .pd-cta-secondary {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.18s;
+  }
+  .pd-cta-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .pd-section {
+    padding: 4rem 0;
+    background: #ffffff;
+  }
+  .pd-section.alt {
+    background: #f7f7f7;
+  }
+  .pd-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .pd-container.narrow {
+    max-width: 760px;
+  }
+  .pd-h2 {
+    font-size: clamp(1.4rem, 3.5vw, 2.1rem);
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+    margin-bottom: 1.5rem;
+  }
+  .pd-h2.sm {
+    font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+    margin-bottom: 1rem;
+  }
+  .pd-h3 {
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 0.6rem;
+  }
+  .pd-sub {
+    font-size: 0.9rem;
+    color: #666666;
+    font-weight: 300;
+    margin: -0.75rem 0 1.5rem;
+  }
+  .pd-body {
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: #444444;
+    line-height: 1.85;
+  }
+  .pd-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .pd-list li {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: #555555;
+    line-height: 1.7;
+    padding-left: 1.1rem;
+    position: relative;
+  }
+  .pd-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 1px;
+    background: #aaaaaa;
+  }
+
+  .pd-overview {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  @media (min-width: 640px) {
+    .pd-overview {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .ov-card {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    padding: 1.1rem 1.25rem;
+    background: #ffffff;
+  }
+  .ov-value {
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 0.2rem;
+  }
+  .ov-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999999;
+  }
+  .pd-review {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    background: #fafafa;
+    text-decoration: none;
+    flex-wrap: wrap;
+    transition: border-color 0.2s;
+  }
+  .pd-review:hover {
+    border-color: #111111;
+  }
+  .pd-review-num {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111111;
+  }
+  .pd-review-count {
+    font-size: 0.8rem;
+    color: #888888;
+  }
+  .pd-review-tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888888;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+
+  .pd-more {
+    margin-top: 2rem;
+    border-top: 1px solid #e8e8e8;
+  }
+  .pd-more summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #111111;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .pd-more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .am-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  @media (min-width: 640px) {
+    .am-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 900px) {
+    .am-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .am-cat-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .am-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .am-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: #444444;
+    line-height: 1.55;
+  }
+  .am-item[data-off="true"] {
+    color: #bbbbbb;
+    text-decoration: line-through;
+  }
+  .am-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    margin-top: 0.15em;
+    color: #111111;
+  }
+  .am-item[data-off="true"] .am-icon {
+    color: #cccccc;
+  }
+  .am-note {
+    color: #999999;
+    font-size: 0.78rem;
+  }
+
+  .acc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .acc-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.9rem;
+  }
+  .acc-from {
+    color: #444444;
+    font-weight: 300;
+  }
+  .acc-time {
+    color: #111111;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .info-cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .info-cols {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .beds24 {
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .beds24 iframe {
+    width: 100%;
+    height: 720px;
+    border: 0;
+    display: block;
+  }
+
+  .pd-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  @media (min-width: 768px) {
+    .pd-gallery {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .g-item {
+    aspect-ratio: 3/2;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .g-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .pd-faq {
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .pd-faq summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    cursor: pointer;
+  }
+  .pd-faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .pd-faq .q {
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .pd-faq .plus {
+    font-size: 1.25rem;
+    color: #555555;
+    flex-shrink: 0;
+    line-height: 1;
+    transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .pd-faq[open] .plus {
+    transform: rotate(45deg);
+  }
+  .pd-faq .a {
+    font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+    font-weight: 300;
+    color: #555555;
+    line-height: 1.8;
+    padding-bottom: 1.25rem;
+    margin: 0;
+  }
+
+  .pd-cta-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.18s;
+  }
+  .pd-cta-dark:hover {
+    background: #333333;
+  }
+  .pd-cta-ghost {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #111111;
+    color: #111111;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.18s, color 0.18s;
+  }
+  .pd-cta-ghost:hover {
+    background: #111111;
+    color: #ffffff;
+  }
+
+  /* Lightbox（PropertiesSection と同型） */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0, 0, 0, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .lightbox[hidden] {
+    display: none;
+  }
+  .lb-img {
+    max-width: 92vw;
+    max-height: 86vh;
+    object-fit: contain;
+    display: block;
+  }
+  .lb-close,
+  .lb-prev,
+  .lb-next {
+    position: absolute;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 2.25rem;
+    line-height: 1;
+    padding: 0.5rem 1rem;
+    opacity: 0.85;
+    transition: opacity 0.15s;
+  }
+  .lb-close:hover,
+  .lb-prev:hover,
+  .lb-next:hover {
+    opacity: 1;
+  }
+  .lb-close {
+    top: max(0.75rem, env(safe-area-inset-top));
+    right: 0.75rem;
+  }
+  .lb-prev {
+    left: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+  }
+  .lb-next {
+    right: 0.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 3rem;
+  }
+  .lb-counter {
+    position: absolute;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
+</style>
+
+<script>
+  // ギャラリーライトボックス
+  const data = document.getElementById("pd-gallery-data");
+  const images: string[] = data ? JSON.parse(data.textContent || "[]") : [];
+  const lb = document.getElementById("pd-lightbox") as HTMLElement | null;
+  const lbImg = lb?.querySelector(".lb-img") as HTMLImageElement | null;
+  const lbCounter = lb?.querySelector(".lb-counter") as HTMLElement | null;
+  let idx = 0;
+
+  function render() {
+    if (!lbImg || !lbCounter) return;
+    lbImg.src = images[idx] ?? "";
+    lbCounter.textContent = `${idx + 1} / ${images.length}`;
+  }
+  function open(i: number) {
+    if (!lb || !images.length) return;
+    idx = i;
+    render();
+    lb.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+  function close() {
+    if (!lb) return;
+    lb.hidden = true;
+    document.body.style.overflow = "";
+  }
+  const prev = () => {
+    idx = (idx - 1 + images.length) % images.length;
+    render();
+  };
+  const next = () => {
+    idx = (idx + 1) % images.length;
+    render();
+  };
+
+  document.querySelectorAll<HTMLElement>(".js-pd-gallery").forEach((el) => {
+    el.addEventListener("click", () => open(Number(el.dataset.index || 0)));
+  });
+  lb?.querySelector(".lb-close")?.addEventListener("click", close);
+  lb?.querySelector(".lb-prev")?.addEventListener("click", prev);
+  lb?.querySelector(".lb-next")?.addEventListener("click", next);
+  lb?.addEventListener("click", (e) => {
+    if (e.target === lb) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (lb?.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === "ArrowRight") next();
+  });
+</script>
