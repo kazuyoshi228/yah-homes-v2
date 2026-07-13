@@ -97,26 +97,27 @@ const LOCALS: LocaleText = {
   },
 };
 
+// /booking はコンバージョンページ（Airbnb予約CTA）— description も実態に一致させる
 const BOOKING: LocaleText = {
   en: {
-    title: "Book Direct | yah.homes — Whole-House Stays in Fukuoka",
+    title: "Book Your Stay | yah.homes — Whole-House Stays in Fukuoka",
     description:
-      "Choose your stay at yah.homes Fukuoka. Kiyokawa (up to 7 guests) and Takasago (up to 6 guests). Book directly on Airbnb or check availability.",
+      "Reserve your stay at yah.homes Fukuoka on Airbnb — Kiyokawa (up to 7 guests) and Takasago (up to 6 guests). Newly built whole-house rentals with SIMMONS mattresses and full kitchens.",
   },
   ko: {
-    title: "직접 예약 | yah.homes — 후쿠오카 통째 빌라",
+    title: "예약하기 | yah.homes — 후쿠오카 통째 빌라",
     description:
-      "후쿠오카 yah.homes 숙소를 선택하세요. 기요카와(최대 7명)와 다카사고(최대 6명). Airbnb에서 직접 예약하거나 예약 가능 여부를 확인하세요.",
+      "yah.homes 후쿠오카를 Airbnb에서 예약하세요 — 기요카와(최대 7명)·다카사고(최대 6명). SIMMONS 매트리스와 풀 키친을 갖춘 신축 통째 빌라입니다.",
   },
   zh: {
-    title: "直接預訂 | yah.homes — 福岡整棟住宿",
+    title: "立即預訂 | yah.homes — 福岡整棟住宿",
     description:
-      "選擇 yah.homes 福岡的住宿。清川（最多7人）和高砂（最多6人）。可透過 Airbnb 直接預訂或查詢空房。",
+      "透過 Airbnb 預訂 yah.homes 福岡 — 清川（最多7人）與高砂（最多6人）。配備 SIMMONS 床墊與完整廚房的新建整棟住宿。",
   },
   th: {
-    title: "จองตรง | yah.homes — ที่พักทั้งหลังในฟุกุโอกะ",
+    title: "จองที่พัก | yah.homes — ที่พักทั้งหลังในฟุกุโอกะ",
     description:
-      "เลือกที่พัก yah.homes ฟุกุโอกะ คิโยกาวะ (สูงสุด 7 คน) และทาคาซาโกะ (สูงสุด 6 คน) จองตรงผ่าน Airbnb หรือเช็คห้องว่าง",
+      "จอง yah.homes ฟุกุโอกะผ่าน Airbnb — คิโยกาวะ (สูงสุด 7 คน) และทาคาซาโกะ (สูงสุด 6 คน) บ้านพักใหม่ทั้งหลังพร้อมที่นอน SIMMONS และครัวครบครัน",
   },
 };
 

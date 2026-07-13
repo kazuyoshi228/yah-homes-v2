@@ -89,6 +89,17 @@ const htmlLang = HREFLANG[lang];
     }
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- GA4 — 既存プロパティ www.yah.homes（G-VJ5DDRML79）を流用しデータ継続 -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-VJ5DDRML79"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-VJ5DDRML79");
+    </script>
   </head>
   <body>
     <slot />

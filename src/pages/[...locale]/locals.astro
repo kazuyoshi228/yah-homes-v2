@@ -108,13 +108,12 @@ const homeHref = localizedPath(lang, "/");
   </section>
 
   <!-- Intro -->
-  <section style="background:#fafafa;padding:3.5rem 0;">
+  <section style="background:#f7f7f7;padding:3.5rem 0;">
     <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
-      <div style={`max-width:640px;border-left:3px solid ${ACCENT};padding-left:1.5rem;`}>
-        <h2 class="intro-title">
-          <span class="red-chip" aria-hidden="true"></span>
-          {t.introTitle}
-        </h2>
+      <!-- Home 式（eyebrow ラベル＋見出し）に統一 — 赤チップ・左ボーダーは廃止 -->
+      <div style="max-width:640px;">
+        <p class="intro-eyebrow">{t.volumeLabel}</p>
+        <h2 class="intro-title">{t.introTitle}</h2>
         {t.introBody.map((para, i) => <p class="intro-p" style={i === 0 ? "margin:0;" : ""}>{para}</p>)}
       </div>
     </div>
@@ -154,16 +153,8 @@ const homeHref = localizedPath(lang, "/");
                       <p class="spot-hours">{spot.hours}</p>
                     </div>
                     <p class="spot-desc">{spot.description}</p>
+                    <!-- QR はカードから廃止（Home との統一・視覚ノイズ削減）。タクシーカード/マップリストの QR は用途があるため維持 -->
                     <div class="spot-foot">
-                      <img
-                        src={qrUrl(spot.mapUrl, 64)}
-                        alt="QR Code"
-                        width="64"
-                        height="64"
-                        loading="lazy"
-                        decoding="async"
-                        style="display:block;border-radius:4px;border:1px solid #e8e8e8;"
-                      />
                       <a href={spot.mapUrl} target="_blank" rel="noopener noreferrer" class="spot-map">
                         <Fragment set:html={lucide("mapPin", { size: 11, strokeWidth: 1.8 })} />
                         Google Maps
@@ -180,7 +171,7 @@ const homeHref = localizedPath(lang, "/");
   </section>
 
   <!-- Taxi Card -->
-  <section style="background:#f5f5f5;padding:3.5rem 0;">
+  <section style="background:#f7f7f7;padding:3.5rem 0;">
     <div style="max-width:900px;margin:0 auto;padding:0 1.5rem;">
       <div class="taxi-card">
         <div style="flex:1;min-width:240px;">
@@ -280,11 +271,11 @@ const homeHref = localizedPath(lang, "/");
   }
   .lc-title {
     font-size: clamp(2rem, 6vw, 3.5rem);
-    font-weight: 700;
+    font-weight: 500;
     color: #ffffff;
     margin: 0 0 0.75rem;
     line-height: 1.1;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
   }
   .lc-tagline {
     font-size: clamp(0.9rem, 2vw, 1.05rem);
@@ -301,32 +292,30 @@ const homeHref = localizedPath(lang, "/");
     background: transparent;
     color: rgba(255, 255, 255, 0.65);
     border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 2px;
+    border-radius: 4px;
     text-decoration: none;
     transition: all 0.2s ease;
   }
   .lc-lang[data-active="true"] {
-    font-weight: 700;
+    font-weight: 500;
     background: #ffffff;
     color: #111111;
     border-color: #ffffff;
   }
-  .intro-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #111111;
-    margin: 0 0 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  .intro-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin: 0 0 0.75rem;
   }
-  .red-chip {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: #e8453c;
-    border-radius: 2px;
-    flex-shrink: 0;
+  .intro-title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.25rem;
   }
   .intro-p {
     font-size: 0.88rem;
@@ -344,7 +333,7 @@ const homeHref = localizedPath(lang, "/");
   }
   .cat-title {
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #111111;
     margin: 0;
     letter-spacing: -0.01em;
@@ -364,7 +353,7 @@ const homeHref = localizedPath(lang, "/");
   }
   .spot-name {
     font-size: 0.95rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #111111;
     margin: 0;
     line-height: 1.3;
@@ -410,7 +399,7 @@ const homeHref = localizedPath(lang, "/");
   }
   .taxi-title {
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #111111;
     margin: 0 0 0.5rem;
   }
@@ -421,7 +410,7 @@ const homeHref = localizedPath(lang, "/");
     line-height: 1.6;
   }
   .taxi-jp {
-    background: #f9f9f9;
+    background: #f7f7f7;
     border: 1px solid #e0e0e0;
     border-radius: 4px;
     padding: 1rem 1.25rem;
@@ -431,7 +420,7 @@ const homeHref = localizedPath(lang, "/");
   }
   .ml-title {
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 500;
     color: #ffffff;
     margin: 0 0 0.5rem;
   }
@@ -450,7 +439,7 @@ const homeHref = localizedPath(lang, "/");
     color: #111111;
     font-size: 0.78rem;
     letter-spacing: 0.06em;
-    border-radius: 2px;
+    border-radius: 4px;
     text-decoration: none;
     transition: opacity 0.2s ease, transform 0.15s ease;
   }
@@ -467,7 +456,7 @@ const homeHref = localizedPath(lang, "/");
     color: #ffffff;
     font-size: 0.78rem;
     letter-spacing: 0.06em;
-    border-radius: 2px;
+    border-radius: 4px;
     text-decoration: none;
     transition: opacity 0.2s ease;
   }
@@ -484,7 +473,7 @@ const homeHref = localizedPath(lang, "/");
     font-size: 0.78rem;
     letter-spacing: 0.04em;
     border: 1px solid #e0e0e0;
-    border-radius: 2px;
+    border-radius: 4px;
     text-decoration: none;
     transition: color 0.2s ease, border-color 0.2s ease;
   }

@@ -9,6 +9,7 @@ import { LOCALES, localeParam, localizedPath, type Locale } from "../../i18n/con
 import { translations } from "../../i18n/translations";
 import { getPageMeta } from "../../lib/seo";
 import { lucide } from "../../lib/lucide";
+import { uiStrings } from "../../i18n/uiStrings";
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({
@@ -20,6 +21,7 @@ export function getStaticPaths() {
 const { lang } = Astro.props as { lang: Locale };
 const t = translations[lang];
 const meta = getPageMeta("about", lang);
+const ui = uiStrings[lang];
 
 const ABOUT_HERO = "/manus-storage/017_10f920ac.webp";
 const ABOUT_HERO_768 = "/manus-storage/017-768_776a4b9b.webp";
@@ -62,7 +64,7 @@ const homeHref = localizedPath(lang, "/");
   <section style="padding:4rem 1.5rem;text-align:center;background:#ffffff;">
     <a href={homeHref} class="back-btn">
       <Fragment set:html={lucide("chevronLeft", { size: 14, strokeWidth: 2.5 })} />
-      Back to Home
+      {ui.backToHome}
     </a>
   </section>
 

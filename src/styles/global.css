@@ -51,7 +51,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --font-sans:
-    "National2", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+    "National2", "Yu Gothic Medium", "YuGothic", "Yu Gothic", "Hiragino Sans", "Noto Sans JP",
     "Noto Sans KR", "Noto Sans TC", "Noto Sans Thai", system-ui, sans-serif;
 }
 
@@ -88,7 +88,7 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      "National2", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+      "National2", "Yu Gothic Medium", "YuGothic", "Yu Gothic", "Hiragino Sans", "Noto Sans JP",
       "Noto Sans KR", "Noto Sans TC", "Noto Sans Thai", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -150,7 +150,7 @@
     padding: 0.625rem 1rem;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #e8e8e8;
     background: #ffffff;
     color: #111111;
     transition:
