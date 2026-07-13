@@ -1,6 +1,7 @@
 ---
-/* yah.homes ContactSection — 旧 ContactSection.tsx の忠実移植（UI）
-   Phase 1: 送信バックエンド未接続のためフォームは表示のみ（submitは無効化） */
+/* yah.homes ContactSection — 旧 ContactSection.tsx の忠実移植
+   B8: Cloud Function `contact` へ POST → Firestore(contacts) に保存
+   （ルールは全deny・Admin SDK経由のみ。ハニーポット website フィールド付き） */
 import { translations } from "../../i18n/translations";
 import type { Locale } from "../../i18n/config";
 
@@ -9,6 +10,8 @@ interface Props {
 }
 const { lang } = Astro.props;
 const c = translations[lang].contact;
+
+const CONTACT_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/contact";
 ---
 
 <section id="contact" style="background:#f7f7f7;padding:5rem 1.5rem 6rem;">
@@ -17,15 +20,25 @@ const c = translations[lang].contact;
     <h2 class="c-heading">{c.heading}</h2>
     <p class="c-sub">{c.subheading}</p>
 
-    <form id="contact-form" novalidate>
+    <form
+      id="contact-form"
+      novalidate
+      data-endpoint={CONTACT_ENDPOINT}
+      data-lang={lang}
+      data-success={c.successMsg}
+      data-error={c.errorMsg}
+    >
+      <!-- honeypot（不可視・botが埋める） -->
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;opacity:0;" />
+
       <div style="margin-bottom:1.25rem;">
         <label class="f-label" for="cf-name">Full Name <span style="color:#cc0000;">*</span></label>
-        <input class="f-input" id="cf-name" type="text" name="name" placeholder={c.namePlaceholder} autocomplete="name" />
+        <input class="f-input" id="cf-name" type="text" name="name" placeholder={c.namePlaceholder} autocomplete="name" required />
       </div>
 
       <div style="margin-bottom:1.25rem;">
         <label class="f-label" for="cf-email">Email <span style="color:#cc0000;">*</span></label>
-        <input class="f-input" id="cf-email" type="email" name="email" placeholder={c.emailPlaceholder} autocomplete="email" />
+        <input class="f-input" id="cf-email" type="email" name="email" placeholder={c.emailPlaceholder} autocomplete="email" required />
       </div>
 
       <div style="margin-bottom:1.25rem;">
@@ -113,8 +126,48 @@ const c = translations[lang].contact;
 </style>
 
 <script>
-  // Phase 1: 送信バックエンド未接続 — 送信は次フェーズ（Cloud Functions）で有効化
-  document.getElementById("contact-form")?.addEventListener("submit", (e) => {
+  // B8: Cloud Function へ送信 → 成功で successMsg 表示 / 失敗で errorMsg
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const endpoint = form.dataset.endpoint!;
+    const btn = form.querySelector<HTMLButtonElement>(".f-submit");
+    const name = (form.querySelector<HTMLInputElement>('[name="name"]')?.value ?? "").trim();
+    const email = (form.querySelector<HTMLInputElement>('[name="email"]')?.value ?? "").trim();
+    const message = (form.querySelector<HTMLTextAreaElement>('[name="message"]')?.value ?? "").trim();
+    const website = form.querySelector<HTMLInputElement>('[name="website"]')?.value ?? "";
+    const privacy = form.querySelector<HTMLInputElement>('[name="privacy"]')?.checked;
+
+    // 簡易バリデーション（旧実装と同基準）
+    if (!name || !/\S+@\S+\.\S+/.test(email) || !message || !privacy) {
+      form.reportValidity();
+      if (!privacy) alert("Please agree to the Privacy Policy.");
+      return;
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.dataset.label = btn.textContent ?? "";
+      btn.textContent = "Sending...";
+    }
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message, website, lang: form.dataset.lang }),
+      });
+      if (!res.ok) throw new Error("bad_status");
+      // 成功: フォームを successMsg に置き換え（旧実装と同じ挙動）
+      const done = document.createElement("div");
+      done.style.cssText = "text-align:center;padding:3rem 0;";
+      done.innerHTML = `<p style="font-size:1.5rem;font-weight:500;color:#111111;">${form.dataset.success}</p>`;
+      form.replaceWith(done);
+    } catch {
+      alert(form.dataset.error || "Failed to send. Please try again later.");
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = btn.dataset.label || "Send";
+      }
+    }
   });
 </script>

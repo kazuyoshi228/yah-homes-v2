@@ -1,15 +1,96 @@
 /**
- * yah.homes Cloud Functions — 足場（Phase 1）
+ * yah.homes Cloud Functions
  *
- * 現時点では health チェック1本のみ。実機能（問い合わせ送信・Beds24 webhook・
- * magazine 連携など）は各機能フェーズで、設計図の承認を得てから追加する。
- * リージョンは asia-northeast1（東京）に統一する。
+ * - health  : ヘルスチェック
+ * - contact : 問い合わせフォーム送信（B8）
+ *   クライアント→HTTP Function→Firestore(Admin SDK) の一方向。
+ *   Firestore ルールは全 deny のまま（クライアント直アクセス経路なし）。
+ *   メール通知は未実装（送信サービスのAPIキー取得後に追加予定）— 保存のみ。
  */
 import { onRequest } from "firebase-functions/v2/https";
+import { initializeApp } from "firebase-admin/app";
+import { getFirestore, FieldValue } from "firebase-admin/firestore";
 
-export const health = onRequest(
-  { region: "asia-northeast1" },
-  (_req, res) => {
-    res.status(200).json({ status: "ok", service: "yah.homes", ts: Date.now() });
+initializeApp();
+const db = getFirestore();
+
+const REGION = "asia-northeast1";
+
+// 許可オリジン（本番・Firebaseデフォルト・devチャンネル・ローカル）
+const ALLOWED_ORIGINS = [
+  "https://yah.homes",
+  "https://www.yah.homes",
+  "https://yah-homes.web.app",
+  "https://yah-homes.firebaseapp.com",
+];
+function corsOrigin(origin: string | undefined): string | null {
+  if (!origin) return null;
+  if (ALLOWED_ORIGINS.includes(origin)) return origin;
+  // dev プレビューチャンネル（https://yah-homes--<channel>-<hash>.web.app）
+  if (/^https:\/\/yah-homes--[a-z0-9-]+\.web\.app$/.test(origin)) return origin;
+  if (/^http:\/\/localhost:\d+$/.test(origin)) return origin;
+  return null;
+}
+
+export const health = onRequest({ region: REGION }, (_req, res) => {
+  res.status(200).json({ status: "ok", service: "yah.homes", ts: Date.now() });
+});
+
+export const contact = onRequest({ region: REGION }, async (req, res) => {
+  const origin = corsOrigin(req.headers.origin as string | undefined);
+  if (origin) {
+    res.set("Access-Control-Allow-Origin", origin);
+    res.set("Vary", "Origin");
   }
-);
+  res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") {
+    res.status(204).send("");
+    return;
+  }
+  if (req.method !== "POST") {
+    res.status(405).json({ ok: false, error: "method_not_allowed" });
+    return;
+  }
+
+  const { name, email, message, lang, website } = (req.body ?? {}) as Record<string, unknown>;
+
+  // ハニーポット（botはこの不可視フィールドを埋める）— 成功を装って破棄
+  if (typeof website === "string" && website.trim() !== "") {
+    res.status(200).json({ ok: true });
+    return;
+  }
+
+  // バリデーション
+  const nameStr = typeof name === "string" ? name.trim() : "";
+  const emailStr = typeof email === "string" ? email.trim() : "";
+  const messageStr = typeof message === "string" ? message.trim() : "";
+  const langStr = typeof lang === "string" && ["en", "ko", "zh", "th"].includes(lang) ? lang : "en";
+
+  if (!nameStr || nameStr.length > 200) {
+    res.status(400).json({ ok: false, error: "invalid_name" });
+    return;
+  }
+  if (!/^\S+@\S+\.\S+$/.test(emailStr) || emailStr.length > 320) {
+    res.status(400).json({ ok: false, error: "invalid_email" });
+    return;
+  }
+  if (!messageStr || messageStr.length > 5000) {
+    res.status(400).json({ ok: false, error: "invalid_message" });
+    return;
+  }
+
+  await db.collection("contacts").add({
+    name: nameStr,
+    email: emailStr,
+    message: messageStr,
+    lang: langStr,
+    createdAt: FieldValue.serverTimestamp(),
+    userAgent: (req.headers["user-agent"] as string | undefined)?.slice(0, 500) ?? null,
+    referer: (req.headers.referer as string | undefined)?.slice(0, 500) ?? null,
+    status: "new",
+  });
+
+  res.status(200).json({ ok: true });
+});
