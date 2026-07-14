@@ -201,31 +201,32 @@ const KIYOKAWA: LocaleText = {
   },
 };
 
+// CTR改善（2026-07-14 SC実測: 表示69・クリック0 → ブランド先頭をやめ、クエリ語彙＋数字を先頭に）
 const TAKASAGO: LocaleText = {
   en: {
-    title: "yah.homes Takasago | Book Direct — Whole-House Stay in Fukuoka",
+    title: "Whole-House Rental in Central Fukuoka — Sleeps 6, Free Parking | Takasago by yah.homes",
     description:
-      "Book yah.homes Takasago directly. Whole-house rental for up to 6 guests in Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, high-speed Wi-Fi. Rated 4.67/5 on Airbnb.",
+      "Rent an entire house near Tenjin & Hakata. 3 bedrooms, 3 vanities, SIMMONS mattresses, parking for large cars. One group per day, rated 4.67/5 on Airbnb. Book direct.",
   },
   ja: {
-    title: "yah.homes 高砂 | 福岡・薬院エリアの一棟貸し — 最大6名",
+    title: "福岡・渡辺通の一棟貸し「高砂」｜最大6名・駐車場付・1日1組【公式】",
     description:
-      "yah.homes高砂のご予約。渡辺通駅徒歩5〜10分・薬院徒歩圏の一棟貸し、最大6名。寝室3室、シモンズ製マットレス、大型車可の専用駐車場。Airbnb評価4.67/5。",
+      "天神・博多へ好アクセス、渡辺通駅徒歩5〜10分の一軒家を丸ごと貸切。寝室3室・洗面台3・シモンズ製マットレス・大型車も停められる専用駐車場。1日1組限定、Airbnb評価★4.67。空室カレンダーからご予約。",
   },
   ko: {
-    title: "yah.homes 다카사고 | 직접 예약 — 후쿠오카 통째 빌라",
+    title: "후쿠오카 독채 숙소 '다카사고' | 최대 6인·주차 가능·하루 한 팀 [공식]",
     description:
-      "yah.homes 다카사고 직접 예약. 후쿠오카의 통째 빌라, 최대 6명. 침실 3개, SIMMONS 매트리스, 풀 키친. Airbnb 평점 4.67/5.",
+      "덴진·하카타 접근성 좋은 위치, 와타나베도리역 도보 5~10분. 집 한 채 통째 대여, 침실 3개·세면대 3개·SIMMONS 매트리스·대형차 주차 가능. Airbnb 평점 ★4.67. 공식 사이트에서 예약.",
   },
   zh: {
-    title: "yah.homes 高砂 | 福岡包棟民宿 — 最多6人・直接預訂",
+    title: "福岡包棟民宿「高砂」｜最多6人・附停車場・一天一組【官方】",
     description:
-      "直接預訂 yah.homes 高砂。福岡市中心的包棟民宿，最多6人。3間臥室，SIMMONS床墊，渡邊通站步行5～10分鐘。Airbnb評分4.67/5。",
+      "鄰近天神・博多，渡邊通站步行5～10分鐘。整棟包棟出租：3間臥室、3個洗手台、SIMMONS床墊、可停大型車的專用停車場。一天只接待一組，Airbnb評分★4.67。官網直接預訂。",
   },
   th: {
-    title: "yah.homes ทาคาซาโกะ | จองตรง — ที่พักทั้งหลังในฟุกุโอกะ",
+    title: "บ้านเช่าทั้งหลังในฟุกุโอกะ 'ทาคาซาโกะ' | สูงสุด 6 คน มีที่จอดรถ [ทางการ]",
     description:
-      "จอง yah.homes ทาคาซาโกะโดยตรง ที่พักทั้งหลังสำหรับสูงสุด 6 คนในฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ คะแนน Airbnb 4.67/5",
+      "เช่าบ้านทั้งหลังใกล้เท็นจินและฮากาตะ เดิน 5-10 นาทีจากสถานี Watanabe-dori 3 ห้องนอน ที่นอน SIMMONS ที่จอดรถส่วนตัว รับวันละหนึ่งกลุ่ม คะแนน Airbnb 4.67/5 จองตรงที่เว็บทางการ",
   },
 };
 
