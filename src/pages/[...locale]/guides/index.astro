@@ -64,14 +64,17 @@ const noindex = GUIDES_PREVIEW || guides.length === 0;
             const t = g.translations[lang]!;
             return (
               <a href={localizedPath(lang, `/guides/${g.slug}`)} class="gl-item">
-                <h2 class="gl-item-title">{t.title}</h2>
-                <p class="gl-item-excerpt">{t.excerpt}</p>
-                <p class="gl-item-meta">
-                  {g.confirmedDate && <span>{g.confirmedDate}</span>}
-                  <span class="gl-item-arrow" aria-hidden="true">
-                    →
-                  </span>
-                </p>
+                {g.thumbnailUrl && <img class="gl-item-thumb" src={g.thumbnailUrl} alt="" loading="lazy" />}
+                <div class="gl-item-body">
+                  <h2 class="gl-item-title">{t.title}</h2>
+                  <p class="gl-item-excerpt">{t.excerpt}</p>
+                  <p class="gl-item-meta">
+                    {g.confirmedDate && <span>{g.confirmedDate}</span>}
+                    <span class="gl-item-arrow" aria-hidden="true">
+                      →
+                    </span>
+                  </p>
+                </div>
               </a>
             );
           })
@@ -116,13 +119,26 @@ const noindex = GUIDES_PREVIEW || guides.length === 0;
     flex-direction: column;
   }
   .gl-item {
-    display: block;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
     padding: 1.75rem 0;
     border-top: 1px solid #eeeeee;
     text-decoration: none;
   }
   .gl-item:last-child {
     border-bottom: 1px solid #eeeeee;
+  }
+  .gl-item-thumb {
+    flex-shrink: 0;
+    width: 88px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  .gl-item-body {
+    flex: 1;
+    min-width: 0;
   }
   .gl-item-title {
     font-size: 1.15rem;
