@@ -173,31 +173,32 @@ const BOOKING: LocaleText = {
   },
 };
 
+// CTR改善（2026-07-14 高砂と同一設計: クエリ語彙先頭・数字3つ・公式）
 const KIYOKAWA: LocaleText = {
   en: {
-    title: "yah.homes Kiyokawa | Book Direct — Whole-House Villa in Fukuoka",
+    title: "Newly Built Whole-House Villa in Fukuoka — Sleeps 7, Private Parking | Kiyokawa by yah.homes",
     description:
-      "Book yah.homes Kiyokawa directly. Newly built whole-house villa for up to 7 guests in Kiyokawa, Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, private parking. Rated 4.77/5 on Airbnb.",
+      "Rent an entire newly built villa by the Naka River, central Fukuoka. 3 bedrooms, SIMMONS mattresses, full kitchen, private parking. One group per day, rated 4.77/5 on Airbnb. Book direct.",
   },
   ja: {
-    title: "yah.homes 清川 | 福岡の新築一棟貸しヴィラ — 最大7名",
+    title: "福岡の新築一棟貸しヴィラ「清川」｜最大7名・駐車場付・1日1組【公式】",
     description:
-      "yah.homes清川のご予約。福岡市清川・那珂川沿いの新築一棟貸しヴィラ、最大7名。寝室3室、シモンズ製マットレス、フルキッチン、専用駐車場。Airbnb評価4.77/5。",
+      "那珂川沿い・天神と博多の中間に建つ新築の一軒家を丸ごと貸切。寝室3室・シモンズ製マットレス・フルキッチン・専用駐車場。1日1組限定、Airbnb評価★4.77。空室カレンダーからご予約。",
   },
   ko: {
-    title: "yah.homes 기요카와 | 직접 예약 — 후쿠오카 통째 빌라",
+    title: "후쿠오카 신축 독채 빌라 '기요카와' | 최대 7인·주차 가능·하루 한 팀 [공식]",
     description:
-      "yah.homes 기요카와 직접 예약. 후쿠오카 기요카와의 신축 통째 빌라, 최대 7명. 침실 3개, SIMMONS 매트리스, 풀 키친, 전용 주차장. Airbnb 평점 4.77/5.",
+      "나카강변, 덴진과 하카타 사이의 신축 주택을 통째로 대여. 침실 3개·SIMMONS 매트리스·풀 키친·전용 주차장. 하루 한 팀만, Airbnb 평점 ★4.77. 공식 사이트에서 예약.",
   },
   zh: {
-    title: "yah.homes 清川 | 福岡包棟民宿 — 最多7人・直接預訂",
+    title: "福岡新建包棟民宿「清川」｜最多7人・附停車場・一天一組【官方】",
     description:
-      "直接預訂 yah.homes 清川。福岡市中心的新建包棟民宿，最多7人。3間臥室，SIMMONS頂級床墊，完整廚房，私人停車場。Airbnb評分4.77/5。",
+      "那珂川畔、天神與博多之間的新建整棟民宿。3間臥室、SIMMONS床墊、完整廚房、私人停車場。一天只接待一組，Airbnb評分★4.77。官網直接預訂。",
   },
   th: {
-    title: "yah.homes คิโยกาวะ | จองตรง — วิลล่าทั้งหลังในฟุกุโอกะ",
+    title: "วิลล่าสร้างใหม่ทั้งหลังในฟุกุโอกะ 'คิโยกาวะ' | สูงสุด 7 คน มีที่จอดรถ [ทางการ]",
     description:
-      "จอง yah.homes คิโยกาวะโดยตรง วิลล่าทั้งหลังใหม่สำหรับสูงสุด 7 คน ในคิโยกาวะ ฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ ที่จอดรถส่วนตัว คะแนน Airbnb 4.77/5",
+      "เช่าวิลล่าสร้างใหม่ทั้งหลังริมแม่น้ำนากะ ใจกลางฟุกุโอกะ 3 ห้องนอน ที่นอน SIMMONS ครัวครบ ที่จอดรถส่วนตัว รับวันละหนึ่งกลุ่ม คะแนน Airbnb 4.77/5 จองตรงที่เว็บทางการ",
   },
 };
 
