@@ -65,7 +65,8 @@ function mapLangs(langs: string[], translations: Record<string, GuideTranslation
 async function fetchFeed(): Promise<Guide[]> {
   let res: Response;
   try {
-    res = await fetch(FEED_URL);
+    // CDNキャッシュ（300秒）で公開直後の記事が落ちるのを防ぐ（クエリでキャッシュキーを分ける）
+    res = await fetch(`${FEED_URL}?ts=${Date.now()}`);
   } catch (e) {
     // フィード未デプロイ期間の通常ビルドを壊さない（配信開始後は GUIDES_STRICT=1 で厳格化）
     if (process.env.GUIDES_STRICT === "1") throw e;
