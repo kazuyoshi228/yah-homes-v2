@@ -173,7 +173,14 @@ const noindex = GUIDES_PREVIEW || guide.draft;
       }
 
       <!-- GEO: 直接回答（ホームの .direct-answer と同型） -->
-      {t.directAnswer && <p class="gd-answer">{t.directAnswer}</p>}
+      {
+        t.directAnswer && (
+          <div class="gd-answer">
+            <p class="gd-answer-label">Summary</p>
+            <p class="gd-answer-body">{t.directAnswer}</p>
+          </div>
+        )
+      }
 
       <!-- 本文 -->
       <div class="gd-body" set:html={bodyHtml} />
@@ -386,13 +393,23 @@ const noindex = GUIDES_PREVIEW || guide.draft;
     margin: 0 0 2.5rem;
   }
   .gd-answer {
+    border-left: 2px solid #e8e8e8;
+    padding-left: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .gd-answer-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 0.4rem;
+  }
+  .gd-answer-body {
     font-size: 0.9rem;
     font-weight: 300;
     line-height: 1.85;
     color: #555555;
-    border-left: 2px solid #e8e8e8;
-    padding-left: 1rem;
-    margin-bottom: 2.5rem;
   }
   .gd-h2 {
     font-size: clamp(1.15rem, 2.6vw, 1.5rem);
