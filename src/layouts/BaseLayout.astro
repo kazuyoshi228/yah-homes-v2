@@ -19,6 +19,8 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  /** og:type（記事ページは "article"） */
+  ogType?: string;
   jsonLd?: Record<string, unknown>;
   /** 管理画面など検索対象外ページは true */
   noindex?: boolean;
@@ -32,6 +34,7 @@ const {
   title,
   description,
   ogImage = OG_IMAGE,
+  ogType = "website",
   jsonLd,
   noindex = false,
   availableLocales,
@@ -76,7 +79,7 @@ const htmlLang = HREFLANG[lang];
     {!noindex && <link rel="alternate" hreflang="x-default" href={xDefault} />}
 
     <!-- OGP -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />

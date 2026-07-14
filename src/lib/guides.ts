@@ -35,6 +35,8 @@ export interface Guide {
   publishedAt: number | null;
   updatedAt: number;
   thumbnailUrl: string | null;
+  /** 著者スナップショット（magazine CMSで選択・feed経由で自動反映） */
+  author: { id: string; name: string; title: string; photoUrl: string | null } | null;
   languages: Locale[];
   translations: Partial<Record<Locale, GuideTranslation>>;
   /** true = 未公開ドラフト（プレビュービルドのみ登場・noindex） */
@@ -100,6 +102,7 @@ async function fetchFeed(): Promise<Guide[]> {
       publishedAt: (a.publishedAt as number) ?? null,
       updatedAt: (a.updatedAt as number) ?? Date.now(),
       thumbnailUrl: (a.thumbnailUrl as string) ?? null,
+      author: (a.author as Guide["author"]) ?? null,
       languages,
       translations,
       draft: false,
@@ -184,6 +187,7 @@ function loadLocalDrafts(): Guide[] {
           publishedAt: null,
           updatedAt: Date.now(),
           thumbnailUrl: null,
+          author: null,
           languages: [locale],
           translations: { [locale]: t },
           draft: String(fm.status ?? "draft") !== "published",

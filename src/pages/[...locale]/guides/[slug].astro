@@ -34,6 +34,23 @@ bodyHtml = bodyHtml.replace(/href="(\/[^"#]*)(#[^"]*)?"/g, (_m, p: string, hash:
 // 手渡し見出し規約: 「## → 見出し」は矢印アイコン付き（magazine と同一仕様）
 bodyHtml = bodyHtml.replace(/<h2([^>]*)>→ /g, '<h2$1 class="h2-handoff">');
 
+// 目次: 本文の h2 に id を振り、3本以上あれば冒頭に目次を出す
+const tocItems: { id: string; text: string }[] = [];
+let h2Index = 0;
+bodyHtml = bodyHtml.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/g, (_m, attrs: string, inner: string) => {
+  h2Index += 1;
+  const id = `sec-${h2Index}`;
+  tocItems.push({ id, text: inner.replace(/<[^>]+>/g, "").trim() });
+  return `<h2${attrs} id="${id}">${inner}</h2>`;
+});
+const showToc = tocItems.length >= 3;
+
+// 関連記事: 同言語の翻訳を持つ他のガイド（最大3件）
+const allGuides = await getGuides();
+const relatedGuides = allGuides
+  .filter((g) => g.slug !== guide.slug && g.translations[lang])
+  .slice(0, 3);
+
 // ── handoff → 物件カード ──
 const PROPERTY_HANDOFF: Record<string, { key: "kiyokawa" | "takasago" }> = {
   "/booking/kiyokawa": { key: "kiyokawa" },
@@ -61,6 +78,9 @@ const jsonLd = {
   dateModified,
   url: `${BASE_URL}${localizedPath(lang, pagePath)}`,
   publisher: { "@type": "Organization", name: "yah.homes", url: BASE_URL },
+  ...(guide.author
+    ? { author: { "@type": "Person", name: guide.author.name, ...(guide.author.title ? { jobTitle: guide.author.title } : {}), ...(guide.author.photoUrl ? { image: guide.author.photoUrl } : {}) } }
+    : {}),
   ...(guide.thumbnailUrl ? { image: guide.thumbnailUrl } : {}),
 };
 const faqJsonLd =
@@ -89,6 +109,8 @@ const noindex = GUIDES_PREVIEW || guide.draft;
   jsonLd={jsonLd}
   noindex={noindex}
   availableLocales={guide.languages}
+  ogType="article"
+  ogImage={guide.thumbnailUrl ?? undefined}
   solidNav
 >
   {faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
@@ -103,10 +125,35 @@ const noindex = GUIDES_PREVIEW || guide.draft;
           {guide.confirmedDate && <span>{lang === "ja" ? `${guide.confirmedDate} 確認` : `Verified ${guide.confirmedDate}`}</span>}
           <span>yah.homes</span>
         </p>
+        {
+          guide.author && (
+            <p class="gd-byline">
+              {guide.author.photoUrl && <img class="gd-byline-photo" src={guide.author.photoUrl} alt={guide.author.name} loading="lazy" />}
+              <span class="gd-byline-name">{guide.author.name}</span>
+              {guide.author.title && <span class="gd-byline-title">{guide.author.title}</span>}
+            </p>
+          )
+        }
       </header>
 
       <!-- HERO画像（サムネイル・コラム幅上限・画角そのまま） -->
       {guide.thumbnailUrl && <img class="gd-hero" src={guide.thumbnailUrl} alt={t.title} />}
+
+      <!-- 目次（h2が3本以上のとき） -->
+      {
+        showToc && (
+          <nav class="gd-toc">
+            <p class="gd-toc-label">{lang === "ja" ? "目次" : "Contents"}</p>
+            <ol>
+              {tocItems.map((item) => (
+                <li>
+                  <a href={`#${item.id}`}>{item.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
 
       <!-- GEO: 直接回答（ホームの .direct-answer と同型） -->
       {t.directAnswer && <p class="gd-answer">{t.directAnswer}</p>}
@@ -149,6 +196,26 @@ const noindex = GUIDES_PREVIEW || guide.draft;
                   </span>
                 </a>
               ))}
+            </div>
+          </section>
+        )
+      }
+
+      <!-- 関連記事（同言語のガイド・最大3件） -->
+      {
+        relatedGuides.length > 0 && (
+          <section class="gd-related">
+            <h2 class="gd-h2">{lang === "ja" ? "関連ガイド" : "More guides"}</h2>
+            <div class="gd-related-list">
+              {relatedGuides.map((g) => {
+                const rt = g.translations[lang]!;
+                return (
+                  <a href={localizedPath(lang, `/guides/${g.slug}`)} class="gd-related-item">
+                    {g.thumbnailUrl && <img src={g.thumbnailUrl} alt="" loading="lazy" />}
+                    <span class="gd-related-title">{rt.title}</span>
+                  </a>
+                );
+              })}
             </div>
           </section>
         )
@@ -197,6 +264,91 @@ const noindex = GUIDES_PREVIEW || guide.draft;
     font-size: 0.75rem;
     color: #aaaaaa;
     margin-bottom: 2.5rem;
+  }
+  .gd-byline {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: -1.5rem 0 2.5rem;
+  }
+  .gd-byline-photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .gd-byline-name {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111111;
+  }
+  .gd-byline-title {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: #aaaaaa;
+  }
+  .gd-toc {
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 2.5rem;
+  }
+  .gd-toc-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 0.6rem;
+  }
+  .gd-toc ol {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  .gd-toc li {
+    font-size: 0.85rem;
+    line-height: 2;
+  }
+  .gd-toc a {
+    color: #333333;
+    text-decoration: none;
+  }
+  .gd-toc a:hover {
+    text-decoration: underline;
+  }
+  .gd-related-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  @media (min-width: 600px) {
+    .gd-related-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .gd-related-item {
+    display: block;
+    text-decoration: none;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .gd-related-item img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+  }
+  .gd-related-title {
+    display: block;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: #111111;
+  }
+  .gd-related-item:hover .gd-related-title {
+    opacity: 0.6;
   }
   .gd-hero {
     display: block;

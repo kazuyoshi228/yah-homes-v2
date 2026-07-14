@@ -12,6 +12,7 @@ interface Props {
   title: string;
   description: string;
   ogImage?: string;
+  ogType?: string;
   jsonLd?: Record<string, unknown>;
   noindex?: boolean;
   /** 翻訳が存在する言語のみ hreflang を出す（ガイド記事用） */
@@ -19,7 +20,7 @@ interface Props {
   /** ヒーローのないページ用: ナビを白背景固定に */
   solidNav?: boolean;
 }
-const { lang, path, title, description, ogImage, jsonLd, noindex, availableLocales, solidNav } = Astro.props;
+const { lang, path, title, description, ogImage, ogType, jsonLd, noindex, availableLocales, solidNav } = Astro.props;
 ---
 
 <BaseLayout
@@ -28,6 +29,7 @@ const { lang, path, title, description, ogImage, jsonLd, noindex, availableLocal
   title={title}
   description={description}
   ogImage={ogImage}
+  ogType={ogType}
   jsonLd={jsonLd}
   noindex={noindex}
   availableLocales={availableLocales}
