@@ -16,8 +16,10 @@ interface Props {
   noindex?: boolean;
   /** 翻訳が存在する言語のみ hreflang を出す（ガイド記事用） */
   availableLocales?: Locale[];
+  /** ヒーローのないページ用: ナビを白背景固定に */
+  solidNav?: boolean;
 }
-const { lang, path, title, description, ogImage, jsonLd, noindex, availableLocales } = Astro.props;
+const { lang, path, title, description, ogImage, jsonLd, noindex, availableLocales, solidNav } = Astro.props;
 ---
 
 <BaseLayout
@@ -30,7 +32,7 @@ const { lang, path, title, description, ogImage, jsonLd, noindex, availableLocal
   noindex={noindex}
   availableLocales={availableLocales}
 >
-  <Navbar lang={lang} path={path} />
+  <Navbar lang={lang} path={path} solid={solidNav} />
   <slot />
   <Footer lang={lang} />
 

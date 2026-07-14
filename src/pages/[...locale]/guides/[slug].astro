@@ -89,6 +89,7 @@ const noindex = GUIDES_PREVIEW || guide.draft;
   jsonLd={jsonLd}
   noindex={noindex}
   availableLocales={guide.languages}
+  solidNav
 >
   {faqJsonLd && <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />}
 
@@ -103,6 +104,9 @@ const noindex = GUIDES_PREVIEW || guide.draft;
           <span>yah.homes</span>
         </p>
       </header>
+
+      <!-- HERO画像（サムネイル・コラム幅上限・画角そのまま） -->
+      {guide.thumbnailUrl && <img class="gd-hero" src={guide.thumbnailUrl} alt={t.title} />}
 
       <!-- GEO: 直接回答（ホームの .direct-answer と同型） -->
       {t.directAnswer && <p class="gd-answer">{t.directAnswer}</p>}
@@ -193,6 +197,13 @@ const noindex = GUIDES_PREVIEW || guide.draft;
     font-size: 0.75rem;
     color: #aaaaaa;
     margin-bottom: 2.5rem;
+  }
+  .gd-hero {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin: 0 0 2.5rem;
   }
   .gd-answer {
     font-size: 0.9rem;

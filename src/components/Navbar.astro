@@ -14,8 +14,10 @@ interface Props {
   lang: Locale;
   /** 現在ページの論理パス（言語切替リンクの生成に使用） */
   path: string;
+  /** ヒーローのないページ用: 最初から白背景＋黒文字で固定 */
+  solid?: boolean;
 }
-const { lang, path } = Astro.props;
+const { lang, path, solid = false } = Astro.props;
 const t = translations[lang];
 
 const homeHref = localizedPath(lang, "/");
@@ -37,7 +39,7 @@ const langList = LOCALES.map((code) => ({
 }));
 ---
 
-<nav id="site-nav" class="hero-visible" style="padding-top: env(safe-area-inset-top, 0px);">
+<nav id="site-nav" class={solid ? "" : "hero-visible"} data-solid={solid ? "1" : undefined} style="padding-top: env(safe-area-inset-top, 0px);">
   <div class="nav-inner">
     <!-- Logo -->
     <a href={homeHref} class="nav-logo" aria-label="yah. home">
@@ -513,7 +515,9 @@ const langList = LOCALES.map((code) => ({
   function onScroll() {
     if (!nav) return;
     nav.classList.toggle("scrolled", window.scrollY > 20);
-    nav.classList.toggle("hero-visible", window.scrollY < window.innerHeight * 0.85 && !nav.classList.contains("menu-open"));
+    if (nav.dataset.solid !== "1") {
+      nav.classList.toggle("hero-visible", window.scrollY < window.innerHeight * 0.85 && !nav.classList.contains("menu-open"));
+    }
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
