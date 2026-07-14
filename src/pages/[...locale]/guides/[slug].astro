@@ -27,6 +27,24 @@ const pagePath = `/guides/${guide.slug}`;
 // ── 本文: 編集メモ〔…〕を除去 → Markdown描画 → 内部リンクをロケール化 ──
 const cleanedBody = t.body.replace(/〔[\s\S]*?〕/g, "").replace(/\n{3,}/g, "\n\n");
 let bodyHtml = await marked.parse(cleanedBody, { gfm: true });
+// 物件写真の自動リンク（テンプレート機能）: handoff の /booking/{key} に対応する
+// 画像（src に key を含む・アンカー外のもの）を予約ページへのリンクで包む
+const bookingTargets = (guide.handoff ?? []).filter((h) => h.startsWith("/booking/"));
+if (bookingTargets.length) {
+  bodyHtml = bodyHtml
+    .split(/(<a\b[\s\S]*?<\/a>)/g)
+    .map((seg, i) => {
+      if (i % 2 === 1) return seg;
+      let out = seg;
+      for (const href of bookingTargets) {
+        const key = href.split("/").pop()!;
+        out = out.replace(new RegExp(`<img[^>]*src="[^"]*${key}[^"]*"[^>]*/?>`, "g"), (img) => `<a href="${href}">${img}</a>`);
+      }
+      return out;
+    })
+    .join("");
+}
+
 bodyHtml = bodyHtml.replace(/href="(\/[^"#]*)(#[^"]*)?"/g, (_m, p: string, hash: string | undefined) => {
   if (p.startsWith("/manus-storage")) return `href="${p}${hash ?? ""}"`;
   return `href="${localizedPath(lang, p)}${hash ?? ""}"`;
