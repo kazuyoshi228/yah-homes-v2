@@ -186,8 +186,11 @@ function loadLocalDrafts(): Guide[] {
           confirmedDate: (fm.confirmedDate as string) ?? null,
           publishedAt: null,
           updatedAt: Date.now(),
-          thumbnailUrl: null,
-          author: null,
+          thumbnailUrl: (fm.thumbnailUrl as string) ?? null,
+          // 下書きプレビュー用: front-matter の author 欄（本番は feed のスナップショット）
+          author: fm.authorName
+            ? { id: "", name: fm.authorName as string, title: (fm.authorTitle as string) ?? "", photoUrl: (fm.authorPhotoUrl as string) ?? null }
+            : null,
           languages: [locale],
           translations: { [locale]: t },
           draft: String(fm.status ?? "draft") !== "published",
