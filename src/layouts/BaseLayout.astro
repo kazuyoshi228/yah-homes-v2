@@ -44,10 +44,13 @@ const {
 const canonical = `${BASE_URL}${localizedPath(lang, path)}`;
 // hreflang は「存在する言語」のみ＋x-default（en があれば en、無ければ先頭言語）
 const hreflangLocales: Locale[] = availableLocales ?? [...LOCALES];
-const alternates = hreflangLocales.map((loc) => ({
-  hreflang: HREFLANG[loc],
-  href: `${BASE_URL}${localizedPath(loc, path)}`,
-}));
+// 中国語は同一の繁体字ページを台湾・香港・中国語全般（フォールバック）の3宣言で配信
+const alternates = hreflangLocales.flatMap((loc) => {
+  const href = `${BASE_URL}${localizedPath(loc, path)}`;
+  const tags = [{ hreflang: HREFLANG[loc], href }];
+  if (loc === "zh") for (const h of ["zh-HK", "zh"]) tags.push({ hreflang: h, href });
+  return tags;
+});
 const xDefaultLocale = hreflangLocales.includes(DEFAULT_LOCALE) ? DEFAULT_LOCALE : hreflangLocales[0];
 const xDefault = `${BASE_URL}${localizedPath(xDefaultLocale, path)}`;
 // html lang 属性（zh は繁体字）
