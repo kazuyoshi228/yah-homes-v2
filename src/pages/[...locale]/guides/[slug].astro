@@ -31,6 +31,8 @@ bodyHtml = bodyHtml.replace(/href="(\/[^"#]*)(#[^"]*)?"/g, (_m, p: string, hash:
   if (p.startsWith("/manus-storage")) return `href="${p}${hash ?? ""}"`;
   return `href="${localizedPath(lang, p)}${hash ?? ""}"`;
 });
+// 手渡し見出し規約: 「## → 見出し」は矢印アイコン付き（magazine と同一仕様）
+bodyHtml = bodyHtml.replace(/<h2([^>]*)>→ /g, '<h2$1 class="h2-handoff">');
 
 // ── handoff → 物件カード ──
 const PROPERTY_HANDOFF: Record<string, { key: "kiyokawa" | "takasago" }> = {
@@ -218,6 +220,17 @@ const noindex = GUIDES_PREVIEW || guide.draft;
     margin: 3rem 0 1.25rem;
     padding-bottom: 0.6rem;
     border-bottom: 1px solid #eeeeee;
+  }
+  /* 手渡し見出し（## → …）の矢印アイコン。文字色に追従 */
+  .gd-body :global(h2.h2-handoff)::before {
+    content: "";
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-right: 0.45em;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M496 256l-240-240v144h-256v192h256v144z'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M496 256l-240-240v144h-256v192h256v144z'/%3E%3C/svg%3E") no-repeat center / contain;
   }
   .gd-body :global(h3) {
     font-size: 1.05rem;
