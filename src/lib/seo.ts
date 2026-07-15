@@ -25,10 +25,14 @@ export const OPERATOR = {
   ceo: "Kazuyoshi Yamada",
   ceoJa: "山田一慶",
   corporateNumber: "4010901041393", // 法人番号
-  streetAddress: "高砂1-18-7",
-  addressLocality: "福岡市中央区",
-  addressRegion: "福岡県",
+  // 日本語表記（会社概要・特商法の日本語面）
+  addressJa: "〒810-0011 福岡県福岡市中央区高砂1-18-7",
+  // 英語表記（schema・国際面。ユーザー確認済み 2026-07-16）
+  streetAddress: "1-18-7 Takasago",
+  addressLocality: "Chuo-ku, Fukuoka-shi",
+  addressRegion: "Fukuoka",
   postalCode: "810-0011",
+  addressEn: "1-18-7 Takasago, Chuo-ku, Fukuoka-shi, Fukuoka 810-0011, Japan",
   businessScope: "不動産売買・不動産開発・システム開発・貿易業",
 } as const;
 

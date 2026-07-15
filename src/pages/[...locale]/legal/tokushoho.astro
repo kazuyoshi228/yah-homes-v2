@@ -1,0 +1,182 @@
+---
+/* 特定商取引法に基づく表記（通信販売）。日本法準拠のため本文は日本語。
+   確定ファクト（登記情報）＋現状（予約はAirbnb/Booking.com経由・直販決済はMS3で準備中）に忠実。
+   電話番号は「請求に応じ遅滞なく開示」方式（design_booking_p1.md §14-6）。 */
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, localizedPath, type Locale } from "../../../i18n/config";
+import { translations } from "../../../i18n/translations";
+import { OPERATOR, BASE_URL, breadcrumbJsonLd } from "../../../lib/seo";
+import { lucide } from "../../../lib/lucide";
+import { uiStrings } from "../../../i18n/uiStrings";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const t = translations[lang];
+const ui = uiStrings[lang];
+const homeHref = localizedPath(lang, "/");
+const contactHref = `${homeHref}#contact`;
+
+const TITLE: Record<Locale, string> = {
+  ja: "特定商取引法に基づく表記 | yah.homes",
+  en: "Legal Notice (Act on Specified Commercial Transactions) | yah.homes",
+  ko: "특정상거래법에 근거한 표기 | yah.homes",
+  zh: "基於特定商業交易法之標示 | yah.homes",
+  th: "ประกาศทางกฎหมาย | yah.homes",
+};
+const DESC: Record<Locale, string> = {
+  ja: "yah.homes（運営：ボンファイア株式会社）の特定商取引法に基づく表記です。",
+  en: "Legal notice under Japan's Act on Specified Commercial Transactions for yah.homes, operated by Bonfire Inc.",
+  ko: "yah.homes(운영: 보ンファイア 주식회사)의 특정상거래법에 근거한 표기입니다.",
+  zh: "yah.homes（營運：Bonfire Inc.）依日本特定商業交易法之標示。",
+  th: "ประกาศทางกฎหมายของ yah.homes ดำเนินการโดย Bonfire Inc.",
+};
+
+// 見出しは訪問者の言語、本文（法定表記）は日本語で統一
+const HEADING: Record<Locale, string> = {
+  ja: "特定商取引法に基づく表記",
+  en: "Legal Notice (Specified Commercial Transactions Act)",
+  ko: "특정상거래법에 근거한 표기",
+  zh: "基於特定商業交易法之標示",
+  th: "ประกาศตามกฎหมายว่าด้วยการค้าเฉพาะ",
+};
+const NOTE: Record<Locale, string> = {
+  ja: "",
+  en: "The following is the statutory disclosure required under Japanese law, provided in Japanese.",
+  ko: "다음은 일본 법률에 따라 요구되는 법정 표기이며 일본어로 제공됩니다.",
+  zh: "以下為日本法律要求之法定標示，以日文提供。",
+  th: "ต่อไปนี้คือข้อมูลตามกฎหมายญี่ปุ่น จัดทำเป็นภาษาญี่ปุ่น",
+};
+
+const ROWS: { k: string; v: string }[] = [
+  { k: "販売事業者", v: "ボンファイア株式会社（Bonfire Inc.）" },
+  { k: "運営統括責任者", v: "山田一慶" },
+  { k: "所在地", v: OPERATOR.addressJa },
+  { k: "法人番号", v: OPERATOR.corporateNumber },
+  { k: "電話番号", v: "お客様からのご請求があれば、遅滞なく開示いたします。お問い合わせフォームよりご連絡ください。" },
+  { k: "お問い合わせ", v: "本サイトのお問い合わせフォームより承ります（通常2〜3営業日以内にご返信）。" },
+  { k: "販売価格", v: "各物件ページおよびご予約時に表示します（消費税込）。" },
+  { k: "商品代金以外の必要料金", v: "清掃料・各種手数料等。ご予約時に総額を表示します。" },
+  { k: "お支払い方法", v: "現在は各予約プラットフォーム（Airbnb・Booking.com）の定めによります。自社サイトでの直接決済（クレジットカード）は準備中です。" },
+  { k: "お支払い時期", v: "各予約プラットフォームの定めによります。" },
+  { k: "役務の提供時期", v: "ご予約いただいた宿泊日にサービスを提供します。" },
+  { k: "キャンセル・返金", v: "キャンセルポリシーは予約プラットフォームにより異なります。ご予約時に表示される規定をご確認ください。直接のご予約についてはお問い合わせください。" },
+];
+
+const breadcrumb = breadcrumbJsonLd([
+  { name: t.nav.home, url: `${BASE_URL}${homeHref}` },
+  { name: HEADING[lang], url: `${BASE_URL}${localizedPath(lang, "/legal/tokushoho")}` },
+]);
+---
+
+<SiteLayout
+  lang={lang}
+  path="/legal/tokushoho"
+  title={TITLE[lang]}
+  description={DESC[lang]}
+  jsonLd={breadcrumb}
+  solidNav
+>
+  <section class="legal">
+    <div class="legal-inner">
+      <p class="legal-eyebrow">Legal</p>
+      <h1 class="legal-title">{HEADING[lang]}</h1>
+      {NOTE[lang] && <p class="legal-note">{NOTE[lang]}</p>}
+
+      <dl class="legal-dl">
+        {ROWS.map((row) => (
+          <div class="legal-row">
+            <dt>{row.k}</dt>
+            <dd>{row.v}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p class="legal-back">
+        <a href={homeHref} class="legal-back-link">
+          <Fragment set:html={lucide("chevronLeft", { size: 14, strokeWidth: 2.5 })} />
+          {ui.backToHome}
+        </a>
+      </p>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .legal {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+    min-height: 70vh;
+  }
+  .legal-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .legal-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .legal-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .legal-note {
+    font-size: 0.8rem;
+    color: #888888;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .legal-dl {
+    margin: 2rem 0 0;
+  }
+  .legal-row {
+    display: grid;
+    grid-template-columns: 11rem 1fr;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .legal-row dt {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #666666;
+  }
+  .legal-row dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: #222222;
+  }
+  @media (max-width: 560px) {
+    .legal-row {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+  }
+  .legal-back {
+    margin-top: 3rem;
+  }
+  .legal-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #555555;
+    text-decoration: none;
+  }
+  .legal-back-link:hover {
+    color: #111111;
+  }
+</style>
