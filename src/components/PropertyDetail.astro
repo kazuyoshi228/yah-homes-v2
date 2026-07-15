@@ -9,7 +9,11 @@ import { lucide, starRating } from "../lib/lucide";
 import { PROPERTIES, GALLERIES, type Property } from "../data/properties";
 import { uiStrings } from "../i18n/uiStrings";
 import { nearbyData } from "../data/nearbyData";
+import { PROPERTY_GEO } from "../lib/seo";
 import PressSection from "./PressSection.astro";
+
+// 地図ラベル（各言語）
+const MAP_LABEL: Record<Locale, string> = { ja: "地図", en: "Map", ko: "지도", zh: "地圖", th: "แผนที่" };
 
 // kiyokawaData / takasagoData は構造が同一（KiyokawaTranslations 相当）
 interface Props {
@@ -240,6 +244,20 @@ const conditionRows: string[] = [
         ))
       }
     </ul>
+
+    <!-- Googleマップ埋め込み（APIキー不要・遅延ロードで初期表示速度を維持） -->
+    <h3 class="pd-h3" style="margin-top:2.5rem;">{MAP_LABEL[lang]}</h3>
+    <div class="pd-map">
+      <iframe
+        title={`${p.name} — ${MAP_LABEL[lang]}`}
+        src={`https://www.google.com/maps?q=${PROPERTY_GEO[propertyKey].lat},${PROPERTY_GEO[propertyKey].lng}&hl=${lang}&z=16&output=embed`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        width="100%"
+        height="320"
+        style="border:0;display:block;border-radius:4px;"
+      ></iframe>
+    </div>
   </div>
 </section>
 

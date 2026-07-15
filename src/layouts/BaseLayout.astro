@@ -21,7 +21,7 @@ interface Props {
   ogImage?: string;
   /** og:type（記事ページは "article"） */
   ogType?: string;
-  jsonLd?: Record<string, unknown>;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   /** 管理画面など検索対象外ページは true */
   noindex?: boolean;
   /** このページが存在する言語（ガイド記事など翻訳が部分的なページ用）。省略時は全言語 */
@@ -90,13 +90,9 @@ const htmlLang = HREFLANG[lang];
     <meta name="twitter:card" content="summary_large_image" />
 
     {
-      jsonLd && (
-        <script
-          is:inline
-          type="application/ld+json"
-          set:html={JSON.stringify(jsonLd)}
-        />
-      )
+      (Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []).map((ld) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(ld)} />
+      ))
     }
 
     <!-- Organization（運営会社）JSON-LD — 全ページ共通・sameAsでエンティティ接続 -->

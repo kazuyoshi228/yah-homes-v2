@@ -7,7 +7,7 @@ import DirectorSection from "../../components/DirectorSection.astro";
 import BookingCTASection from "../../components/home/BookingCTASection.astro";
 import { LOCALES, localeParam, localizedPath, type Locale } from "../../i18n/config";
 import { translations } from "../../i18n/translations";
-import { getPageMeta } from "../../lib/seo";
+import { getPageMeta, breadcrumbJsonLd, BASE_URL } from "../../lib/seo";
 import { lucide } from "../../lib/lucide";
 import { uiStrings } from "../../i18n/uiStrings";
 
@@ -27,9 +27,29 @@ const ABOUT_HERO = "/manus-storage/017_10f920ac.webp";
 const ABOUT_HERO_768 = "/manus-storage/017-768_776a4b9b.webp";
 const ABOUT_HERO_480 = "/manus-storage/017-480_ef8bf0ed.webp";
 const homeHref = localizedPath(lang, "/");
+
+// パンくず（Home > About）
+const aboutBreadcrumb = breadcrumbJsonLd([
+  { name: t.nav.home, url: `${BASE_URL}${localizedPath(lang, "/")}` },
+  { name: meta.title.split("|")[0].trim(), url: `${BASE_URL}${localizedPath(lang, "/about")}` },
+]);
+
+// 会社概要（登記情報・ユーザー確認済み 2026-07-16）。値は共通、ラベルのみ各言語。
+const COMPANY_HEADING: Record<Locale, string> = {
+  ja: "会社概要", en: "Company Information", ko: "회사 정보", zh: "公司資訊", th: "ข้อมูลบริษัท",
+};
+const L = (ja: string, en: string, ko: string, zh: string, th: string): Record<Locale, string> => ({ ja, en, ko, zh, th });
+const COMPANY_ROWS: { label: Record<Locale, string>; value: string }[] = [
+  { label: L("運営会社", "Company", "운영 회사", "營運公司", "บริษัท"), value: "ボンファイア株式会社（Bonfire Inc.）" },
+  { label: L("代表取締役", "Representative Director", "대표이사", "代表董事", "กรรมการผู้จัดการ"), value: "山田一慶（Kazuyoshi Yamada）" },
+  { label: L("所在地", "Address", "주소", "地址", "ที่อยู่"), value: "〒810-0011 福岡県福岡市中央区高砂1-18-7" },
+  { label: L("創業", "Founded", "설립", "創業", "ก่อตั้ง"), value: "2018年1月5日" },
+  { label: L("法人番号", "Corporate Number", "법인 번호", "法人編號", "เลขทะเบียนบริษัท"), value: "4010901041393" },
+  { label: L("事業内容", "Business", "사업 내용", "營業項目", "ธุรกิจ"), value: "不動産売買・不動産開発・システム開発・貿易業" },
+];
 ---
 
-<SiteLayout lang={lang} path="/about" title={meta.title} description={meta.description} jsonLd={meta.jsonLd}>
+<SiteLayout lang={lang} path="/about" title={meta.title} description={meta.description} jsonLd={[meta.jsonLd, aboutBreadcrumb].filter(Boolean)}>
   <!-- HERO — フルビューポート（旧と同スタイル） -->
   <section class="about-hero">
     <img
@@ -60,6 +80,21 @@ const homeHref = localizedPath(lang, "/");
 
   <DirectorSection lang={lang} />
 
+  <!-- 会社概要（NAP・E-E-A-T・登記情報。全言語共通の値＋ラベルのみ翻訳） -->
+  <section class="company-info" id="company">
+    <div class="company-inner">
+      <h2 class="company-title">{COMPANY_HEADING[lang]}</h2>
+      <dl class="company-dl">
+        {COMPANY_ROWS.map((row) => (
+          <div class="company-row">
+            <dt>{row.label[lang]}</dt>
+            <dd>{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
   <!-- Back to Home -->
   <section style="padding:4rem 1.5rem;text-align:center;background:#ffffff;">
     <a href={homeHref} class="back-btn">
@@ -72,6 +107,49 @@ const homeHref = localizedPath(lang, "/");
 </SiteLayout>
 
 <style>
+  .company-info {
+    background: #ffffff;
+    padding: 4rem 1.5rem 2rem;
+  }
+  .company-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .company-title {
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .company-dl {
+    margin: 0;
+  }
+  .company-row {
+    display: grid;
+    grid-template-columns: 8rem 1fr;
+    gap: 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .company-row dt {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #999999;
+  }
+  .company-row dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: #222222;
+  }
+  @media (max-width: 520px) {
+    .company-row {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
+    }
+  }
   .about-hero {
     position: relative;
     width: 100%;

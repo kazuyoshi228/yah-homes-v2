@@ -17,12 +17,19 @@ export interface PageMeta {
 export const BASE_URL = "https://yah.homes";
 export const OG_IMAGE = `${BASE_URL}/manus-storage/kiyokawa-exterior_18a3409b.webp`;
 
-// 運営会社（ユーザー確認済み 2026-07-13）— GEO: AIが「運営会社は?」に正しく答えるための一次情報
+// 運営会社（ユーザー確認済み 2026-07-16 登記情報）— GEO: AIが「運営会社は?」に正しく答えるための一次情報
 export const OPERATOR = {
   name: "Bonfire Inc.",
   alternateName: "ボンファイア株式会社",
-  foundingDate: "2018",
+  foundingDate: "2018-01-05",
   ceo: "Kazuyoshi Yamada",
+  ceoJa: "山田一慶",
+  corporateNumber: "4010901041393", // 法人番号
+  streetAddress: "高砂1-18-7",
+  addressLocality: "福岡市中央区",
+  addressRegion: "福岡県",
+  postalCode: "810-0011",
+  businessScope: "不動産売買・不動産開発・システム開発・貿易業",
 } as const;
 
 // Organization JSON-LD（全ページ共通・sameAs でエンティティ接続）
@@ -34,6 +41,15 @@ export function organizationJsonLd(): Record<string, unknown> {
     alternateName: OPERATOR.alternateName,
     foundingDate: OPERATOR.foundingDate,
     founder: { "@type": "Person", name: OPERATOR.ceo, jobTitle: "CEO / Director" },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: OPERATOR.streetAddress,
+      addressLocality: OPERATOR.addressLocality,
+      addressRegion: OPERATOR.addressRegion,
+      postalCode: OPERATOR.postalCode,
+      addressCountry: "JP",
+    },
+    identifier: { "@type": "PropertyValue", name: "Japan Corporate Number", value: OPERATOR.corporateNumber },
     url: BASE_URL,
     logo: `${BASE_URL}/manus-storage/logo_yah_2dbf971f.svg`,
     sameAs: [
@@ -44,6 +60,21 @@ export function organizationJsonLd(): Record<string, unknown> {
       PROPERTIES.takasago.bookingUrl,
       ...PRESS.map((p) => p.url),
     ],
+  };
+}
+
+// BreadcrumbList JSON-LD（リッチリザルトのパンくず・全ページ共通ヘルパー）
+// items = [{name, url?}]。最後の要素はURL省略可（現在ページ）。
+export function breadcrumbJsonLd(items: { name: string; url?: string }[]): Record<string, unknown> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((it, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: it.name,
+      ...(it.url ? { item: it.url } : {}),
+    })),
   };
 }
 
@@ -249,6 +280,12 @@ const TEXT: Record<PageKey, LocaleText> = {
   thankyou: THANKYOU,
 };
 
+// 物件の緯度経度（ユーザー確認済み 2026-07-16・地図/schemaの単一ソース）
+export const PROPERTY_GEO = {
+  kiyokawa: { lat: 33.57879181728365, lng: 130.4126724730762 },
+  takasago: { lat: 33.579953440232984, lng: 130.40629424218778 },
+} as const;
+
 // ── JSON-LD ジェネレータ（ページ単位・全言語共通の構造化データ）──
 function lodgingJsonLd(opts: {
   name: string;
@@ -257,6 +294,7 @@ function lodgingJsonLd(opts: {
   streetAddress?: string;
   addressLocality: string;
   postalCode?: string;
+  geo?: { lat: number; lng: number };
   rating: string;
   reviewCount: string;
   capacity: number;
@@ -277,6 +315,7 @@ function lodgingJsonLd(opts: {
     url: opts.url,
     description: opts.description,
     address,
+    ...(opts.geo ? { geo: { "@type": "GeoCoordinates", latitude: opts.geo.lat, longitude: opts.geo.lng } } : {}),
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: opts.rating,
@@ -305,6 +344,7 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
         streetAddress: "Kiyokawa 3-3-1",
         addressLocality: "Chuo-ku, Fukuoka",
         postalCode: "810-0011",
+        geo: PROPERTY_GEO.kiyokawa,
         // 評価は data/properties.ts を単一ソースに（取得日: RATING_AS_OF）
         rating: PROPERTIES.kiyokawa.rating,
         reviewCount: PROPERTIES.kiyokawa.reviewCount,
@@ -326,6 +366,7 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
         streetAddress: "Takasago 1-18-7",
         addressLocality: "Chuo-ku, Fukuoka",
         postalCode: "810-0011",
+        geo: PROPERTY_GEO.takasago,
         rating: PROPERTIES.takasago.rating,
         reviewCount: PROPERTIES.takasago.reviewCount,
         capacity: PROPERTIES.takasago.capacity,
