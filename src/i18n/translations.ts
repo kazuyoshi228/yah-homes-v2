@@ -170,7 +170,7 @@ const en: Translations = {
     about: "About",
     properties: "Booking",
     locals: "Locals",
-    guides: "Guides",
+    guides: "Guide",
     language: "Language",
     langNames: { en: "English", ja: "日本語", ko: "한국어", zh: "繁體中文", th: "ภาษาไทย" },
     menuOpen: "Open menu",
