@@ -3,6 +3,8 @@
 import SiteLayout from "../../../layouts/SiteLayout.astro";
 import { LOCALES, localeParam, localizedPath, type Locale } from "../../../i18n/config";
 import { getGuides, GUIDES_PREVIEW } from "../../../lib/guides";
+import { translations } from "../../../i18n/translations";
+import { BASE_URL, breadcrumbJsonLd } from "../../../lib/seo";
 
 export function getStaticPaths() {
   return LOCALES.map((locale) => ({
@@ -48,9 +50,13 @@ const META: Record<Locale, { title: string; description: string; heading: string
 };
 const m = META[lang];
 const noindex = GUIDES_PREVIEW || guides.length === 0;
+const breadcrumb = breadcrumbJsonLd([
+  { name: translations[lang].nav.home, url: `${BASE_URL}${localizedPath(lang, "/")}` },
+  { name: translations[lang].nav.guides, url: `${BASE_URL}${localizedPath(lang, "/guides")}` },
+]);
 ---
 
-<SiteLayout lang={lang} path="/guides" title={m.title} description={m.description} noindex={noindex} solidNav>
+<SiteLayout lang={lang} path="/guides" title={m.title} description={m.description} jsonLd={breadcrumb} noindex={noindex} solidNav>
   <section class="gl">
     <div class="gl-container">
       <p class="gl-eyebrow">Guides</p>

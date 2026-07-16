@@ -7,7 +7,7 @@ import SiteLayout from "../../../layouts/SiteLayout.astro";
 import { localeParam, localizedPath, type Locale } from "../../../i18n/config";
 import { translations } from "../../../i18n/translations";
 import { getGuides, GUIDES_PREVIEW, type Guide, type GuideTranslation } from "../../../lib/guides";
-import { BASE_URL } from "../../../lib/seo";
+import { BASE_URL, breadcrumbJsonLd } from "../../../lib/seo";
 
 export async function getStaticPaths() {
   const guides = await getGuides();
@@ -117,6 +117,14 @@ const faqJsonLd =
 const guidesIndexHref = localizedPath(lang, "/guides");
 const localsHref = localizedPath(lang, "/locals");
 const noindex = GUIDES_PREVIEW || guide.draft;
+
+// パンくず（Home > Guides > 記事）
+const breadcrumb = breadcrumbJsonLd([
+  { name: translations[lang].nav.home, url: `${BASE_URL}${localizedPath(lang, "/")}` },
+  { name: translations[lang].nav.guides, url: `${BASE_URL}${guidesIndexHref}` },
+  { name: t.title, url: `${BASE_URL}${localizedPath(lang, pagePath)}` },
+]);
+const pageJsonLd = [jsonLd, breadcrumb].filter(Boolean); // faqJsonLd は本文内で別途出力
 ---
 
 <SiteLayout
@@ -124,7 +132,7 @@ const noindex = GUIDES_PREVIEW || guide.draft;
   path={pagePath}
   title={t.metaTitle}
   description={t.metaDescription}
-  jsonLd={jsonLd}
+  jsonLd={pageJsonLd}
   noindex={noindex}
   availableLocales={guide.languages}
   ogType="article"
