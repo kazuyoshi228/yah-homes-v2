@@ -304,6 +304,8 @@ function lodgingJsonLd(opts: {
   capacity: number;
   rooms: number;
   sameAs?: string[];
+  /** 設備（物件データに実在するもののみ・value:false=無しも正直に宣言）。GEO/AIが設備を機械可読に引用できる。 */
+  amenityFeature?: { name: string; value: boolean }[];
 }): Record<string, unknown> {
   const address: Record<string, unknown> = {
     "@type": "PostalAddress",
@@ -328,6 +330,15 @@ function lodgingJsonLd(opts: {
     },
     maximumAttendeeCapacity: opts.capacity,
     numberOfRooms: opts.rooms,
+    ...(opts.amenityFeature
+      ? {
+          amenityFeature: opts.amenityFeature.map((a) => ({
+            "@type": "LocationFeatureSpecification",
+            name: a.name,
+            value: a.value,
+          })),
+        }
+      : {}),
     // 料金の手がかり（具体額は季節変動のためレンジ表記）
     priceRange: "¥¥¥",
     // 鮮度シグナル（評価取得日）とエンティティ接続
@@ -359,6 +370,19 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
           PROPERTIES.kiyokawa.bookingUrl,
           ...PRESS.filter((p) => p.property === "kiyokawa").map((p) => p.url),
         ],
+        // 設備（kiyokawaData.ts に実在するもののみ・無しは false で正直に）
+        amenityFeature: [
+          { name: "Free parking on premises", value: true },
+          { name: "Kitchen", value: true },
+          { name: "Washer/dryer", value: true },
+          { name: "WiFi", value: true },
+          { name: "Air conditioning", value: true },
+          { name: "Bathtub", value: true },
+          { name: "Dedicated workspace", value: true },
+          { name: "Self check-in", value: true },
+          { name: "Smoking allowed", value: false },
+          { name: "Carbon monoxide alarm", value: false },
+        ],
       });
     case "takasago":
       return lodgingJsonLd({
@@ -379,6 +403,20 @@ function jsonLdFor(page: PageKey): Record<string, unknown> | undefined {
           PROPERTIES.takasago.airbnbUrl,
           PROPERTIES.takasago.bookingUrl,
           ...PRESS.filter((p) => p.property === "takasago").map((p) => p.url),
+        ],
+        // 設備（takasagoData.ts に実在するもののみ・清川との差異を反映）
+        amenityFeature: [
+          { name: "Free on-site parking (large vehicles OK)", value: true },
+          { name: "Kitchen", value: true },
+          { name: "Washer", value: true },
+          { name: "WiFi", value: true },
+          { name: "Air conditioning", value: true },
+          { name: "Bathtub", value: true },
+          { name: "Dedicated workspace", value: true },
+          { name: "Self check-in", value: true },
+          { name: "Long-term stays allowed (28+ nights)", value: true },
+          { name: "Smoking allowed", value: false },
+          { name: "Carbon monoxide alarm", value: false },
         ],
       });
     case "about":

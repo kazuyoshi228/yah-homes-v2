@@ -5,6 +5,7 @@
 import { translations } from "../../i18n/translations";
 import type { Locale } from "../../i18n/config";
 import { lucide, SALES_POINT_ICONS } from "../../lib/lucide";
+import InlineBookingCta from "./InlineBookingCta.astro";
 
 interface Props {
   lang: Locale;
@@ -14,8 +15,6 @@ const t = translations[lang];
 
 const HERO_IMAGE = "/manus-storage/hero-dining-006-opt_1d801c69.webp";
 const HERO_IMAGE_768 = "/manus-storage/hero-dining-768_41dc6825.webp";
-const AIRBNB_URL =
-  "https://www.airbnb.jp/rooms/1427842426961787667?guests=1&adults=1&s=67&unique_share_id=4f784e83-f8e1-4d15-b98c-6e272b8da0a9";
 ---
 
 <section class="hero">
@@ -61,14 +60,7 @@ const AIRBNB_URL =
     </ul>
 
     <div class="hero-ctas">
-      <a href={AIRBNB_URL} target="_blank" rel="noopener noreferrer" class="airbnb-pill">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path
-            d="M12 2C8.5 2 5.5 5.5 5.5 9.5c0 2.5 1.2 4.8 3.2 6.5L12 22l3.3-6c2-1.7 3.2-4 3.2-6.5C18.5 5.5 15.5 2 12 2zm0 10a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"
-          ></path>
-        </svg>
-        Book on Airbnb
-      </a>
+      <InlineBookingCta lang={lang} ctaLocation="hero" showRating align="left" />
     </div>
   </div>
 </section>
@@ -151,31 +143,6 @@ const AIRBNB_URL =
     opacity: 0.9;
   }
   .hero-ctas {
-    display: flex;
-    gap: 0.75rem;
-    flex-wrap: wrap;
     margin-top: 1.5rem;
-  }
-  .airbnb-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.75rem;
-    background: #ff5a5f;
-    color: #ffffff;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    box-shadow: 0 2px 12px rgba(255, 90, 95, 0.35);
-    transition: opacity 0.18s ease, transform 0.15s ease;
-  }
-  .airbnb-pill:hover {
-    opacity: 0.85;
-    transform: translateY(-2px);
-  }
-  .airbnb-pill:active {
-    transform: scale(0.97);
   }
 </style>

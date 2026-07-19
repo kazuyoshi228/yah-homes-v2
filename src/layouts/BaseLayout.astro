@@ -104,9 +104,11 @@ const htmlLang = HREFLANG[lang];
     <link rel="preload" href="/fonts/national-2-medium.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/national-2-regular.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- GA4 — 既存プロパティ www.yah.homes（G-VJ5DDRML79）を流用しデータ継続。
-         LCP/TBT対策: gtag.js はページ読み込み完了後（or 初回操作時）に遅延注入。
-         それまでの計測は dataLayer キューに積まれ、読み込み時にまとめて送信される -->
+    <!-- GA4 — www.yah.homes（G-VJ5DDRML79）
+         遅延注入にしないこと: load 後に gtag.js を注入すると session_start が記録されず、
+         参照元が (not set) になって流入の約4割が帰属不明になる（2026-07 実測） -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-VJ5DDRML79"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -114,29 +116,6 @@ const htmlLang = HREFLANG[lang];
       }
       gtag("js", new Date());
       gtag("config", "G-VJ5DDRML79");
-
-      (function () {
-        var loaded = false;
-        function loadGA() {
-          if (loaded) return;
-          loaded = true;
-          var s = document.createElement("script");
-          s.async = true;
-          s.src = "https://www.googletagmanager.com/gtag/js?id=G-VJ5DDRML79";
-          document.head.appendChild(s);
-        }
-        if (document.readyState === "complete") {
-          setTimeout(loadGA, 1500);
-        } else {
-          window.addEventListener("load", function () {
-            setTimeout(loadGA, 1500);
-          });
-        }
-        // ユーザーが先に操作したら即読み込み（イベント取りこぼし防止）
-        ["pointerdown", "keydown", "touchstart", "scroll"].forEach(function (ev) {
-          window.addEventListener(ev, loadGA, { once: true, passive: true });
-        });
-      })();
 
       // GA4 イベント計測（クリック委譲・リンク先ドメインで自動判定）
       document.addEventListener("click", function (e) {
@@ -151,8 +130,10 @@ const htmlLang = HREFLANG[lang];
             : href.indexOf("1497546315476018480") > -1 || path.indexOf("takasago") > -1
               ? "takasago"
               : "general";
+        // CTA配置ラベル（data-cta-location・どの位置のCTAが効くか分離計測）
+        var ctaLocation = a.getAttribute("data-cta-location") || undefined;
         if (href.indexOf("airbnb") > -1) {
-          gtag("event", "click_airbnb", { property: property, page_path: path });
+          gtag("event", "click_airbnb", { property: property, page_path: path, cta_location: ctaLocation });
         } else if (href.indexOf("booking.com") > -1) {
           gtag("event", "click_booking_com", { property: property, page_path: path });
         } else if (href === "#booking") {

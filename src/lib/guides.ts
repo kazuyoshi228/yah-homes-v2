@@ -88,6 +88,22 @@ async function fetchFeed(): Promise<Guide[]> {
     console.warn(`[guides] feed not valid JSON (${e}) — building without guides`);
     return [];
   }
+  // feed の日付は number(millis) / Firestore Timestamp {_seconds,_nanoseconds}
+  // / ISO文字列 / null が混在しうる。millis に正規化する。
+  const toMillis = (v: unknown): number | null => {
+    if (v == null) return null;
+    if (typeof v === "number") return v;
+    if (typeof v === "string") {
+      const t = Date.parse(v);
+      return Number.isNaN(t) ? null : t;
+    }
+    if (typeof v === "object") {
+      const s = (v as { _seconds?: number; seconds?: number })._seconds ??
+        (v as { seconds?: number }).seconds;
+      if (typeof s === "number") return s * 1000;
+    }
+    return null;
+  };
   return raw.map((a) => {
     const { languages, translations } = mapLangs(
       (a.languages as string[]) ?? [],
@@ -100,8 +116,8 @@ async function fetchFeed(): Promise<Guide[]> {
       handoff: (a.handoff as string[]) ?? [],
       primaryQuery: (a.primaryQuery as string) ?? null,
       confirmedDate: (a.confirmedDate as string) ?? null,
-      publishedAt: (a.publishedAt as number) ?? null,
-      updatedAt: (a.updatedAt as number) ?? Date.now(),
+      publishedAt: toMillis(a.publishedAt),
+      updatedAt: toMillis(a.updatedAt) ?? Date.now(),
       thumbnailUrl: (a.thumbnailUrl as string) ?? null,
       author: (a.author as Guide["author"]) ?? null,
       languages,
