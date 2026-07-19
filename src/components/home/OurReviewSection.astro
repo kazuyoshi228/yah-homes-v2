@@ -45,7 +45,7 @@ const reviewJsonLd = {
     item: {
       "@type": "Review",
       author: { "@type": "Person", name: rv.reviewer },
-      datePublished: rv.date,
+      datePublished: rv.dateISO,
       reviewRating: { "@type": "Rating", ratingValue: rv.rating, bestRating: 5 },
       reviewBody: rv.english,
       itemReviewed: {

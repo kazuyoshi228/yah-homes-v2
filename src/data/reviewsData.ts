@@ -7,7 +7,8 @@ export interface Review {
   from: string;                // e.g. "Hong Kong", "Korea", "Japan"
   platform: string;            // "Airbnb"
   property: string;            // "Kiyokawa" | "Takasago"
-  date: string;                // e.g. "April 2026"
+  date: string;                // 表示用 e.g. "April 2026"
+  dateISO: string;             // JSON-LD用 ISO 8601 e.g. "2026-04"
   rating: number;
   original: string;            // original language text
   originalLang: string;        // language label e.g. "中文"
@@ -23,6 +24,7 @@ export const REVIEWS: Review[] = [
     platform: "Airbnb",
     property: "Kiyokawa",
     date: "April 2026",
+    dateISO: "2026-04",
     rating: 5,
     originalLang: "中文",
     original:
@@ -37,6 +39,7 @@ export const REVIEWS: Review[] = [
     platform: "Airbnb",
     property: "Takasago",
     date: "May 2026",
+    dateISO: "2026-05",
     rating: 5,
     originalLang: "한국어",
     original:
@@ -51,6 +54,7 @@ export const REVIEWS: Review[] = [
     platform: "Airbnb",
     property: "Takasago",
     date: "March 2026",
+    dateISO: "2026-03",
     rating: 5,
     originalLang: "日本語",
     original:
@@ -65,6 +69,7 @@ export const REVIEWS: Review[] = [
     platform: "Airbnb",
     property: "Takasago",
     date: "April 2026",
+    dateISO: "2026-04",
     rating: 5,
     originalLang: "日本語",
     original:
