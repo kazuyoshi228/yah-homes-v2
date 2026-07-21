@@ -1,0 +1,212 @@
+---
+/* プライバシーポリシー（個人情報の取扱い＋改正電気通信事業法「外部送信規律」の公表）。
+   同意バナーは設置しない方針（2026-07-21決定: ターゲット市場に事前同意義務なし・CVR毀損回避）。
+   本文は日本法準拠のため日本語、見出し・案内文のみ5言語。tokushoho.astro と同じ型。
+   MS3（自社決済開始）時に、決済・宿泊者名簿の取扱いを§2へ追記すること。 */
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import { LOCALES, localeParam, localizedPath, type Locale } from "../../../i18n/config";
+import { translations } from "../../../i18n/translations";
+import { OPERATOR, BASE_URL, breadcrumbJsonLd } from "../../../lib/seo";
+import { lucide } from "../../../lib/lucide";
+import { uiStrings } from "../../../i18n/uiStrings";
+
+export function getStaticPaths() {
+  return LOCALES.map((locale) => ({
+    params: { locale: localeParam(locale) },
+    props: { lang: locale as Locale },
+  }));
+}
+
+const { lang } = Astro.props as { lang: Locale };
+const t = translations[lang];
+const ui = uiStrings[lang];
+const homeHref = localizedPath(lang, "/");
+
+const TITLE: Record<Locale, string> = {
+  ja: "プライバシーポリシー | yah.homes",
+  en: "Privacy Policy | yah.homes",
+  ko: "개인정보 처리방침 | yah.homes",
+  zh: "私隱政策 | yah.homes",
+  th: "นโยบายความเป็นส่วนตัว | yah.homes",
+};
+const DESC: Record<Locale, string> = {
+  ja: "yah.homes（運営：ボンファイア株式会社）の個人情報の取扱いと外部送信ツールに関する公表です。",
+  en: "How yah.homes (operated by Bonfire Inc.) handles personal information and third-party data transmissions.",
+  ko: "yah.homes(운영: Bonfire Inc.)의 개인정보 취급 및 외부 전송 도구에 관한 공표입니다.",
+  zh: "yah.homes（營運：Bonfire Inc.）的個人資料處理與第三方傳輸工具說明。",
+  th: "การจัดการข้อมูลส่วนบุคคลของ yah.homes ดำเนินการโดย Bonfire Inc.",
+};
+const HEADING: Record<Locale, string> = {
+  ja: "プライバシーポリシー",
+  en: "Privacy Policy",
+  ko: "개인정보 처리방침",
+  zh: "私隱政策",
+  th: "นโยบายความเป็นส่วนตัว",
+};
+const NOTE: Record<Locale, string> = {
+  ja: "",
+  en: "The following is the statutory disclosure required under Japanese law, provided in Japanese.",
+  ko: "다음은 일본 법률에 따라 요구되는 법정 공표이며 일본어로 제공됩니다.",
+  zh: "以下為日本法律要求之法定公告，以日文提供。",
+  th: "ต่อไปนี้คือข้อมูลตามกฎหมายญี่ปุ่น จัดทำเป็นภาษาญี่ปุ่น",
+};
+
+// 掲載日（改定時はここを更新）
+const EFFECTIVE = "2026年7月21日";
+
+const SECTIONS: { h: string; body: string[] }[] = [
+  {
+    h: "1. 事業者情報",
+    body: [
+      `本ウェブサイト（yah.homes）は、ボンファイア株式会社（${OPERATOR.addressJa}）が運営しています。当社は、個人情報の保護に関する法律および関連法令を遵守し、お客様の情報を適切に取り扱います。`,
+    ],
+  },
+  {
+    h: "2. 取得する情報と利用目的",
+    body: [
+      "お問い合わせフォーム: お名前・メールアドレス・お問い合わせ内容を取得し、お問い合わせへの返信および宿泊に関するご連絡のためにのみ利用します。",
+      "アクセス情報: サイトの利用状況（閲覧ページ・滞在時間・参照元・おおよその地域・端末情報等）を、サービス改善および広告効果測定のために取得します（詳細は第3項）。",
+      "取得した情報を、法令に基づく場合を除き、ご本人の同意なく第三者に提供することはありません。",
+    ],
+  },
+  {
+    h: "3. 外部送信ツールについて（電気通信事業法に基づく公表）",
+    body: [
+      "本サイトでは、以下の外部事業者のツールを利用しており、お客様のブラウザから各事業者へ情報が送信されます。",
+      "① Google アナリティクス（Google LLC）— 送信される情報: Cookie等の識別子・閲覧ページ・滞在時間・参照元・おおよその地域・端末情報。利用目的: サイト利用状況の分析とサービス改善。",
+      "② Google 広告（Google LLC）— 送信される情報: Cookie等の識別子・広告のクリック情報・コンバージョン情報。利用目的: 広告の効果測定および配信の最適化。",
+      "③ Google マップ（Google LLC）— 送信される情報: IPアドレス・地図の操作情報。利用目的: 物件所在地の地図表示。",
+      "④ Beds24（Beds24.com Ltd.）— 送信される情報: 空室カレンダーの閲覧・予約操作に関する情報。利用目的: 宿泊予約の受付および空室管理。",
+      "各ツールの無効化（オプトアウト）は、ブラウザのCookie設定の変更、または Google が提供するオプトアウト手段（Google アナリティクス オプトアウト アドオン等）から行えます。",
+    ],
+  },
+  {
+    h: "4. Cookieの利用について",
+    body: [
+      "本サイトは、上記ツールの動作のためにCookieを利用します。Cookieはお使いのブラウザ設定から削除・無効化できます。無効化した場合も、サイトの閲覧に支障はありません。",
+    ],
+  },
+  {
+    h: "5. 安全管理",
+    body: [
+      "取得した情報は、不正アクセス・紛失・漏えい等を防止するため、アクセス制限された環境で適切に管理します。",
+    ],
+  },
+  {
+    h: "6. お問い合わせ窓口",
+    body: [
+      "本ポリシーおよび個人情報の取扱い（開示・訂正・削除のご請求を含む）に関するお問い合わせは、本サイトのお問い合わせフォームより承ります。",
+    ],
+  },
+  {
+    h: "7. 改定",
+    body: [
+      `本ポリシーは、法令の改正やサービス内容の変更に応じて改定することがあります。改定した場合は本ページにて公表します。（制定日: ${EFFECTIVE}）`,
+    ],
+  },
+];
+
+const breadcrumb = breadcrumbJsonLd([
+  { name: t.nav.home, url: `${BASE_URL}${homeHref}` },
+  { name: HEADING[lang], url: `${BASE_URL}${localizedPath(lang, "/legal/privacy")}` },
+]);
+---
+
+<SiteLayout
+  lang={lang}
+  path="/legal/privacy"
+  title={TITLE[lang]}
+  description={DESC[lang]}
+  jsonLd={breadcrumb}
+  solidNav
+>
+  <section class="legal">
+    <div class="legal-inner">
+      <p class="legal-eyebrow">Legal</p>
+      <h1 class="legal-title">{HEADING[lang]}</h1>
+      {NOTE[lang] && <p class="legal-note">{NOTE[lang]}</p>}
+
+      {
+        SECTIONS.map((sec) => (
+          <div class="legal-sec">
+            <h2>{sec.h}</h2>
+            {sec.body.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        ))
+      }
+
+      <p class="legal-back">
+        <a href={homeHref} class="legal-back-link">
+          <Fragment set:html={lucide("chevronLeft", { size: 14, strokeWidth: 2.5 })} />
+          {ui.backToHome}
+        </a>
+      </p>
+    </div>
+  </section>
+</SiteLayout>
+
+<style>
+  .legal {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+    min-height: 70vh;
+  }
+  .legal-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .legal-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .legal-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 500;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+  }
+  .legal-note {
+    font-size: 0.8rem;
+    color: #888888;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+  .legal-sec {
+    margin-top: 2.25rem;
+  }
+  .legal-sec h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111111;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .legal-sec p {
+    font-size: 0.875rem;
+    line-height: 1.9;
+    color: #333333;
+    margin-bottom: 0.6rem;
+  }
+  .legal-back {
+    margin-top: 3rem;
+  }
+  .legal-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #555555;
+    text-decoration: none;
+  }
+  .legal-back-link:hover {
+    color: #111111;
+  }
+</style>

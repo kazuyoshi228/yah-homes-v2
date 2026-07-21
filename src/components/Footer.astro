@@ -14,8 +14,12 @@ const updated = new Date().toISOString().slice(0, 10);
 
 const aboutHref = localizedPath(lang, "/about");
 const legalHref = localizedPath(lang, "/legal/tokushoho");
+const privacyHref = localizedPath(lang, "/legal/privacy");
 const LEGAL_LABEL: Record<Locale, string> = {
   ja: "特定商取引法に基づく表記", en: "Legal Notice", ko: "특정상거래법 표기", zh: "特定商業交易法標示", th: "ประกาศทางกฎหมาย",
+};
+const PRIVACY_LABEL: Record<Locale, string> = {
+  ja: "プライバシーポリシー", en: "Privacy Policy", ko: "개인정보 처리방침", zh: "私隱政策", th: "ความเป็นส่วนตัว",
 };
 const ABOUT_LABEL: Record<Locale, string> = {
   ja: "会社概要", en: "Company", ko: "회사 정보", zh: "公司資訊", th: "ข้อมูลบริษัท",
@@ -50,6 +54,7 @@ const ABOUT_LABEL: Record<Locale, string> = {
       <nav style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:flex-end;">
         <a href={aboutHref} style="font-size:0.75rem;color:#888888;text-decoration:none;" onmouseover="this.style.color='#111111'" onmouseout="this.style.color='#888888'">{ABOUT_LABEL[lang]}</a>
         <a href={legalHref} style="font-size:0.75rem;color:#888888;text-decoration:none;" onmouseover="this.style.color='#111111'" onmouseout="this.style.color='#888888'">{LEGAL_LABEL[lang]}</a>
+        <a href={privacyHref} style="font-size:0.75rem;color:#888888;text-decoration:none;" onmouseover="this.style.color='#111111'" onmouseout="this.style.color='#888888'">{PRIVACY_LABEL[lang]}</a>
       </nav>
       <p style="font-size:0.75rem;font-weight:400;color:#aaaaaa;margin:0;">
         {t.footer.rights}
