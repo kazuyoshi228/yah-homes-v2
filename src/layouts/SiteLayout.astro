@@ -19,8 +19,10 @@ interface Props {
   availableLocales?: Locale[];
   /** ヒーローのないページ用: ナビを白背景固定に */
   solidNav?: boolean;
+  /** LCP対策: ヒーロー画像の preload（BaseLayout へ渡す） */
+  preloadImage?: { href: string; imagesrcset?: string; imagesizes?: string };
 }
-const { lang, path, title, description, ogImage, ogType, jsonLd, noindex, availableLocales, solidNav } = Astro.props;
+const { lang, path, title, description, ogImage, ogType, jsonLd, noindex, availableLocales, solidNav, preloadImage } = Astro.props;
 ---
 
 <BaseLayout
@@ -33,6 +35,7 @@ const { lang, path, title, description, ogImage, ogType, jsonLd, noindex, availa
   jsonLd={jsonLd}
   noindex={noindex}
   availableLocales={availableLocales}
+  preloadImage={preloadImage}
 >
   <Navbar lang={lang} path={path} solid={solidNav} />
   <slot />

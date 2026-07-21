@@ -13,6 +13,16 @@
   font-style: normal;
   font-display: swap;
 }
+/* National2 読込前の代替（Arial）に寸法補正をかけ、スワップ時のレイアウトシフト（CLS）を抑える。
+   数値は Lighthouse 実測で調整（2026-07-21）。 */
+@font-face {
+  font-family: "National2-fallback";
+  src: local("Arial");
+  size-adjust: 103%;
+  ascent-override: 96%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
 @font-face {
   font-family: "National2";
   src: url("/fonts/national-2-medium.woff2") format("woff2");
@@ -51,7 +61,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --font-sans:
-    "National2", "Yu Gothic Medium", "YuGothic", "Yu Gothic", "Hiragino Sans", "Noto Sans JP",
+    "National2", "National2-fallback", "Yu Gothic Medium", "YuGothic", "Yu Gothic", "Hiragino Sans", "Noto Sans JP",
     "Noto Sans KR", "Noto Sans TC", "Noto Sans Thai", system-ui, sans-serif;
 }
 
@@ -88,7 +98,7 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      "National2", "Yu Gothic Medium", "YuGothic", "Yu Gothic", "Hiragino Sans", "Noto Sans JP",
+      "National2", "National2-fallback", "Yu Gothic Medium", "YuGothic", "Yu Gothic", "Hiragino Sans", "Noto Sans JP",
       "Noto Sans KR", "Noto Sans TC", "Noto Sans Thai", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

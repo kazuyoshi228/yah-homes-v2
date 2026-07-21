@@ -26,6 +26,8 @@ interface Props {
   noindex?: boolean;
   /** このページが存在する言語（ガイド記事など翻訳が部分的なページ用）。省略時は全言語 */
   availableLocales?: Locale[];
+  /** LCP対策: ヒーロー画像を <link rel="preload"> で先行取得（HTMLパース完了を待たず発見させる） */
+  preloadImage?: { href: string; imagesrcset?: string; imagesizes?: string };
 }
 
 const {
@@ -38,6 +40,7 @@ const {
   jsonLd,
   noindex = false,
   availableLocales,
+  preloadImage,
 } = Astro.props;
 
 // canonical は自ロケールの絶対URL
@@ -100,15 +103,30 @@ const htmlLang = HREFLANG[lang];
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
+    <!-- LCP対策: ヒーロー画像の先行取得（img タグの発見を待たずダウンロード開始） -->
+    {
+      preloadImage && (
+        <link
+          rel="preload"
+          as="image"
+          href={preloadImage.href}
+          imagesrcset={preloadImage.imagesrcset}
+          imagesizes={preloadImage.imagesizes}
+          fetchpriority="high"
+        />
+      )
+    }
+
     <!-- B11: フォント preload（見出し/本文の FOUT 抑制） -->
     <link rel="preload" href="/fonts/national-2-medium.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/national-2-regular.woff2" as="font" type="font/woff2" crossorigin />
 
     <!-- GA4 — www.yah.homes（G-VJ5DDRML79）
          遅延注入にしないこと: load 後に gtag.js を注入すると session_start が記録されず、
-         参照元が (not set) になって流入の約4割が帰属不明になる（2026-07 実測） -->
+         参照元が (not set) になって流入の約4割が帰属不明になる（2026-07 実測）。
+         fetchpriority=low: 実行は async のまま、ダウンロード帯域だけ LCP 画像に譲る（計測は壊れない） -->
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-VJ5DDRML79"></script>
+    <script is:inline async fetchpriority="low" src="https://www.googletagmanager.com/gtag/js?id=G-VJ5DDRML79"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag() {

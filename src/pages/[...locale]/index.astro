@@ -6,7 +6,7 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import { LOCALES, localeParam, type Locale } from "../../i18n/config";
 import { getPageMeta } from "../../lib/seo";
 import InlineBookingCta from "../../components/home/InlineBookingCta.astro";
-import HeroSection from "../../components/home/HeroSection.astro";
+import HeroSection, { HOME_HERO_PRELOAD } from "../../components/home/HeroSection.astro";
 import PropertiesSection from "../../components/home/PropertiesSection.astro";
 import FeaturesSection from "../../components/home/FeaturesSection.astro";
 import AccessSection from "../../components/home/AccessSection.astro";
@@ -30,7 +30,7 @@ const { lang } = Astro.props as { lang: Locale };
 const meta = getPageMeta("home", lang);
 ---
 
-<SiteLayout lang={lang} path="/" title={meta.title} description={meta.description} jsonLd={meta.jsonLd}>
+<SiteLayout lang={lang} path="/" title={meta.title} description={meta.description} jsonLd={meta.jsonLd} preloadImage={HOME_HERO_PRELOAD}>
   <HeroSection lang={lang} />
   <PropertiesSection lang={lang} />
   <FeaturesSection lang={lang} />

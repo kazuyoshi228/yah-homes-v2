@@ -2,7 +2,7 @@
 /* /booking — 旧サイトでは選択ページではなくコンバージョンページ
    （「We are truly looking forward...」＋ Airbnb CTA×2）。旧 Booking.tsx を忠実移植 */
 import SiteLayout from "../../../layouts/SiteLayout.astro";
-import BookingConversion from "../../../components/BookingConversion.astro";
+import BookingConversion, { BK_HERO_PRELOAD } from "../../../components/BookingConversion.astro";
 import { LOCALES, localeParam, type Locale } from "../../../i18n/config";
 import { getPageMeta } from "../../../lib/seo";
 
@@ -17,6 +17,6 @@ const { lang } = Astro.props as { lang: Locale };
 const meta = getPageMeta("booking", lang);
 ---
 
-<SiteLayout lang={lang} path="/booking" title={meta.title} description={meta.description}>
+<SiteLayout lang={lang} path="/booking" title={meta.title} description={meta.description} preloadImage={BK_HERO_PRELOAD}>
   <BookingConversion lang={lang} />
 </SiteLayout>
