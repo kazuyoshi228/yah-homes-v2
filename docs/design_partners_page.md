@@ -10,6 +10,7 @@
 - **v0.2（2026-07-21 発注者決定）: まず日本語版（ja）から作る。** ko版はjaの構造・facts JSONを翻訳して追加（v0.1はko先行だった）。
   - URL: 日本語版 `/ja/partners-jp2026/` → 韓国語版 `/ko/partners-kr2026/`（言語別スラッグ・v0.1 §10の構想どおり）
   - facts は `src/data/partners-facts.ja.json` を正本として先に作り、ko/zh/th は翻訳で派生
+- **v0.3（2026-07-21 発注者決定）: URLをシンプルな `/ja/partners/` に変更**（非定番スラッグ廃止 — 発見されても実害なしと判断。noindex・サイト内リンクなしは維持）。**デザインはブランドガイドライン準拠を明記**。
 - v0.1（2026-07-21）: 初版（ko先行案）
 
 ## 1. 目的と成功条件
@@ -35,7 +36,7 @@
 
 | 項目 | 仕様 |
 |---|---|
-| URL | `/ja/partners-jp2026/`（推測されにくいスラッグ。/partners/は使わない） |
+| URL | **`/ja/partners/`**（v0.3でシンプル化。ko版は `/ko/partners/`） |
 | インデックス | `<meta name="robots" content="noindex, nofollow">` 必須 |
 | サイト内リンク | 一切張らない（ヘッダー・フッター・sitemap.xml・feeds から除外） |
 | 掲載しないもの | 価格・原稿料条件・戦略数値・体験団の実施状況。事実・写真・空き・条件・連絡先のみ |
@@ -47,7 +48,7 @@
 ## 4. ページ構成（ja）
 
 ```
-/ja/partners-jp2026/
+/ja/partners/
 ├─ ヒーロー: 「yah.homes パートナーのご案内」＋一文（福岡市中心部の一棟貸し2棟）
 ├─ §1 ファクトシート（下記 §5 の内容・表形式・各棟の公式詳細ページ/Airbnbリンク付き）
 ├─ §2 公式写真（ギャラリー＋「自由にご使用いただけます」明記＋一括DLボタン）
@@ -57,6 +58,7 @@
 ```
 
 - レイアウトは既存 SiteLayout.astro を流用（solidNav・noindex）。
+- **デザインはブランドガイドライン（docs/brand/brand-reference.md）準拠**: モノクロ基調・National2・罫線の文法・guides記事/特商法ページと同じデザイン言語。装飾や色の追加はしない。
 - 言語切替メニューには出さない（単独ページ）。
 
 ## 5. ファクトシートの内容（正本: magazine repo docs/spec_yah_homes_editorial_canon.md §1）
@@ -123,18 +125,18 @@
 | M2 | 運営会社へ iCal URL 依頼（依頼文は Claude が用意） | オーナー | 待ち |
 | M3 | iCal 接続・同期確認（Airbnb でテストブロック→Beds24 反映確認） | オーナー＋Claude | 30分 |
 | M4 | noindex動作・sitemap 除外の実装確認（BaseLayoutのnoindexは実装済み） | Claude | 15分 |
-| M5 | `/ja/partners-jp2026/` ページ実装（§4構成・facts JSON 分離） | Claude | 半日 |
+| M5 | `/ja/partners/` ページ実装（§4構成・facts JSON 分離） | Claude | 半日 |
 | M6 | 写真選定（各棟5〜8枚の指定 or お任せ）→ Claudeがzip化して同梱 | オーナー＋Claude | 15分 |
 | M7 | ビルド・デプロイ・実機確認（noindex・ウィジェット・DL動線） | Claude | 30分 |
 | M8 | 打診メールにURL追記（magazine repo 側） | Claude | 5分 |
-| M9 | ko版 `/ko/partners-kr2026/`（facts JSON 翻訳・canon韓国語語彙） | Claude | 2時間 |
+| M9 | ko版 `/ko/partners/`（facts JSON 翻訳・canon韓国語語彙） | Claude | 2時間 |
 
 - M2 が律速。M4-M5 は M2 と並行可（ウィジェット部はプレースホルダで先行実装）。
 - デプロイ: 既存手順（astro build → firebase deploy --only hosting --project yah-homes）。
 
 ## 9. 受け入れ基準
 
-- [ ] `/ja/partners-jp2026/` が本番で表示され、noindex メタが出力されている
+- [ ] `/ja/partners/` が本番で表示され、noindex メタが出力されている
 - [ ] sitemap.xml・llms.txt・サイトナビのどこにも URL が現れない
 - [ ] ファクトシートの数値が canon §1 と完全一致（定員・★・駅距離・洗面台3 等）
 - [ ] プールヴィラ・温泉・BBQ・価格の断定表現がページ内に存在しない
@@ -144,6 +146,6 @@
 
 ## 10. 将来拡張（設計だけ担保）
 
-- `partners-facts.{lang}.json` 化により ko（Naver체험단）・zh-TW（KOL/Dcard）・th（インフルエンサー）版は翻訳のみで追加可能（URL は言語別スラッグ: /ko/partners-kr2026/・/zh/partners-tw2026/ 等）。
+- `partners-facts.{lang}.json` 化により ko（Naver체험단）・zh-TW（KOL/Dcard）・th（インフルエンサー）版は翻訳のみで追加可能（URL は /ko/partners/・/zh/partners/ 等・言語プレフィックスのみで区別）。
 - Beds24 は直販P1（MS1-4）で予約・決済まで拡張予定。本件の property 登録・iCal 同期はそのまま P1 の土台になる。
 - 3号棟（自社名義）稼働時は Airbnb 接続をフルチャネルに昇格可（自社アカウントなので名義問題なし）。
