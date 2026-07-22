@@ -12,6 +12,7 @@ import { defineSecret } from "firebase-functions/params";
 import { logger } from "firebase-functions/v2";
 import { initializeApp } from "firebase-admin/app";
 import { getFirestore, FieldValue } from "firebase-admin/firestore";
+import { getAuth } from "firebase-admin/auth";
 import nodemailer from "nodemailer";
 
 initializeApp();
@@ -390,3 +391,74 @@ export const bookingApi = onRequest(
     }
   }
 );
+
+// ─── パートナー申請 管理API（/admin/partners・design_partners_page.md §4.6） ───
+// 認証: Firebase Auth（Google）IDトークン検証＋許可メール限定。個人情報を扱うためFunction経由のみ。
+const PARTNERS_ADMIN_EMAILS = ["kazuyoshi.yamada@bonfire.co.jp"];
+const PARTNER_STATUSES = ["new", "contacted", "confirmed", "stayed", "published", "declined"];
+
+async function verifyAdmin(req: { headers: Record<string, unknown> }): Promise<string | null> {
+  const authz = String(req.headers["authorization"] ?? "");
+  const m = /^Bearer (.+)$/.exec(authz);
+  if (!m) return null;
+  try {
+    const decoded = await getAuth().verifyIdToken(m[1]);
+    const email = (decoded.email ?? "").toLowerCase();
+    if (decoded.email_verified && PARTNERS_ADMIN_EMAILS.includes(email)) return email;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export const partnersAdmin = onRequest({ region: REGION }, async (req, res) => {
+  const origin = corsOrigin(req.headers.origin as string | undefined);
+  if (origin) {
+    res.set("Access-Control-Allow-Origin", origin);
+    res.set("Vary", "Origin");
+  }
+  res.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+
+  const email = await verifyAdmin(req as { headers: Record<string, unknown> });
+  if (!email) { res.status(401).json({ ok: false, error: "unauthorized" }); return; }
+
+  if (req.method === "GET") {
+    const snap = await db.collection("partner_applications").orderBy("createdAt", "desc").limit(200).get();
+    const items = snap.docs.map((d) => {
+      const v = d.data();
+      return {
+        id: d.id,
+        name: v.name ?? "",
+        email: v.email ?? "",
+        mediaUrl: v.mediaUrl ?? "",
+        property: v.property ?? "",
+        date1: v.date1 ?? "",
+        date2: v.date2 ?? "",
+        guests: v.guests ?? null,
+        message: v.message ?? "",
+        status: v.status ?? "new",
+        createdAt: v.createdAt?.toMillis?.() ?? null,
+      };
+    });
+    res.status(200).json({ ok: true, items });
+    return;
+  }
+
+  if (req.method === "POST") {
+    const { id, status } = (req.body ?? {}) as Record<string, unknown>;
+    const idStr = typeof id === "string" ? id : "";
+    const statusStr = typeof status === "string" && PARTNER_STATUSES.includes(status) ? status : "";
+    if (!idStr || !statusStr) { res.status(400).json({ ok: false, error: "invalid_input" }); return; }
+    await db.collection("partner_applications").doc(idStr).update({
+      status: statusStr,
+      statusUpdatedAt: FieldValue.serverTimestamp(),
+      statusUpdatedBy: email,
+    });
+    res.status(200).json({ ok: true });
+    return;
+  }
+
+  res.status(405).json({ ok: false, error: "method_not_allowed" });
+});

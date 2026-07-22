@@ -146,15 +146,15 @@ Cloud Function partnersAdmin — Basic認証
 - 記事公開済にした申請は媒体URLを掲載実績として一覧の下部に集約（将来のパートナーページ事例欄の種）
 
 ### 認証・情報衛生
-- **Basic認証**: Function側で `PARTNERS_ADMIN_PASSWORD`（Firebase Secret・オーナーが値を決める）を検証。401でブラウザの標準ダイアログ
+- **Googleログイン（2026-07-22 発注者決定・Basic認証から変更）**: Firebase Auth（yah-homesプロジェクト）のGoogleサインインを使用し、**許可メール = kazuyoshi.yamada@bonfire.co.jp のみ**。Functionは IDトークンを検証しメール一致を確認。パスワード管理不要・Google側の2段階認証が効く
 - ページはnoindex・sitemap除外（/adminはfilter済み）・サイト内リンクなし
 - 個人情報（申請者のメール等）を扱うため、Firestoreルールはクライアント直読み禁止のまま（Function経由のみ）
 
 ### 実装タスク（既存M表への追加）
 | # | タスク | 担当 | 所要 |
 |---|---|---|---|
-| M11 | `PARTNERS_ADMIN_PASSWORD` の値を決めてSecret保存承認 | オーナー | 1分 |
-| M12 | partnersAdmin Function（Basic認証・list/status）＋ /admin/partners ページ | Claude | 半日 |
+| M11 | Firebaseコンソールで Google ログインを有効化（yah-homes → Authentication → Sign-in method → Google） | オーナー | 1分 |
+| M12 | partnersAdmin Function（IDトークン検証・許可メール限定・list/status）＋ /admin/partners ページ（Googleサインイン） | Claude | 半日 |
 | M13 | 検証（認証・一覧・ステータス更新・依頼文コピー）→ 報告停止 → デプロイ承認 | Claude＋オーナー | 30分 |
 
 ### 将来拡張
