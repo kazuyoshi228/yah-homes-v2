@@ -141,7 +141,7 @@
 | **公式詳細ページ** | https://yah.homes/ja/booking/kiyokawa/ | https://yah.homes/ja/booking/takasago/ |
 | Airbnbリスティング | https://www.airbnb.jp/rooms/1427842426961787667 | https://www.airbnb.jp/rooms/1497546315476018480 |
 
-- ＋「書かないでほしいこと」欄: プール/温泉/BBQ関連の表現（設備がありません）・価格の断定（時期により変動）。
+- ＋「書かないでほしいこと」欄（2026-07-22更新）: ①プール・温泉・BBQ・サウナに関する表現（設備がありません） ②パーティー・イベントができるような誤解を招く表現（パーティー・イベント不可） ③価格の断定（時期により変動します）。
 - リンクは上表の「公式詳細ページ」（写真ギャラリー・設備一覧・地図・FAQを完備 — 記事の一次参照先として案内）と「Airbnbリスティング」を両方掲載。＋公式サイトTOP https://yah.homes/ja/
 - ko版時の詳細ページは /ko/booking/{slug}/ に差し替え（言語別に実在するURLを使う）
 - 実装は生 HTML/Astro に直書きせず、**`src/data/partners-facts.ja.json`** に分離（後日 ko/zh/th 版で使い回すため）。
