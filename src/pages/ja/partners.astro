@@ -318,17 +318,31 @@ const PROPS = [
       const head = DOW.map((w) => `<span class="cal-dow">${w}</span>`).join("");
       return `<div class="cal-month"><p class="cal-title">${year}年${month + 1}月</p><div class="cal-grid">${head}${cells}</div></div>`;
     };
+    // ?demo=1 でダミーデータ表示（デザイン確認用。本番のAPI接続後は不要になる）
+    const isDemo = new URLSearchParams(location.search).has("demo");
+    const mockDates = () => {
+      const d = {};
+      const start = new Date();
+      for (let i = 0; i < 90; i++) {
+        const day = new Date(start.getTime() + i * 86400000);
+        const key = day.toISOString().slice(0, 10);
+        d[key] = (day.getUTCDate() * 7 + day.getUTCMonth()) % 3 !== 0; // 適当な空き/塞ぎパターン
+      }
+      return d;
+    };
     try {
       const now = new Date();
-      const results = await Promise.all(
-        ["kiyokawa", "takasago"].map(async (prop) => {
-          const r = await fetch(`${AVAIL_ENDPOINT}?prop=${prop}`);
-          if (!r.ok) throw new Error("avail fetch failed");
-          const j = await r.json();
-          if (!j.ok) throw new Error("avail not ok");
-          return { prop, dates: j.dates || {} };
-        })
-      );
+      const results = isDemo
+        ? ["kiyokawa", "takasago"].map((prop) => ({ prop, dates: mockDates() }))
+        : await Promise.all(
+            ["kiyokawa", "takasago"].map(async (prop) => {
+              const r = await fetch(`${AVAIL_ENDPOINT}?prop=${prop}`);
+              if (!r.ok) throw new Error("avail fetch failed");
+              const j = await r.json();
+              if (!j.ok) throw new Error("avail not ok");
+              return { prop, dates: j.dates || {} };
+            })
+          );
       for (const { prop, dates } of results) {
         const el = document.querySelector(`[data-cal="${prop}"]`);
         let html = "";
