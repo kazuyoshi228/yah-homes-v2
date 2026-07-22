@@ -358,7 +358,7 @@ export const bookingApi = onRequest(
     try {
       const token = await beds24Token(slug);
       const start = new Date();
-      const end = new Date(start.getTime() + 90 * 86400000);
+      const end = new Date(start.getTime() + 100 * 86400000); // 表示は翌月+翌々月 → 月末まで確実に覆う
       const fmt = (d: Date) => d.toISOString().slice(0, 10);
       // 部屋在庫カレンダー（各招待コードは該当propertyスコープ。roomIdは省略して全room取得）
       const r = await fetch(
