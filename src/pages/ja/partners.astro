@@ -1,0 +1,586 @@
+---
+/* パートナーページ（日本人ブロガー・インフルエンサー向け）— design_partners_page.md v0.7
+   noindex・サイト内リンクなし・sitemap除外（astro.config filter）。
+   構成: ヒーロー＋切り口例 → ファクトシート → 写真 → 提供条件 → 空き状況 → 申請フォーム → 掲載時のお願い → 連絡先。
+   ファクトの正本: src/data/partners-facts.ja.json（canon準拠）。
+   空き状況カレンダーは Beds24 API 接続（M2-M3）まで案内プレースホルダ。 */
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { GALLERIES } from "../../data/properties";
+import facts from "../../data/partners-facts.ja.json";
+
+const CONTACT_EMAIL = "kazuyoshi.yamada@bonfire.co.jp";
+const APPLY_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/partnersApply";
+
+// ギャラリー: 並び順から先頭6枚（§4-1確定・-768バリアントがあれば軽量表示）
+const galleryOf = (key: "kiyokawa" | "takasago") => GALLERIES[key].slice(0, 6);
+const PROPS = [
+  { key: "kiyokawa" as const, name: "清川（Kiyokawa）" },
+  { key: "takasago" as const, name: "高砂（Takasago）" },
+];
+---
+
+<SiteLayout
+  lang="ja"
+  path="/partners"
+  title="パートナーのご案内 | yah.homes"
+  description="yah.homes（福岡・一棟貸し2棟）のパートナー向けご案内。ファクトシート・公式写真・空き状況・提供条件。"
+  noindex={true}
+  solidNav
+>
+  <article class="pt">
+    <div class="pt-container">
+      <!-- ヒーロー -->
+      <header class="pt-header">
+        <p class="pt-eyebrow">Partners</p>
+        <h1 class="pt-title">yah.homes パートナーのご案内</h1>
+        <p class="pt-lead">
+          福岡市中心部の一棟貸し2棟「清川」「高砂」の取材・記事作成にご協力いただける方への資料ページです。
+        </p>
+        <p class="pt-scope">本ページは当社からご連絡したパートナーの方向けのご案内です。</p>
+      </header>
+
+      <!-- 記事の切り口例 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">こんな切り口でどうぞ</h2>
+        <ul class="pt-angles">
+          {facts.angles.map((a) => <li>{a}</li>)}
+        </ul>
+        <p class="pt-note">あくまで一例です。内容は完全に自由で、ネガティブな感想も含めて率直にお書きください。</p>
+      </section>
+
+      <!-- §1 ファクトシート -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">ファクトシート</h2>
+        <p class="pt-note">記事中の事実確認にはこの表をご利用ください（2026年7月時点）。</p>
+        <div class="pt-tablewrap">
+          <table class="pt-table">
+            <thead>
+              <tr><th></th><th>清川（Kiyokawa）</th><th>高砂（Takasago）</th></tr>
+            </thead>
+            <tbody>
+              {facts.rows.map((r) => (
+                <tr><th>{r.label}</th><td>{r.kiyokawa}</td><td>{r.takasago}</td></tr>
+              ))}
+              <tr>
+                <th>リンク</th>
+                <td>
+                  <a href={facts.links.kiyokawa.official}>公式詳細ページ</a>／
+                  <a href={facts.links.kiyokawa.airbnb} rel="noopener noreferrer" target="_blank">Airbnb</a>
+                </td>
+                <td>
+                  <a href={facts.links.takasago.official}>公式詳細ページ</a>／
+                  <a href={facts.links.takasago.airbnb} rel="noopener noreferrer" target="_blank">Airbnb</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="pt-common">両棟共通: {facts.common}</p>
+        <div class="pt-dontwrite">
+          <p class="pt-dw-label">お書きにならないようお願いしたいこと</p>
+          <ul>
+            {facts.dontWrite.map((d) => <li>{d}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <!-- §2 公式写真 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">公式写真</h2>
+        <p class="pt-note">
+          記事作成の目的で自由にご使用いただけます（出典表記不要）。
+          基本はご自身で撮影された写真を推奨します（補足用としてご提供）。
+        </p>
+        {PROPS.map((p) => (
+          <div class="pt-gallery-block">
+            <h3 class="pt-h3">{p.name}</h3>
+            <div class="pt-gallery">
+              {galleryOf(p.key).map((src, i) => (
+                <img src={src} alt={`${p.name} ${i + 1}`} loading="lazy" width="400" height="267" />
+              ))}
+            </div>
+            <a class="pt-dl" href={`/partners-assets/photos-${p.key}.zip`} download>
+              {p.name.split("（")[0]}の全写真をダウンロード（ZIP・JPG）
+            </a>
+          </div>
+        ))}
+      </section>
+
+      <!-- §3 提供条件 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">提供条件</h2>
+        <ul class="pt-terms">
+          <li>平日2泊を無料でご提供（清掃費含め当社負担）。<strong>チェックインは月・火・水曜のいずれか</strong>（2泊とも平日のご滞在となります）。週末・連泊はご相談ください。</li>
+          <li>記事の内容は完全に自由です。ネガティブな感想も含めて、率直にお書きください。</li>
+          <li>日程の変更・キャンセルは<strong>7日前まで</strong>にご連絡ください。</li>
+        </ul>
+      </section>
+
+      <!-- §4 予約可能日（Beds24 API接続までのプレースホルダ） -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">予約可能日</h2>
+        <div class="pt-cal-placeholder">
+          <p>空き状況カレンダーは現在準備中です。下の申請フォームからご希望日（第2希望まで）をお送りいただければ、空き状況と合わせてご返信します。</p>
+        </div>
+        <p class="pt-note">平日2泊のご提供（週末除く）。</p>
+      </section>
+
+      <!-- §5 日程申請フォーム -->
+      <section class="pt-sec" id="apply">
+        <h2 class="pt-h2">日程申請フォーム</h2>
+        <form id="partners-form" class="pt-form" novalidate>
+          <div class="pt-field">
+            <label for="pf-name">お名前（ニックネーム可）*</label>
+            <input id="pf-name" name="name" type="text" required maxlength="200" />
+          </div>
+          <div class="pt-field">
+            <label for="pf-email">メールアドレス *</label>
+            <input id="pf-email" name="email" type="email" required maxlength="320" />
+          </div>
+          <div class="pt-field">
+            <label for="pf-media">媒体URL（ブログ・Instagram等）*</label>
+            <input id="pf-media" name="mediaUrl" type="url" required placeholder="https://" maxlength="500" />
+          </div>
+          <div class="pt-field">
+            <label for="pf-property">希望する棟 *</label>
+            <select id="pf-property" name="property" required>
+              <option value="either">どちらでも</option>
+              <option value="kiyokawa">清川（最大7名）</option>
+              <option value="takasago">高砂（最大6名）</option>
+            </select>
+          </div>
+          <div class="pt-field-row">
+            <div class="pt-field">
+              <label for="pf-date1">第1希望チェックイン日（月・火・水）*</label>
+              <input id="pf-date1" name="date1" type="date" required />
+            </div>
+            <div class="pt-field">
+              <label for="pf-date2">第2希望チェックイン日（月・火・水）*</label>
+              <input id="pf-date2" name="date2" type="date" required />
+            </div>
+          </div>
+          <div class="pt-field">
+            <label for="pf-guests">人数 *</label>
+            <select id="pf-guests" name="guests" required>
+              {[1, 2, 3, 4, 5, 6, 7].map((n) => <option value={String(n)}>{n}名</option>)}
+            </select>
+            <p class="pt-hint" id="pf-guests-hint">清川は最大7名・高砂は最大6名です。</p>
+          </div>
+          <div class="pt-field">
+            <label for="pf-message">メッセージ（任意）</label>
+            <textarea id="pf-message" name="message" rows="4" maxlength="5000"></textarea>
+          </div>
+          <!-- ハニーポット -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+          <button type="submit" class="pt-submit" id="pf-submit">申請する</button>
+          <p class="pt-form-status" id="pf-status" role="status"></p>
+        </form>
+      </section>
+
+      <!-- §6 掲載時のお願い（宿泊確定者向け） -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">掲載時のお願い（ご宿泊が確定した方へ）</h2>
+        <ul class="pt-terms">
+          <li>「提供: yah.homes」または「#PR」等の表記をお願いします。<strong>日本ではステマ規制（景品表示法）により、提供を受けた投稿へのPR表記が法令上必要です。</strong></li>
+          <li>記事内のリンクは、各棟の公式詳細ページ（上のファクトシート参照）を主にお願いします。Airbnbリンクは任意です。</li>
+          <li>公開は宿泊後4週間以内を目安にしていただけますと幸いです。</li>
+        </ul>
+        <div class="pt-utm">
+          <p class="pt-dw-label">記事用リンクの発行（計測用パラメータ付き）</p>
+          <p class="pt-note">媒体名を入れて「コピー」を押すと、記事に貼るリンクが発行されます。</p>
+          <div class="pt-utm-row">
+            <input id="utm-name" type="text" placeholder="媒体名（例: ブログ名）" maxlength="60" />
+            <select id="utm-prop">
+              <option value="kiyokawa">清川</option>
+              <option value="takasago">高砂</option>
+            </select>
+            <button type="button" class="pt-utm-copy" id="utm-copy">リンクをコピー</button>
+          </div>
+          <p class="pt-hint" id="utm-out"></p>
+        </div>
+      </section>
+
+      <!-- §7 連絡先 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">連絡先</h2>
+        <p>
+          ご不明点はメールでお気軽にどうぞ（日本語・英語・韓国語対応）:
+          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+        </p>
+        <p class="pt-note">yah.homes（運営: ボンファイア株式会社）</p>
+      </section>
+    </div>
+  </article>
+</SiteLayout>
+
+<script define:vars={{ APPLY_ENDPOINT }}>
+  // ── 日付ピッカー: 月・火・水のみ許可（選択時に検証） ──
+  const CAPACITY = { kiyokawa: 7, takasago: 6, either: 7 };
+  const isMonToWed = (v) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
+    if (!m) return false;
+    const day = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).getUTCDay();
+    return day >= 1 && day <= 3;
+  };
+  const today = new Date();
+  const minDate = new Date(today.getTime() + 7 * 86400000).toISOString().slice(0, 10); // 7日前ルールと整合
+  for (const id of ["pf-date1", "pf-date2"]) {
+    const el = document.getElementById(id);
+    el.min = minDate;
+    el.addEventListener("change", () => {
+      if (el.value && !isMonToWed(el.value)) {
+        el.setCustomValidity("チェックインは月・火・水曜からお選びください");
+        el.reportValidity();
+      } else {
+        el.setCustomValidity("");
+      }
+    });
+  }
+
+  // 定員: 棟の選択に応じて人数の選択肢を制限
+  const propSel = document.getElementById("pf-property");
+  const guestSel = document.getElementById("pf-guests");
+  const syncGuests = () => {
+    const cap = CAPACITY[propSel.value] ?? 7;
+    for (const opt of guestSel.options) opt.disabled = Number(opt.value) > cap;
+    if (Number(guestSel.value) > cap) guestSel.value = String(cap);
+  };
+  propSel.addEventListener("change", syncGuests);
+  syncGuests();
+
+  // 送信
+  const form = document.getElementById("partners-form");
+  const status = document.getElementById("pf-status");
+  const submitBtn = document.getElementById("pf-submit");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const d1 = document.getElementById("pf-date1").value;
+    const d2 = document.getElementById("pf-date2").value;
+    if (!isMonToWed(d1) || !isMonToWed(d2)) {
+      status.textContent = "チェックイン日は月・火・水曜からお選びください。";
+      return;
+    }
+    if (!form.reportValidity()) return;
+    submitBtn.disabled = true;
+    status.textContent = "送信中...";
+    try {
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.guests = Number(data.guests);
+      const res = await fetch(APPLY_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        status.textContent = "申請を受け付けました。確認メールをお送りしましたのでご確認ください。";
+        form.reset();
+        syncGuests();
+      } else {
+        status.textContent = "送信に失敗しました。入力内容をご確認ください。";
+      }
+    } catch {
+      status.textContent = "送信に失敗しました。時間をおいて再度お試しいただくか、メールでご連絡ください。";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  // ── UTMコピー ──
+  const utmBtn = document.getElementById("utm-copy");
+  const utmOut = document.getElementById("utm-out");
+  utmBtn.addEventListener("click", async () => {
+    const name = (document.getElementById("utm-name").value || "partner-generic")
+      .trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-ぁ-んァ-ン一-龠]/g, "").slice(0, 60) || "partner-generic";
+    const prop = document.getElementById("utm-prop").value;
+    const url = `https://yah.homes/ja/booking/${prop}/?utm_source=partner&utm_medium=referral&utm_campaign=${encodeURIComponent(name)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      utmOut.textContent = `コピーしました: ${url}`;
+    } catch {
+      utmOut.textContent = url;
+    }
+  });
+</script>
+
+<style>
+  .pt {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+  }
+  .pt-container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .pt-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .pt-title {
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.3;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.9rem;
+  }
+  .pt-lead {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #555555;
+  }
+  .pt-scope {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: #888888;
+    border-left: 2px solid #e8e8e8;
+    padding-left: 0.8rem;
+  }
+  .pt-sec {
+    margin-top: 3.5rem;
+  }
+  .pt-h2 {
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .pt-h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .pt-note {
+    font-size: 0.8rem;
+    color: #888888;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+  .pt-hint {
+    font-size: 0.75rem;
+    color: #999999;
+    margin-top: 0.3rem;
+    word-break: break-all;
+  }
+  .pt-angles {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+  }
+  .pt-angles li {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #222222;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .pt-tablewrap {
+    overflow-x: auto;
+  }
+  .pt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .pt-table th,
+  .pt-table td {
+    border: 1px solid #e5e5e5;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    color: #222222;
+  }
+  .pt-table thead th {
+    background: #fafafa;
+    font-weight: 500;
+  }
+  .pt-table tbody th {
+    background: #fafafa;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pt-table a {
+    color: #111111;
+  }
+  .pt-common {
+    font-size: 0.85rem;
+    color: #555555;
+    margin-top: 0.75rem;
+  }
+  .pt-dontwrite {
+    margin-top: 1.25rem;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+  }
+  .pt-dw-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #111111;
+    margin-bottom: 0.5rem;
+  }
+  .pt-dontwrite ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  .pt-dontwrite li {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #333333;
+  }
+  .pt-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  @media (max-width: 560px) {
+    .pt-gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .pt-gallery img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+  .pt-dl {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .pt-dl:hover {
+    opacity: 0.85;
+  }
+  .pt-terms {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pt-terms li {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: #222222;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .pt-cal-placeholder {
+    border: 1px dashed #cccccc;
+    border-radius: 4px;
+    padding: 1.5rem;
+    font-size: 0.875rem;
+    color: #555555;
+    line-height: 1.8;
+    min-height: 96px;
+  }
+  .pt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .pt-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #333333;
+    margin-bottom: 0.35rem;
+  }
+  .pt-field input,
+  .pt-field select,
+  .pt-field textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #111111;
+  }
+  .pt-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 560px) {
+    .pt-field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .pt-submit {
+    align-self: flex-start;
+    padding: 0.75rem 2rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .pt-submit:hover {
+    opacity: 0.85;
+  }
+  .pt-submit:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+  .pt-form-status {
+    font-size: 0.85rem;
+    color: #333333;
+    min-height: 1.5em;
+    margin: 0;
+  }
+  .pt-utm {
+    margin-top: 1.5rem;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+  }
+  .pt-utm-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .pt-utm-row input,
+  .pt-utm-row select {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .pt-utm-row input {
+    flex: 1;
+    min-width: 180px;
+  }
+  .pt-utm-copy {
+    padding: 0.5rem 1rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>

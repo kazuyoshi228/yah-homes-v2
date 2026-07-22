@@ -21,7 +21,7 @@ export default defineConfig({
     react(),
     sitemap({
       // 管理画面（/admin/*）と thankyou はインデックス対象外。sitemapから除外する。
-      filter: (page) => !page.includes("/admin") && !page.includes("/thankyou"),
+      filter: (page) => !page.includes("/admin") && !page.includes("/thankyou") && !page.includes("/partners"),
     }),
   ],
   vite: {
