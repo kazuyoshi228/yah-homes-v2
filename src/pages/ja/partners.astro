@@ -22,7 +22,7 @@ const PROPS = [
 <SiteLayout
   lang="ja"
   path="/partners"
-  title="パートナーのご案内 | yah.homes"
+  title="Partner Activationのご案内（インフルエンサー様限定） | yah.homes"
   description="yah.homes（福岡・一棟貸し2棟）のパートナー向けご案内。ファクトシート・公式写真・空き状況・提供条件。"
   noindex={true}
   solidNav
@@ -32,11 +32,10 @@ const PROPS = [
       <!-- ヒーロー -->
       <header class="pt-header">
         <p class="pt-eyebrow">Partners</p>
-        <h1 class="pt-title">yah.homes パートナーのご案内</h1>
+        <h1 class="pt-title">yah.homes Partner Activationのご案内<span class="pt-title-sub">（インフルエンサー様限定）</span></h1>
         <p class="pt-lead">
           福岡市中心部の一棟貸し2棟「清川」「高砂」の取材・記事作成にご協力いただける方への資料ページです。
         </p>
-        <p class="pt-scope">本ページは当社からご連絡したパートナーの方向けのご案内です。</p>
       </header>
 
       <!-- 記事の切り口例 -->
@@ -333,12 +332,13 @@ const PROPS = [
     line-height: 1.85;
     color: #555555;
   }
-  .pt-scope {
-    margin-top: 0.75rem;
-    font-size: 0.8rem;
-    color: #888888;
-    border-left: 2px solid #e8e8e8;
-    padding-left: 0.8rem;
+  .pt-title-sub {
+    display: block;
+    font-size: 0.55em;
+    font-weight: 400;
+    color: #555555;
+    margin-top: 0.4rem;
+    letter-spacing: 0;
   }
   .pt-sec {
     margin-top: 3.5rem;
