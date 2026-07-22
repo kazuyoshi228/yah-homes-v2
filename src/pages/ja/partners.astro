@@ -128,11 +128,11 @@ const PROPS = [
           </div>
         </div>
         <p class="pt-note" id="pt-cal-fallback" hidden>
-          空き状況のリアルタイム表示は準備中です（グレー=週末・提供対象外/過去）。ご希望日は下の申請フォームからお送りいただければ、空き状況と合わせてご返信します。
+          空き状況のリアルタイム表示は準備中です（グレー=チェックイン対象外の木〜日・過去）。ご希望日は下の申請フォームからお送りいただければ、空き状況と合わせてご返信します。
         </p>
         <div class="pt-cal-legend" id="pt-cal-legend" hidden>
           <span><i class="lg-open"></i> 空きあり</span>
-          <span><i class="lg-closed"></i> 予約済み・提供対象外</span>
+          <span><i class="lg-closed"></i> 予約済み・チェックイン対象外（木〜日）</span>
         </div>
         <p class="pt-note">平日2泊のご提供（週末除く）。空き状況は数分単位で更新されます。</p>
       </section>
@@ -310,11 +310,11 @@ const PROPS = [
       for (let d = 1; d <= daysInMonth; d++) {
         const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
         const dow = new Date(Date.UTC(year, month, d)).getUTCDay();
-        const weekend = dow === 0 || dow === 6;
+        const checkinDay = dow >= 1 && dow <= 3; // チェックイン可能=月・火・水のみ
         const past = key < todayKey;
         let cls;
-        if (weekend || past) cls = "cal-closed";
-        else if (dates === null) cls = "cal-unknown"; // API未接続: 平日は中立表示
+        if (!checkinDay || past) cls = "cal-closed";
+        else if (dates === null) cls = "cal-unknown"; // API未接続: 月火水は中立表示
         else cls = dates[key] === true ? "cal-open" : "cal-closed";
         cells += `<span class="cal-cell ${cls}">${d}</span>`;
       }
