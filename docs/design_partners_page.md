@@ -78,7 +78,8 @@
 - ＋「書かないでほしいこと」欄: プール/温泉/BBQ関連の表現（設備がありません）・価格の断定（時期により変動）。
 - ＋Airbnb リンク2棟・公式サイト https://yah.homes/ja/
 - 実装は生 HTML/Astro に直書きせず、**`src/data/partners-facts.ja.json`** に分離（後日 ko/zh/th 版で使い回すため）。
-- 数値は canon と一字一句一致させる。canon 更新時はこのページも更新（チェック項目に追加）。
+- **評価（★・件数・取得日）は facts JSON に書かず、`src/data/properties.ts`（既存SSOT: rating/reviewCount/RATING_AS_OF）からビルド時に取得**（2026-07-21決定）。評価更新は properties.ts の1箇所で、HERO補助行・schema・本ページが同時追従する。
+- その他の数値は canon と一字一句一致させる。canon 更新時はこのページも更新（チェック項目に追加）。
 
 ## 6. 写真配布
 
@@ -86,7 +87,7 @@
 |---|---|
 | 掲載枚数 | 各棟 5〜8枚（外観・リビング・寝室・駐車場・水回り） |
 | 画質 | ページ表示は既存最適化パイプライン（-768/-480 variants）。DLは原寸 |
-| 一括DL | Google Drive 共有フォルダ（閲覧のみ・リンクを知る全員）へのボタンリンク。※オーナーがフォルダ作成・写真投入 |
+| 一括DL | **ZIPを yah.homes 本体から直接配信**（2026-07-21決定・Drive廃止）。`public/partners-assets/` に推測されにくいファイル名で設置（例: photos-yahhomes-kr2026.zip）。Googleログイン不要・ワンクリック。原寸は manus-storage の1440w級を既定とし、より高解像度の元データがあればオーナーが渡す→Claudeがzip化 |
 | 権利表記 | 「記事作成の目的で自由にご使用いただけます（出典表記不要）」 |
 | 注記 | 「基本はご自身で撮影された写真を推奨します（補足用として提供）」← Naver/検索アルゴリズム対策（ko版で特に重要） |
 
@@ -120,7 +121,7 @@
 | M3 | iCal 接続・同期確認（Airbnb でテストブロック→Beds24 反映確認） | オーナー＋Claude | 30分 |
 | M4 | noindex動作・sitemap 除外の実装確認（BaseLayoutのnoindexは実装済み） | Claude | 15分 |
 | M5 | `/ja/partners-jp2026/` ページ実装（§4構成・facts JSON 分離） | Claude | 半日 |
-| M6 | 写真フォルダ作成（Drive）・URL差し込み | オーナー | 30分 |
+| M6 | 写真選定（各棟5〜8枚の指定 or お任せ）→ Claudeがzip化して同梱 | オーナー＋Claude | 15分 |
 | M7 | ビルド・デプロイ・実機確認（noindex・ウィジェット・DL動線） | Claude | 30分 |
 | M8 | 打診メールにURL追記（magazine repo 側） | Claude | 5分 |
 | M9 | ko版 `/ko/partners-kr2026/`（facts JSON 翻訳・canon韓国語語彙） | Claude | 2時間 |
@@ -135,7 +136,7 @@
 - [ ] ファクトシートの数値が canon §1 と完全一致（定員・★・駅距離・洗面台3 等）
 - [ ] プールヴィラ・温泉・BBQ・価格の断定表現がページ内に存在しない
 - [ ] Airbnb でテストブロックした日が（数時間内に）ウィジェットに反映される
-- [ ] 写真一括DLリンクが閲覧専用で開ける
+- [ ] 写真一括DL（ZIP直接配信）がワンクリックで落とせる
 - [ ] モバイル表示で iframe が横スクロールを起こさない
 
 ## 10. 将来拡張（設計だけ担保）
