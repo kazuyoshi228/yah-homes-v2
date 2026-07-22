@@ -127,9 +127,9 @@ const PROPS = [
             <div class="pt-cal" data-cal="takasago"></div>
           </div>
         </div>
-        <div class="pt-cal-placeholder" id="pt-cal-fallback" hidden>
-          <p>空き状況カレンダーは現在準備中です。下の申請フォームからご希望日（第2希望まで）をお送りいただければ、空き状況と合わせてご返信します。</p>
-        </div>
+        <p class="pt-note" id="pt-cal-fallback" hidden>
+          空き状況のリアルタイム表示は準備中です（グレー=週末・提供対象外/過去）。ご希望日は下の申請フォームからお送りいただければ、空き状況と合わせてご返信します。
+        </p>
         <div class="pt-cal-legend" id="pt-cal-legend" hidden>
           <span><i class="lg-open"></i> 空きあり</span>
           <span><i class="lg-closed"></i> 予約済み・提供対象外</span>
@@ -312,50 +312,42 @@ const PROPS = [
         const dow = new Date(Date.UTC(year, month, d)).getUTCDay();
         const weekend = dow === 0 || dow === 6;
         const past = key < todayKey;
-        const open = !weekend && !past && dates[key] === true;
-        cells += `<span class="cal-cell ${open ? "cal-open" : "cal-closed"}">${d}</span>`;
+        let cls;
+        if (weekend || past) cls = "cal-closed";
+        else if (dates === null) cls = "cal-unknown"; // API未接続: 平日は中立表示
+        else cls = dates[key] === true ? "cal-open" : "cal-closed";
+        cells += `<span class="cal-cell ${cls}">${d}</span>`;
       }
       const head = DOW.map((w) => `<span class="cal-dow">${w}</span>`).join("");
       return `<div class="cal-month"><p class="cal-title">${year}年${month + 1}月</p><div class="cal-grid">${head}${cells}</div></div>`;
     };
-    // ?demo=1 でダミーデータ表示（デザイン確認用。本番のAPI接続後は不要になる）
-    const isDemo = new URLSearchParams(location.search).has("demo");
-    const mockDates = () => {
-      const d = {};
-      const start = new Date();
-      for (let i = 0; i < 90; i++) {
-        const day = new Date(start.getTime() + i * 86400000);
-        const key = day.toISOString().slice(0, 10);
-        d[key] = (day.getUTCDate() * 7 + day.getUTCMonth()) % 3 !== 0; // 適当な空き/塞ぎパターン
-      }
-      return d;
-    };
-    try {
+    const draw = (datesByProp) => {
       const now = new Date();
-      const results = isDemo
-        ? ["kiyokawa", "takasago"].map((prop) => ({ prop, dates: mockDates() }))
-        : await Promise.all(
-            ["kiyokawa", "takasago"].map(async (prop) => {
-              const r = await fetch(`${AVAIL_ENDPOINT}?prop=${prop}`);
-              if (!r.ok) throw new Error("avail fetch failed");
-              const j = await r.json();
-              if (!j.ok) throw new Error("avail not ok");
-              return { prop, dates: j.dates || {} };
-            })
-          );
-      for (const { prop, dates } of results) {
+      for (const prop of ["kiyokawa", "takasago"]) {
         const el = document.querySelector(`[data-cal="${prop}"]`);
         let html = "";
         for (let i = 0; i < 2; i++) {
           const m = new Date(now.getFullYear(), now.getMonth() + i, 1);
-          html += renderMonth(m.getFullYear(), m.getMonth(), dates);
+          html += renderMonth(m.getFullYear(), m.getMonth(), datesByProp ? datesByProp[prop] : null);
         }
         el.innerHTML = html;
       }
+    };
+    try {
+      const results = await Promise.all(
+        ["kiyokawa", "takasago"].map(async (prop) => {
+          const r = await fetch(`${AVAIL_ENDPOINT}?prop=${prop}`);
+          if (!r.ok) throw new Error("avail fetch failed");
+          const j = await r.json();
+          if (!j.ok) throw new Error("avail not ok");
+          return [prop, j.dates || {}];
+        })
+      );
+      draw(Object.fromEntries(results));
       legend.hidden = false;
     } catch {
-      // API未接続・障害時は案内文へフォールバック
-      calendars.hidden = true;
+      // API未接続・障害時: カレンダーは常時表示（週末・過去のみグレーの曜日カレンダー）
+      draw(null);
       fallback.hidden = false;
     }
   })();
@@ -608,6 +600,9 @@ const PROPS = [
     text-decoration: line-through;
     border-color: transparent;
   }
+  .pt-cal :global(.cal-unknown) {
+    color: #444444;
+  }
   .pt-cal :global(.cal-empty) {
     border: none;
   }
@@ -631,15 +626,6 @@ const PROPS = [
   }
   .pt-cal-legend .lg-closed {
     background: #f0f0f0;
-  }
-  .pt-cal-placeholder {
-    border: 1px dashed #cccccc;
-    border-radius: 4px;
-    padding: 1.5rem;
-    font-size: 0.875rem;
-    color: #555555;
-    line-height: 1.8;
-    min-height: 96px;
   }
   .pt-form {
     display: flex;
