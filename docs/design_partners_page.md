@@ -90,9 +90,9 @@
 
 | 項目 | 仕様 |
 |---|---|
-| 掲載枚数 | 各棟 5〜8枚（外観・リビング・寝室・駐車場・水回り） |
-| 画質 | ページ表示は既存最適化パイプライン（-768/-480 variants）。DLは原寸 |
-| 一括DL | **ZIPを yah.homes 本体から直接配信**（2026-07-21決定・Drive廃止）。`public/partners-assets/` に推測されにくいファイル名で設置（例: photos-yahhomes-kr2026.zip）。Googleログイン不要・ワンクリック。原寸は manus-storage の1440w級を既定とし、より高解像度の元データがあればオーナーが渡す→Claudeがzip化 |
+| 掲載枚数 | ページ上のギャラリーは各棟 5〜8枚（外観・リビング・寝室・駐車場・水回り） |
+| 画質 | ページ表示は既存最適化パイプライン（-768/-480 variants） |
+| 一括DL | **全ギャラリー画像をweb品質（1440w級）でZIP化し、yah.homes本体から直接配信**（2026-07-21確定・Drive廃止・写真選定作業なし）。**WebP→JPGに一括変換して同梱**（Naver等の編集環境互換のため。1棟あたり約2〜3MB）。`public/partners-assets/photos-kiyokawa.zip` / `photos-takasago.zip` |
 | 権利表記 | 「記事作成の目的で自由にご使用いただけます（出典表記不要）」 |
 | 注記 | 「基本はご自身で撮影された写真を推奨します（補足用として提供）」← Naver/検索アルゴリズム対策（ko版で特に重要） |
 
@@ -126,7 +126,7 @@
 | M3 | iCal 接続・同期確認（Airbnb でテストブロック→Beds24 反映確認） | オーナー＋Claude | 30分 |
 | M4 | noindex動作・sitemap 除外の実装確認（BaseLayoutのnoindexは実装済み） | Claude | 15分 |
 | M5 | `/ja/partners/` ページ実装（§4構成・facts JSON 分離） | Claude | 半日 |
-| M6 | 写真選定（各棟5〜8枚の指定 or お任せ）→ Claudeがzip化して同梱 | オーナー＋Claude | 15分 |
+| M6 | 全ギャラリー画像のJPG変換→ZIP化→同梱（選定不要・Claude単独） | Claude | 15分 |
 | M7 | ビルド・デプロイ・実機確認（noindex・ウィジェット・DL動線） | Claude | 30分 |
 | M8 | 打診メールにURL追記（magazine repo 側） | Claude | 5分 |
 | M9 | ko版 `/ko/partners/`（facts JSON 翻訳・canon韓国語語彙） | Claude | 2時間 |
