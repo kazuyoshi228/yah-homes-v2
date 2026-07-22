@@ -139,7 +139,6 @@
 | 水回り | 浴室1階・**洗面台1つ** | **浴室1つ（2階）・シャワーブース1つ・洗面台3つ** |
 | アクセス | 天神まで車で8分・那珂川沿い | 渡辺通駅徒歩5〜10分・天神徒歩圏 |
 | 駐車 | 無料専用駐車場 | 大型車駐車可 |
-| 評価 | ★4.77（47件） | ★4.67（36件） |
 | **公式詳細ページ** | https://yah.homes/ja/booking/kiyokawa/ | https://yah.homes/ja/booking/takasago/ |
 | Airbnbリスティング | https://www.airbnb.jp/rooms/1427842426961787667 | https://www.airbnb.jp/rooms/1497546315476018480 |
 | 共通 | 1日1組・キッチン/洗濯機完備・セルフチェックイン | 同左 |
@@ -148,7 +147,7 @@
 - リンクは上表の「公式詳細ページ」（写真ギャラリー・設備一覧・地図・FAQを完備 — 記事の一次参照先として案内）と「Airbnbリスティング」を両方掲載。＋公式サイトTOP https://yah.homes/ja/
 - ko版時の詳細ページは /ko/booking/{slug}/ に差し替え（言語別に実在するURLを使う）
 - 実装は生 HTML/Astro に直書きせず、**`src/data/partners-facts.ja.json`** に分離（後日 ko/zh/th 版で使い回すため）。
-- **評価（★・件数・取得日）は facts JSON に書かず、`src/data/properties.ts`（既存SSOT: rating/reviewCount/RATING_AS_OF）からビルド時に取得**（2026-07-21決定）。評価更新は properties.ts の1箇所で、HERO補助行・schema・本ページが同時追従する。
+- **評価（★・件数）はファクトシートに載せない**（2026-07-21 発注者決定: レビューは変動するため。評価を知りたいブロガーは公式詳細ページ/Airbnbリンクから確認できる）。
 - その他の数値は canon と一字一句一致させる。canon 更新時はこのページも更新（チェック項目に追加）。
 
 ## 6. 写真配布
@@ -215,7 +214,7 @@ Cloud Function bookingApi — GET /api/availability?prop={slug}
 
 - [ ] `/ja/partners/` が本番で表示され、noindex メタが出力されている
 - [ ] sitemap.xml・llms.txt・サイトナビのどこにも URL が現れない
-- [ ] ファクトシートの数値が canon §1 と完全一致（定員・★・駅距離・洗面台3 等）
+- [ ] ファクトシートの数値が canon §1 と完全一致（定員・駅距離・洗面台3 等。★評価は非掲載）
 - [ ] プールヴィラ・温泉・BBQ・価格の断定表現がページ内に存在しない
 - [ ] Airbnb でテストブロックした日が（数分〜十数分内に）自社カレンダーに反映される
 - [ ] 写真一括DL（ZIP直接配信）がワンクリックで落とせる
