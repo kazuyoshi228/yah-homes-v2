@@ -108,7 +108,7 @@ const PROPS = [
       <section class="pt-sec">
         <h2 class="pt-h2">提供条件</h2>
         <ul class="pt-terms">
-          <li>平日2泊を無料でご提供（清掃費含め当社負担）。<strong>チェックインは月・火・水曜のいずれか</strong>（2泊とも平日のご滞在となります）。週末・連泊はご相談ください。</li>
+          <li>平日1〜2泊を無料でご提供（清掃費含め当社負担）。記事の充実のため2泊をおすすめしています。<strong>清川・高砂に1泊ずつの「2棟はしご泊」も歓迎です</strong>（2棟の比較記事に最適）。<strong>チェックインは月・火・水曜のいずれか</strong>。週末はご相談ください。</li>
           <li>記事の内容は完全に自由です。ネガティブな感想も含めて、率直にお書きください。</li>
           <li>日程の変更・キャンセルは<strong>7日前まで</strong>にご連絡ください。</li>
         </ul>
@@ -159,6 +159,7 @@ const PROPS = [
               <option value="either">どちらでも</option>
               <option value="kiyokawa">清川（最大7名）</option>
               <option value="takasago">高砂（最大6名）</option>
+              <option value="both">両棟に1泊ずつ（はしご泊）</option>
             </select>
           </div>
           <div class="pt-field-row">
@@ -223,7 +224,7 @@ const PROPS = [
 
 <script define:vars={{ APPLY_ENDPOINT, AVAIL_ENDPOINT }}>
   // ── 日付ピッカー: 月・火・水のみ許可（選択時に検証） ──
-  const CAPACITY = { kiyokawa: 7, takasago: 6, either: 7 };
+  const CAPACITY = { kiyokawa: 7, takasago: 6, either: 7, both: 6 };
   const isMonToWed = (v) => {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
     if (!m) return false;

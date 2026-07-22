@@ -174,8 +174,8 @@ export const contact = onRequest(
 // ─── パートナー日程申請フォーム（/ja/partners/・design_partners_page.md §4.5-1） ───
 // 通知先はページ掲載の連絡先と同一（Secretにしない公開情報）。送信元は既存SMTP_USERを流用。
 const PARTNERS_NOTIFY_TO = "kazuyoshi.yamada@bonfire.co.jp";
-const PROPERTY_CAPACITY: Record<string, number> = { kiyokawa: 7, takasago: 6, either: 7 };
-const PROPERTY_LABEL: Record<string, string> = { kiyokawa: "清川", takasago: "高砂", either: "どちらでも" };
+const PROPERTY_CAPACITY: Record<string, number> = { kiyokawa: 7, takasago: 6, either: 7, both: 6 };
+const PROPERTY_LABEL: Record<string, string> = { kiyokawa: "清川", takasago: "高砂", either: "どちらでも", both: "両棟はしご泊" };
 
 /** チェックイン可能は月・火・水のみ（2泊とも平日で完結・§4-1確定文言）。
     暦日の曜日はタイムゾーン非依存で判定する（サーバーTZに影響されない） */
