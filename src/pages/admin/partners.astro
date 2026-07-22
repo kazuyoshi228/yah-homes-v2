@@ -1,0 +1,328 @@
+---
+/* パートナー申請 管理画面 — design_partners_page.md §4.6（v0.8）
+   認証: Firebase Auth（Google）・許可メール = kazuyoshi.yamada@bonfire.co.jp のみ（Function側で検証）。
+   noindex・sitemap除外（/adminはastro.config filter済み）・サイト内リンクなし。
+   機能: 申請一覧・ステータス台帳・確定行から管理会社向けAirbnbブロック依頼文の生成コピー。 */
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const ADMIN_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/partnersAdmin";
+// Firebase Webアプリ設定（公開値・firebase apps:sdkconfig より）
+const FB_CONFIG = {
+  apiKey: "AIzaSyBgHbTL5caL-itDIFTlSZNMPeHNsSnwEDs",
+  authDomain: "yah-homes.firebaseapp.com",
+  projectId: "yah-homes",
+  appId: "1:18500698213:web:8b4cf08b97d916c216068c",
+};
+---
+
+<SiteLayout
+  lang="ja"
+  path="/admin/partners"
+  title="Partners 管理 | yah.homes"
+  description="パートナー申請の管理画面"
+  noindex={true}
+  solidNav
+>
+  <section class="pa">
+    <div class="pa-container">
+      <p class="pa-eyebrow">Admin</p>
+      <h1 class="pa-title">パートナー申請 管理</h1>
+
+      <div id="pa-login" class="pa-login">
+        <p class="pa-note">Googleアカウント（kazuyoshi.yamada@bonfire.co.jp）でログインしてください。</p>
+        <button id="pa-login-btn" class="pa-btn">Googleでログイン</button>
+        <p class="pa-status" id="pa-login-status"></p>
+      </div>
+
+      <div id="pa-app" hidden>
+        <div class="pa-toolbar">
+          <span id="pa-count" class="pa-note"></span>
+          <button id="pa-reload" class="pa-btn-sub">再読み込み</button>
+        </div>
+        <div class="pa-tablewrap">
+          <table class="pa-table" id="pa-table">
+            <thead>
+              <tr>
+                <th>申請日</th><th>名前</th><th>媒体</th><th>棟</th><th>第1希望</th><th>第2希望</th><th>人数</th><th>メッセージ</th><th>ステータス</th><th>依頼文</th>
+              </tr>
+            </thead>
+            <tbody id="pa-tbody"></tbody>
+          </table>
+        </div>
+        <h2 class="pa-h2">掲載実績（記事公開済み）</h2>
+        <ul id="pa-published" class="pa-published"></ul>
+        <p class="pa-status" id="pa-app-status"></p>
+      </div>
+    </div>
+  </section>
+</SiteLayout>
+
+<script define:vars={{ ADMIN_ENDPOINT, FB_CONFIG }}>
+  import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js").then(async ({ initializeApp }) => {
+    const { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } = await import(
+      "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"
+    );
+    const app = initializeApp(FB_CONFIG);
+    const auth = getAuth(app);
+
+    const loginBox = document.getElementById("pa-login");
+    const appBox = document.getElementById("pa-app");
+    const loginStatus = document.getElementById("pa-login-status");
+    const appStatus = document.getElementById("pa-app-status");
+    const tbody = document.getElementById("pa-tbody");
+    const countEl = document.getElementById("pa-count");
+    const pubList = document.getElementById("pa-published");
+
+    const STATUS = {
+      new: "新規",
+      contacted: "連絡済",
+      confirmed: "確定",
+      stayed: "宿泊済",
+      published: "記事公開済",
+      declined: "見送り",
+    };
+    const PROP = { kiyokawa: "清川", takasago: "高砂", either: "どちらでも", both: "両棟はしご泊" };
+
+    const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" }) : "-");
+    const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+    // 依頼文（§4.5-3統合）: チェックアウトはチェックイン+2日を既定（1泊/はしごはメールで調整前提の下書き）
+    const requestText = (it) => {
+      const co = (() => {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(it.date1 || "");
+        if (!m) return "（要調整）";
+        const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + 2));
+        return d.toISOString().slice(0, 10);
+      })();
+      return [
+        "杉元さん",
+        "",
+        "お世話になっております。パートナー宿泊の日程が確定しましたので、Airbnbカレンダーのブロックをお願いいたします。",
+        "",
+        `棟: ${PROP[it.property] ?? it.property}`,
+        `チェックイン: ${it.date1}`,
+        `チェックアウト: ${co}（2泊の場合）`,
+        `人数: ${it.guests}名`,
+        "理由: パートナー宿泊（取材）",
+        "",
+        "よろしくお願いいたします。",
+      ].join("\n");
+    };
+
+    async function api(method, body) {
+      const token = await auth.currentUser.getIdToken();
+      const res = await fetch(ADMIN_ENDPOINT, {
+        method,
+        headers: { Authorization: `Bearer ${token}`, ...(body ? { "Content-Type": "application/json" } : {}) },
+        body: body ? JSON.stringify(body) : undefined,
+      });
+      if (res.status === 401) throw new Error("unauthorized");
+      return res.json();
+    }
+
+    async function load() {
+      appStatus.textContent = "読み込み中...";
+      try {
+        const j = await api("GET");
+        if (!j.ok) throw new Error("load failed");
+        countEl.textContent = `${j.items.length}件`;
+        tbody.innerHTML = j.items
+          .map(
+            (it) => `
+          <tr data-id="${esc(it.id)}">
+            <td>${fmtDate(it.createdAt)}</td>
+            <td>${esc(it.name)}<br><a href="mailto:${esc(it.email)}" class="pa-mail">${esc(it.email)}</a></td>
+            <td><a href="${esc(it.mediaUrl)}" target="_blank" rel="noopener noreferrer">媒体を見る</a></td>
+            <td>${esc(PROP[it.property] ?? it.property)}</td>
+            <td>${esc(it.date1)}</td>
+            <td>${esc(it.date2)}</td>
+            <td>${esc(it.guests)}名</td>
+            <td class="pa-msg">${esc(it.message || "-")}</td>
+            <td>
+              <select class="pa-select" data-id="${esc(it.id)}">
+                ${Object.entries(STATUS).map(([k, v]) => `<option value="${k}" ${k === it.status ? "selected" : ""}>${v}</option>`).join("")}
+              </select>
+            </td>
+            <td><button class="pa-btn-sub pa-copy" data-id="${esc(it.id)}">依頼文</button></td>
+          </tr>`
+          )
+          .join("");
+        pubList.innerHTML = j.items
+          .filter((it) => it.status === "published")
+          .map((it) => `<li><a href="${esc(it.mediaUrl)}" target="_blank" rel="noopener noreferrer">${esc(it.name)}</a>（${esc(PROP[it.property] ?? it.property)}）</li>`)
+          .join("") || "<li class=\"pa-note\">まだありません</li>";
+        appStatus.textContent = "";
+
+        tbody.querySelectorAll(".pa-select").forEach((sel) => {
+          sel.addEventListener("change", async () => {
+            appStatus.textContent = "更新中...";
+            try {
+              await api("POST", { id: sel.dataset.id, status: sel.value });
+              appStatus.textContent = "更新しました";
+              if (sel.value === "published") load();
+            } catch {
+              appStatus.textContent = "更新に失敗しました";
+            }
+          });
+        });
+        tbody.querySelectorAll(".pa-copy").forEach((btn) => {
+          btn.addEventListener("click", async () => {
+            const it = j.items.find((x) => x.id === btn.dataset.id);
+            try {
+              await navigator.clipboard.writeText(requestText(it));
+              appStatus.textContent = "依頼文をコピーしました（管理会社へ貼り付けて送信）";
+            } catch {
+              appStatus.textContent = requestText(it);
+            }
+          });
+        });
+      } catch (e) {
+        appStatus.textContent = e.message === "unauthorized" ? "このアカウントには権限がありません。" : "読み込みに失敗しました。";
+      }
+    }
+
+    document.getElementById("pa-login-btn").addEventListener("click", async () => {
+      loginStatus.textContent = "";
+      try {
+        await signInWithPopup(auth, new GoogleAuthProvider());
+      } catch {
+        loginStatus.textContent = "ログインに失敗しました。";
+      }
+    });
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBox.hidden = true;
+        appBox.hidden = false;
+        load();
+      } else {
+        loginBox.hidden = false;
+        appBox.hidden = true;
+      }
+    });
+    document.getElementById("pa-reload").addEventListener("click", load);
+  });
+</script>
+
+<style>
+  .pa {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+    min-height: 70vh;
+  }
+  .pa-container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+  .pa-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .pa-title {
+    font-size: clamp(1.4rem, 3.5vw, 2rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 1.5rem;
+  }
+  .pa-h2 {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 2.5rem 0 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .pa-note {
+    font-size: 0.8rem;
+    color: #888888;
+  }
+  .pa-status {
+    font-size: 0.8rem;
+    color: #333333;
+    min-height: 1.4em;
+    margin-top: 0.75rem;
+  }
+  .pa-login {
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 2rem;
+    max-width: 420px;
+  }
+  .pa-btn {
+    margin-top: 1rem;
+    padding: 0.7rem 1.6rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .pa-btn-sub {
+    padding: 0.4rem 0.8rem;
+    background: #ffffff;
+    color: #111111;
+    font-size: 0.75rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .pa-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  .pa-tablewrap {
+    overflow-x: auto;
+  }
+  .pa-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.78rem;
+    line-height: 1.6;
+  }
+  .pa-table th,
+  .pa-table td {
+    border: 1px solid #e5e5e5;
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    vertical-align: top;
+    color: #222222;
+    white-space: nowrap;
+  }
+  .pa-table thead th {
+    background: #fafafa;
+    font-weight: 500;
+  }
+  .pa-table a {
+    color: #111111;
+  }
+  .pa-msg {
+    white-space: normal;
+    min-width: 160px;
+    max-width: 260px;
+  }
+  .pa-mail {
+    font-size: 0.72rem;
+    color: #888888;
+  }
+  .pa-select {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.4rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .pa-published {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.85rem;
+    line-height: 2;
+  }
+</style>
