@@ -8,7 +8,6 @@ import SiteLayout from "../../layouts/SiteLayout.astro";
 import { GALLERIES } from "../../data/properties";
 import facts from "../../data/partners-facts.ja.json";
 
-const CONTACT_EMAIL = "kazuyoshi.yamada@bonfire.co.jp";
 const APPLY_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/partnersApply";
 const AVAIL_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/bookingApi";
 
@@ -216,10 +215,7 @@ const PROPS = [
       <!-- §7 連絡先 -->
       <section class="pt-sec">
         <h2 class="pt-h2">連絡先</h2>
-        <p>
-          ご不明点はメールでお気軽にどうぞ（日本語・英語・韓国語対応）:
-          <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-        </p>
+        <p>ご不明点は日程申請フォームからお気軽にどうぞ（日本語・英語・韓国語対応）。</p>
         <p class="pt-note">yah.homes（運営: ボンファイア株式会社）</p>
       </section>
     </div>
