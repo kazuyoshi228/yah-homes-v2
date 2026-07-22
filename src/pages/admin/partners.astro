@@ -86,22 +86,25 @@ const FB_CONFIG = {
     const fmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString("ja-JP", { month: "numeric", day: "numeric" }) : "-");
     const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-    // 依頼文（§4.5-3統合）: チェックアウトはチェックイン+2日を既定（1泊/はしごはメールで調整前提の下書き）
+    const addDays = (dateStr, n) => {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr || "");
+      if (!m) return "";
+      return new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + n)).toISOString().slice(0, 10);
+    };
+
+    // 依頼文（§4.5-3統合）: 確定日があれば実日付、なければ第1希望+2泊を既定の下書き
     const requestText = (it) => {
-      const co = (() => {
-        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(it.date1 || "");
-        if (!m) return "（要調整）";
-        const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + 2));
-        return d.toISOString().slice(0, 10);
-      })();
+      const ci = it.confirmedCheckin || it.date1;
+      const co = it.confirmedCheckout || addDays(it.date1, 2) || "（要調整）";
+      const coNote = it.confirmedCheckout ? "" : "（2泊の場合）";
       return [
         "杉元さん",
         "",
         "お世話になっております。パートナー宿泊の日程が確定しましたので、Airbnbカレンダーのブロックをお願いいたします。",
         "",
         `棟: ${PROP[it.property] ?? it.property}`,
-        `チェックイン: ${it.date1}`,
-        `チェックアウト: ${co}（2泊の場合）`,
+        `チェックイン: ${ci}`,
+        `チェックアウト: ${co}${coNote}`,
         `人数: ${it.guests}名`,
         "理由: パートナー宿泊（取材）",
         "",
@@ -134,7 +137,7 @@ const FB_CONFIG = {
             <td>${esc(it.name)}<br><a href="mailto:${esc(it.email)}" class="pa-mail">${esc(it.email)}</a></td>
             <td><a href="${esc(it.mediaUrl)}" target="_blank" rel="noopener noreferrer">媒体を見る</a></td>
             <td>${esc(PROP[it.property] ?? it.property)}</td>
-            <td>${esc(it.date1)}</td>
+            <td>${esc(it.date1)}${it.confirmedCheckin ? `<br><span class="pa-confirmed">確定 ${esc(it.confirmedCheckin)}〜${esc(it.confirmedCheckout)}</span>` : ""}</td>
             <td>${esc(it.date2)}</td>
             <td>${esc(it.guests)}名</td>
             <td class="pa-msg">${esc(it.message || "-")}</td>
@@ -154,14 +157,42 @@ const FB_CONFIG = {
         appStatus.textContent = "";
 
         tbody.querySelectorAll(".pa-select").forEach((sel) => {
+          let prev = sel.value;
           sel.addEventListener("change", async () => {
+            const body = { id: sel.dataset.id, status: sel.value };
+
+            // 確定: チェックイン/アウト日を入力（第1希望が初期値・+2泊既定）→申請者へ確定メール自動送信（v0.9）
+            if (sel.value === "confirmed") {
+              const it = j.items.find((x) => x.id === sel.dataset.id);
+              const ci = prompt("確定チェックイン日（YYYY-MM-DD）", it.confirmedCheckin || it.date1 || "");
+              if (!ci) { sel.value = prev; return; }
+              const co = prompt("確定チェックアウト日（YYYY-MM-DD）", it.confirmedCheckout || addDays(ci, 2) || "");
+              if (!co) { sel.value = prev; return; }
+              if (!/^\d{4}-\d{2}-\d{2}$/.test(ci) || !/^\d{4}-\d{2}-\d{2}$/.test(co) || co <= ci) {
+                appStatus.textContent = "日付の形式が正しくありません（YYYY-MM-DD・アウトはインより後）";
+                sel.value = prev;
+                return;
+              }
+              if (!confirm(`この内容で確定し、${it.email} へ確定メールを送信します。\nチェックイン: ${ci}\nチェックアウト: ${co}`)) {
+                sel.value = prev;
+                return;
+              }
+              body.checkin = ci;
+              body.checkout = co;
+            }
+
             appStatus.textContent = "更新中...";
             try {
-              await api("POST", { id: sel.dataset.id, status: sel.value });
-              appStatus.textContent = "更新しました";
-              if (sel.value === "published") load();
+              const r = await api("POST", body);
+              if (!r.ok) throw new Error("update failed");
+              prev = sel.value;
+              appStatus.textContent =
+                r.mail === "sent" ? "更新しました（確定メールを送信済み）" :
+                r.mail === "failed" ? "更新しましたが、確定メールの送信に失敗しました" : "更新しました";
+              if (sel.value === "confirmed" || sel.value === "published") load();
             } catch {
               appStatus.textContent = "更新に失敗しました";
+              sel.value = prev;
             }
           });
         });
@@ -307,6 +338,11 @@ const FB_CONFIG = {
     white-space: normal;
     min-width: 160px;
     max-width: 260px;
+  }
+  :global(.pa-confirmed) {
+    font-size: 0.72rem;
+    color: #0a7a3d;
+    font-weight: 500;
   }
   .pa-mail {
     font-size: 0.72rem;

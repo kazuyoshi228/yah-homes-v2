@@ -411,7 +411,7 @@ async function verifyAdmin(req: { headers: Record<string, unknown> }): Promise<s
   }
 }
 
-export const partnersAdmin = onRequest({ region: REGION }, async (req, res) => {
+export const partnersAdmin = onRequest({ region: REGION, secrets: [SMTP_USER, SMTP_PASS] }, async (req, res) => {
   const origin = corsOrigin(req.headers.origin as string | undefined);
   if (origin) {
     res.set("Access-Control-Allow-Origin", origin);
@@ -439,6 +439,8 @@ export const partnersAdmin = onRequest({ region: REGION }, async (req, res) => {
         guests: v.guests ?? null,
         message: v.message ?? "",
         status: v.status ?? "new",
+        confirmedCheckin: v.confirmedCheckin ?? null,
+        confirmedCheckout: v.confirmedCheckout ?? null,
         createdAt: v.createdAt?.toMillis?.() ?? null,
       };
     });
@@ -447,15 +449,83 @@ export const partnersAdmin = onRequest({ region: REGION }, async (req, res) => {
   }
 
   if (req.method === "POST") {
-    const { id, status } = (req.body ?? {}) as Record<string, unknown>;
+    const { id, status, checkin, checkout } = (req.body ?? {}) as Record<string, unknown>;
     const idStr = typeof id === "string" ? id : "";
     const statusStr = typeof status === "string" && PARTNER_STATUSES.includes(status) ? status : "";
     if (!idStr || !statusStr) { res.status(400).json({ ok: false, error: "invalid_input" }); return; }
-    await db.collection("partner_applications").doc(idStr).update({
+
+    const ref = db.collection("partner_applications").doc(idStr);
+    const update: Record<string, unknown> = {
       status: statusStr,
       statusUpdatedAt: FieldValue.serverTimestamp(),
       statusUpdatedBy: email,
-    });
+    };
+
+    // 確定: 確定日を保存し、申請者へ確定メールを自動送信（v0.9）
+    if (statusStr === "confirmed") {
+      const ciStr = typeof checkin === "string" ? checkin.trim() : "";
+      const coStr = typeof checkout === "string" ? checkout.trim() : "";
+      const isDate = (v: string) => /^\d{4}-\d{2}-\d{2}$/.test(v);
+      if (!isDate(ciStr) || !isDate(coStr) || coStr <= ciStr) {
+        res.status(400).json({ ok: false, error: "invalid_confirmed_dates" });
+        return;
+      }
+      update.confirmedCheckin = ciStr;
+      update.confirmedCheckout = coStr;
+
+      const snap = await ref.get();
+      const v = snap.data();
+      if (!v) { res.status(404).json({ ok: false, error: "not_found" }); return; }
+      await ref.update(update);
+
+      const fmtJa = (d: string) => {
+        const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d)!;
+        const dow = "日月火水木金土"[new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).getUTCDay()];
+        return `${+m[2]}月${+m[3]}日（${dow}）`;
+      };
+      const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: { user: SMTP_USER.value(), pass: SMTP_PASS.value() },
+      });
+      try {
+        await transporter.sendMail({
+          from: `"yah.homes" <${SMTP_USER.value()}>`,
+          to: String(v.email),
+          replyTo: PARTNERS_NOTIFY_TO,
+          subject: "【yah.homes】ご宿泊が確定しました",
+          text: [
+            `${v.name} 様`,
+            ``,
+            `パートナー宿泊のご予約が確定しましたのでお知らせします。`,
+            ``,
+            `--- ご予約内容 ---`,
+            `棟: ${PROPERTY_LABEL[String(v.property)] ?? v.property}`,
+            `チェックイン: ${fmtJa(ciStr)} 15:00〜`,
+            `チェックアウト: ${fmtJa(coStr)} 〜10:00`,
+            `人数: ${v.guests}名`,
+            `---`,
+            ``,
+            `ご宿泊の1週間前を目安に、住所・入室方法などのご案内をお送りします。`,
+            `日程の変更・キャンセルは7日前までにこのメールへご返信ください。`,
+            ``,
+            `当日お会いできるのを楽しみにしています。`,
+            ``,
+            `yah.homes`,
+            `https://yah.homes/ja/`,
+          ].join("\n"),
+        });
+      } catch (err) {
+        logger.error("partners confirmation mail failed", err);
+        res.status(200).json({ ok: true, mail: "failed" });
+        return;
+      }
+      res.status(200).json({ ok: true, mail: "sent" });
+      return;
+    }
+
+    await ref.update(update);
     res.status(200).json({ ok: true });
     return;
   }
