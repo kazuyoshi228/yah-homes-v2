@@ -309,3 +309,84 @@ export const partnersApply = onRequest(
     res.status(200).json({ ok: true });
   }
 );
+
+// ─── Beds24 空き状況API（design_partners_page.md §7 / P1 §7-1 前倒し） ───
+// 読み取り専用。refresh token は Secret（M2で保存）。propId/roomId は初回に /properties から自動発見してキャッシュ。
+const BEDS24_REFRESH_TOKEN_KIYOKAWA = defineSecret("BEDS24_REFRESH_TOKEN_KIYOKAWA");
+const BEDS24_REFRESH_TOKEN_TAKASAGO = defineSecret("BEDS24_REFRESH_TOKEN_TAKASAGO");
+const BEDS24_API = "https://beds24.com/api/v2";
+
+type AvailCache = { data: Record<string, boolean>; expires: number };
+const availCache: Record<string, AvailCache> = {};
+const tokenCache: Record<string, { token: string; expires: number }> = {};
+
+async function beds24Token(slug: "kiyokawa" | "takasago"): Promise<string> {
+  const cached = tokenCache[slug];
+  if (cached && cached.expires > Date.now()) return cached.token;
+  const refresh = slug === "kiyokawa" ? BEDS24_REFRESH_TOKEN_KIYOKAWA.value() : BEDS24_REFRESH_TOKEN_TAKASAGO.value();
+  const r = await fetch(`${BEDS24_API}/authentication/token`, { headers: { refreshToken: refresh } });
+  const j = (await r.json()) as { token?: string; expiresIn?: number };
+  if (!j.token) throw new Error("beds24 token refresh failed");
+  tokenCache[slug] = { token: j.token, expires: Date.now() + Math.max(60, (j.expiresIn ?? 86400) - 300) * 1000 };
+  return j.token;
+}
+
+export const bookingApi = onRequest(
+  { region: REGION, secrets: [BEDS24_REFRESH_TOKEN_KIYOKAWA, BEDS24_REFRESH_TOKEN_TAKASAGO] },
+  async (req, res) => {
+    const origin = corsOrigin(req.headers.origin as string | undefined);
+    if (origin) {
+      res.set("Access-Control-Allow-Origin", origin);
+      res.set("Vary", "Origin");
+    }
+    if (req.method === "OPTIONS") { res.status(204).send(""); return; }
+
+    const slug = String(req.query.prop ?? "");
+    if (slug !== "kiyokawa" && slug !== "takasago") {
+      res.status(400).json({ ok: false, error: "invalid_prop" });
+      return;
+    }
+
+    // 5分キャッシュ（表示用途に十分・Beds24負荷も抑制）
+    const cached = availCache[slug];
+    if (cached && cached.expires > Date.now()) {
+      res.set("Cache-Control", "public, max-age=300");
+      res.status(200).json({ ok: true, prop: slug, dates: cached.data, cached: true });
+      return;
+    }
+
+    try {
+      const token = await beds24Token(slug);
+      const start = new Date();
+      const end = new Date(start.getTime() + 90 * 86400000);
+      const fmt = (d: Date) => d.toISOString().slice(0, 10);
+      // 部屋在庫カレンダー（各招待コードは該当propertyスコープ。roomIdは省略して全room取得）
+      const r = await fetch(
+        `${BEDS24_API}/inventory/rooms/calendar?startDate=${fmt(start)}&endDate=${fmt(end)}&includeNumAvail=true`,
+        { headers: { token } },
+      );
+      const j = (await r.json()) as { success?: boolean; data?: Array<{ roomId?: number; calendar?: Array<{ from: string; to: string; numAvail?: number }> }> };
+      if (!j.success || !j.data) throw new Error("beds24 calendar fetch failed");
+
+      // 日別: いずれかのroomでnumAvail>=1なら空き
+      const dates: Record<string, boolean> = {};
+      for (const room of j.data) {
+        for (const seg of room.calendar ?? []) {
+          const from = new Date(`${seg.from}T00:00:00Z`);
+          const to = new Date(`${seg.to}T00:00:00Z`);
+          for (let d = new Date(from); d <= to; d = new Date(d.getTime() + 86400000)) {
+            const key = d.toISOString().slice(0, 10);
+            const avail = (seg.numAvail ?? 0) >= 1;
+            dates[key] = dates[key] || avail;
+          }
+        }
+      }
+      availCache[slug] = { data: dates, expires: Date.now() + 5 * 60 * 1000 };
+      res.set("Cache-Control", "public, max-age=300");
+      res.status(200).json({ ok: true, prop: slug, dates });
+    } catch (err) {
+      logger.error("bookingApi availability failed", err);
+      res.status(502).json({ ok: false, error: "upstream_failed" });
+    }
+  }
+);

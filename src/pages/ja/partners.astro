@@ -10,6 +10,7 @@ import facts from "../../data/partners-facts.ja.json";
 
 const CONTACT_EMAIL = "kazuyoshi.yamada@bonfire.co.jp";
 const APPLY_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/partnersApply";
+const AVAIL_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/bookingApi";
 
 // ギャラリー: 並び順から先頭6枚（§4-1確定・-768バリアントがあれば軽量表示）
 const galleryOf = (key: "kiyokawa" | "takasago") => GALLERIES[key].slice(0, 6);
@@ -114,13 +115,27 @@ const PROPS = [
         </ul>
       </section>
 
-      <!-- §4 予約可能日（Beds24 API接続までのプレースホルダ） -->
+      <!-- §4 予約可能日（Beds24 API・自前カレンダー。API不達時は案内文にフォールバック） -->
       <section class="pt-sec">
         <h2 class="pt-h2">予約可能日</h2>
-        <div class="pt-cal-placeholder">
+        <div id="pt-calendars">
+          <div class="pt-cal-block" data-prop="kiyokawa">
+            <h3 class="pt-h3">清川（Kiyokawa）</h3>
+            <div class="pt-cal" data-cal="kiyokawa"></div>
+          </div>
+          <div class="pt-cal-block" data-prop="takasago">
+            <h3 class="pt-h3">高砂（Takasago）</h3>
+            <div class="pt-cal" data-cal="takasago"></div>
+          </div>
+        </div>
+        <div class="pt-cal-placeholder" id="pt-cal-fallback" hidden>
           <p>空き状況カレンダーは現在準備中です。下の申請フォームからご希望日（第2希望まで）をお送りいただければ、空き状況と合わせてご返信します。</p>
         </div>
-        <p class="pt-note">平日2泊のご提供（週末除く）。</p>
+        <div class="pt-cal-legend" id="pt-cal-legend" hidden>
+          <span><i class="lg-open"></i> 空きあり</span>
+          <span><i class="lg-closed"></i> 予約済み・提供対象外</span>
+        </div>
+        <p class="pt-note">平日2泊のご提供（週末除く）。空き状況は数分単位で更新されます。</p>
       </section>
 
       <!-- §5 日程申請フォーム -->
@@ -211,7 +226,7 @@ const PROPS = [
   </article>
 </SiteLayout>
 
-<script define:vars={{ APPLY_ENDPOINT }}>
+<script define:vars={{ APPLY_ENDPOINT, AVAIL_ENDPOINT }}>
   // ── 日付ピッカー: 月・火・水のみ許可（選択時に検証） ──
   const CAPACITY = { kiyokawa: 7, takasago: 6, either: 7 };
   const isMonToWed = (v) => {
@@ -283,6 +298,58 @@ const PROPS = [
       submitBtn.disabled = false;
     }
   });
+
+  // ── 空き状況カレンダー（月表示×2ヶ月・週末はグレー=提供対象外） ──
+  (async () => {
+    const fallback = document.getElementById("pt-cal-fallback");
+    const calendars = document.getElementById("pt-calendars");
+    const legend = document.getElementById("pt-cal-legend");
+    const DOW = ["日", "月", "火", "水", "木", "金", "土"];
+    const renderMonth = (year, month, dates) => {
+      const first = new Date(Date.UTC(year, month, 1));
+      const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+      const startDow = first.getUTCDay();
+      let cells = "";
+      for (let i = 0; i < startDow; i++) cells += '<span class="cal-cell cal-empty"></span>';
+      const todayKey = new Date().toISOString().slice(0, 10);
+      for (let d = 1; d <= daysInMonth; d++) {
+        const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        const dow = new Date(Date.UTC(year, month, d)).getUTCDay();
+        const weekend = dow === 0 || dow === 6;
+        const past = key < todayKey;
+        const open = !weekend && !past && dates[key] === true;
+        cells += `<span class="cal-cell ${open ? "cal-open" : "cal-closed"}">${d}</span>`;
+      }
+      const head = DOW.map((w) => `<span class="cal-dow">${w}</span>`).join("");
+      return `<div class="cal-month"><p class="cal-title">${year}年${month + 1}月</p><div class="cal-grid">${head}${cells}</div></div>`;
+    };
+    try {
+      const now = new Date();
+      const results = await Promise.all(
+        ["kiyokawa", "takasago"].map(async (prop) => {
+          const r = await fetch(`${AVAIL_ENDPOINT}?prop=${prop}`);
+          if (!r.ok) throw new Error("avail fetch failed");
+          const j = await r.json();
+          if (!j.ok) throw new Error("avail not ok");
+          return { prop, dates: j.dates || {} };
+        })
+      );
+      for (const { prop, dates } of results) {
+        const el = document.querySelector(`[data-cal="${prop}"]`);
+        let html = "";
+        for (let i = 0; i < 2; i++) {
+          const m = new Date(now.getFullYear(), now.getMonth() + i, 1);
+          html += renderMonth(m.getFullYear(), m.getMonth(), dates);
+        }
+        el.innerHTML = html;
+      }
+      legend.hidden = false;
+    } catch {
+      // API未接続・障害時は案内文へフォールバック
+      calendars.hidden = true;
+      fallback.hidden = false;
+    }
+  })();
 
   // ── UTMコピー ──
   const utmBtn = document.getElementById("utm-copy");
@@ -477,6 +544,84 @@ const PROPS = [
     color: #222222;
     padding: 0.7rem 0;
     border-bottom: 1px solid #f2f2f2;
+  }
+  .pt-cal-block {
+    margin-bottom: 1.5rem;
+  }
+  .pt-cal {
+    min-height: 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 560px) {
+    .pt-cal {
+      grid-template-columns: 1fr;
+    }
+  }
+  .pt-cal :global(.cal-month) {
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 0.75rem;
+  }
+  .pt-cal :global(.cal-title) {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 0 0 0.5rem;
+  }
+  .pt-cal :global(.cal-grid) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .pt-cal :global(.cal-dow) {
+    font-size: 0.6rem;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 0.15rem 0;
+  }
+  .pt-cal :global(.cal-cell) {
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 0.3rem 0;
+    border-radius: 3px;
+    color: #111111;
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+  }
+  .pt-cal :global(.cal-open) {
+    font-weight: 600;
+  }
+  .pt-cal :global(.cal-closed) {
+    color: #c9c9c9;
+    background: #f7f7f7;
+    text-decoration: line-through;
+    border-color: transparent;
+  }
+  .pt-cal :global(.cal-empty) {
+    border: none;
+  }
+  .pt-cal-legend {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: #777777;
+  }
+  .pt-cal-legend i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 0.3rem;
+  }
+  .pt-cal-legend .lg-open {
+    background: #ffffff;
+    border: 1px solid #cccccc;
+  }
+  .pt-cal-legend .lg-closed {
+    background: #f0f0f0;
   }
   .pt-cal-placeholder {
     border: 1px dashed #cccccc;
