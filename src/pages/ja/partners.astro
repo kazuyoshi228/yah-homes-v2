@@ -231,7 +231,7 @@ const PROPS = [
     return day >= 1 && day <= 3;
   };
   const today = new Date();
-  const minDate = new Date(today.getTime() + 7 * 86400000).toISOString().slice(0, 10); // 7日前ルールと整合
+  const minDate = new Date(today.getTime() + 30 * 86400000).toISOString().slice(0, 10); // 受付は1ヶ月後から（カレンダー表示と整合）
   for (const id of ["pf-date1", "pf-date2"]) {
     const el = document.getElementById(id);
     el.min = minDate;
@@ -326,7 +326,7 @@ const PROPS = [
       for (const prop of ["kiyokawa", "takasago"]) {
         const el = document.querySelector(`[data-cal="${prop}"]`);
         let html = "";
-        for (let i = 0; i < 2; i++) {
+        for (let i = 1; i <= 2; i++) { // 表示は1ヶ月後から2ヶ月分（直近は準備期間のため対象外）
           const m = new Date(now.getFullYear(), now.getMonth() + i, 1);
           html += renderMonth(m.getFullYear(), m.getMonth(), datesByProp ? datesByProp[prop] : null);
         }
