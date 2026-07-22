@@ -141,7 +141,6 @@
 | 駐車 | 無料専用駐車場 | 大型車駐車可 |
 | **公式詳細ページ** | https://yah.homes/ja/booking/kiyokawa/ | https://yah.homes/ja/booking/takasago/ |
 | Airbnbリスティング | https://www.airbnb.jp/rooms/1427842426961787667 | https://www.airbnb.jp/rooms/1497546315476018480 |
-| 共通 | 1日1組・キッチン/洗濯機完備・セルフチェックイン | 同左 |
 
 - ＋「書かないでほしいこと」欄: プール/温泉/BBQ関連の表現（設備がありません）・価格の断定（時期により変動）。
 - リンクは上表の「公式詳細ページ」（写真ギャラリー・設備一覧・地図・FAQを完備 — 記事の一次参照先として案内）と「Airbnbリスティング」を両方掲載。＋公式サイトTOP https://yah.homes/ja/
