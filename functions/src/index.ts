@@ -206,7 +206,8 @@ export const partnersApply = onRequest(
       return;
     }
 
-    const { name, email, mediaUrl, property, date1, date2, guests, message, website } = (req.body ?? {}) as Record<string, unknown>;
+    const { name, email, mediaUrl, property, date1, date2, guests, message, lang, website } = (req.body ?? {}) as Record<string, unknown>;
+    const applyLang = lang === "ko" ? "ko" : "ja";
 
     // ハニーポット
     if (typeof website === "string" && website.trim() !== "") {
@@ -239,6 +240,7 @@ export const partnersApply = onRequest(
       date2: date2Str,
       guests: guestsNum,
       message: messageStr,
+      lang: applyLang,
       createdAt: FieldValue.serverTimestamp(),
       userAgent: (req.headers["user-agent"] as string | undefined)?.slice(0, 500) ?? null,
       status: "new",
@@ -266,6 +268,7 @@ export const partnersApply = onRequest(
           `第1希望チェックイン: ${date1Str}`,
           `第2希望チェックイン: ${date2Str}`,
           `人数: ${guestsNum}名`,
+          `言語: ${applyLang}`,
           ``,
           `--- メッセージ ---`,
           messageStr || "(なし)",
@@ -277,14 +280,32 @@ export const partnersApply = onRequest(
       logger.error("partners notify mail failed", err);
     }
 
-    // 申請者への自動返信（日本語・replyToはオーナー直通）
+    // 申請者への自動返信（ja/ko・replyToはオーナー直通）
+    const PROPERTY_LABEL_KO: Record<string, string> = { kiyokawa: "기요카와", takasago: "다카사고", either: "어느 쪽이든", both: "두 동 연박" };
     try {
       await transporter.sendMail({
         from: `"yah.homes" <${SMTP_USER.value()}>`,
         to: emailStr,
         replyTo: PARTNERS_NOTIFY_TO,
-        subject: "【yah.homes】パートナー宿泊のお申し込みを受け付けました",
-        text: [
+        subject: applyLang === "ko" ? "[yah.homes] 파트너 숙박 신청이 접수되었습니다" : "【yah.homes】パートナー宿泊のお申し込みを受け付けました",
+        text: applyLang === "ko" ? [
+          `${nameStr} 님`,
+          ``,
+          `yah.homes 파트너 숙박에 신청해 주셔서 감사합니다.`,
+          `아래 내용으로 접수되었습니다. 2〜3영업일 이내에 담당자가 연락드리겠습니다.`,
+          ``,
+          `--- 신청 내용 ---`,
+          `희망 동: ${PROPERTY_LABEL_KO[propStr] ?? propStr}`,
+          `1지망 체크인: ${date1Str}`,
+          `2지망 체크인: ${date2Str}`,
+          `인원: ${guestsNum}명`,
+          `---`,
+          ``,
+          `문의는 이 메일에 그대로 회신해 주세요.`,
+          ``,
+          `yah.homes (운영: Bonfire Inc.)`,
+          `https://yah.homes/ko/`,
+        ].join("\n") : [
           `${nameStr} 様`,
           ``,
           `yah.homes パートナー宿泊へのお申し込みをありがとうございます。`,

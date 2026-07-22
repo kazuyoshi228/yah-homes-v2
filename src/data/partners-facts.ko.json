@@ -1,0 +1,57 @@
+{
+  "_comment": "파트너 페이지 팩트시트(한국어). 정본=partners-facts.ja.json（canon準拠）。ja更新時はここも同期（design_partners_page.md §5）。",
+  "rows": [
+    {
+      "label": "타입",
+      "kiyokawa": "신축 단독주택 109㎡",
+      "takasago": "모던 일본풍 단독주택 100㎡"
+    },
+    {
+      "label": "정원",
+      "kiyokawa": "최대 7명(8명 이상 불가)",
+      "takasago": "최대 6명(7명 이상 불가)"
+    },
+    {
+      "label": "침실·침대",
+      "kiyokawa": "침실 3개·시몬스 침대(더블 3 + 싱글 1)",
+      "takasago": "침실 3개·시몬스 침대(더블 1 + 싱글 4)·1인 1침대 가능"
+    },
+    {
+      "label": "욕실·세면대",
+      "kiyokawa": "욕실 1층·세면대 1개",
+      "takasago": "욕실 1개(2층)·샤워부스 1개·세면대 3개"
+    },
+    {
+      "label": "위치",
+      "kiyokawa": "텐진까지 차로 8분·나카강 변",
+      "takasago": "와타나베도리역 도보 5〜10분·텐진 도보권"
+    },
+    {
+      "label": "주차",
+      "kiyokawa": "무료 전용 주차장",
+      "takasago": "대형차 주차 가능"
+    }
+  ],
+  "dontWrite": [
+    "수영장·온천·BBQ·사우나 관련 표현(해당 시설이 없습니다)",
+    "파티·이벤트가 가능하다는 오해를 줄 수 있는 표현(파티·이벤트 불가)",
+    "가격 단정(시기에 따라 변동됩니다)"
+  ],
+  "links": {
+    "kiyokawa": {
+      "official": "https://yah.homes/ko/booking/kiyokawa/",
+      "airbnb": "https://www.airbnb.co.kr/rooms/1427842426961787667"
+    },
+    "takasago": {
+      "official": "https://yah.homes/ko/booking/takasago/",
+      "airbnb": "https://www.airbnb.co.kr/rooms/1497546315476018480"
+    }
+  },
+  "angles": [
+    "눈치 보지 않고 마음껏 웃을 수 있는 '1일 1팀·독채 통째 대여' 우정여행·모임 후기",
+    "세면대 3개 = 아침 준비 정체 제로인 가족여행(다카사고)",
+    "텐진 도보권에서 로컬 맛집을 즐기며 현지인처럼 주택가에 머무는 후쿠오카 여행",
+    "대형차로 규슈 온천 순례의 베이스캠프로. 대가족 여행도 OK(다카사고)",
+    "신축 디자인 하우스와 모던 일본풍 하우스, 2개 동 연박으로 비교 리뷰"
+  ]
+}

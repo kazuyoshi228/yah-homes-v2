@@ -1,0 +1,719 @@
+---
+/* 파트너 페이지（한국 인플루언서·블로거 대상）— design_partners_page.md M10（ko판）
+   ja판(src/pages/ja/partners.astro)과 구성 동일. noindex・사이트 내 링크 없음・sitemap 제외.
+   팩트 정본: src/data/partners-facts.ko.json（ja판과 동기）。
+   폼은 lang:"ko"를 전송 → partnersApply가 한국어 자동회신을 발송. */
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { GALLERIES } from "../../data/properties";
+import facts from "../../data/partners-facts.ko.json";
+
+const APPLY_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/partnersApply";
+const AVAIL_ENDPOINT = "https://asia-northeast1-yah-homes.cloudfunctions.net/bookingApi";
+
+const galleryOf = (key: "kiyokawa" | "takasago") => GALLERIES[key].slice(0, 6);
+const PROPS = [
+  { key: "kiyokawa" as const, name: "기요카와（Kiyokawa）" },
+  { key: "takasago" as const, name: "다카사고（Takasago）" },
+];
+---
+
+<SiteLayout
+  lang="ko"
+  path="/partners"
+  title="Partner Activation 안내（인플루언서 한정） | yah.homes"
+  description="yah.homes(후쿠오카·독채 2개 동)의 파트너 안내. 팩트시트·공식 사진·예약 가능일·제공 조건."
+  noindex={true}
+  solidNav
+>
+  <article class="pt">
+    <div class="pt-container">
+      <!-- 히어로 -->
+      <header class="pt-header">
+        <p class="pt-eyebrow">Partners</p>
+        <h1 class="pt-title">yah.homes Partner Activation 안내<span class="pt-title-sub">（인플루언서 한정）</span></h1>
+        <p class="pt-lead">
+          후쿠오카 중심부의 독채 숙소 2개 동 「기요카와」 「다카사고」의 취재·리뷰 콘텐츠 제작에 협력해 주실 분을 위한 자료 페이지입니다.
+        </p>
+      </header>
+
+      <!-- 콘텐츠 앵글 예시 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">이런 앵글은 어떠세요?</h2>
+        <ul class="pt-angles">
+          {facts.angles.map((a) => <li>{a}</li>)}
+        </ul>
+        <p class="pt-note">어디까지나 예시입니다. 내용은 완전히 자유이며, 부정적인 감상도 포함해 솔직하게 써 주세요.</p>
+      </section>
+
+      <!-- §1 팩트시트 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">팩트시트</h2>
+        <p class="pt-note">콘텐츠 내 사실 확인에는 이 표를 이용해 주세요(2026년 7월 기준).</p>
+        <div class="pt-tablewrap">
+          <table class="pt-table">
+            <thead>
+              <tr><th></th><th>기요카와（Kiyokawa）</th><th>다카사고（Takasago）</th></tr>
+            </thead>
+            <tbody>
+              {facts.rows.map((r) => (
+                <tr><th>{r.label}</th><td>{r.kiyokawa}</td><td>{r.takasago}</td></tr>
+              ))}
+              <tr>
+                <th>링크</th>
+                <td>
+                  <a href={facts.links.kiyokawa.official}>공식 상세 페이지</a>／
+                  <a href={facts.links.kiyokawa.airbnb} rel="noopener noreferrer" target="_blank">Airbnb</a>
+                </td>
+                <td>
+                  <a href={facts.links.takasago.official}>공식 상세 페이지</a>／
+                  <a href={facts.links.takasago.airbnb} rel="noopener noreferrer" target="_blank">Airbnb</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="pt-dontwrite">
+          <p class="pt-dw-label">작성을 삼가 주시길 부탁드리는 내용</p>
+          <ul>
+            {facts.dontWrite.map((d) => <li>{d}</li>)}
+          </ul>
+        </div>
+      </section>
+
+      <!-- §2 공식 사진 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">공식 사진</h2>
+        <p class="pt-note">
+          콘텐츠 제작 목적으로 자유롭게 사용하실 수 있습니다(출처 표기 불필요).
+          기본적으로는 직접 촬영하신 사진을 권장합니다(보조용으로 제공).
+        </p>
+        {PROPS.map((p) => (
+          <div class="pt-gallery-block">
+            <h3 class="pt-h3">{p.name}</h3>
+            <div class="pt-gallery">
+              {galleryOf(p.key).map((src, i) => (
+                <img src={src} alt={`${p.name} ${i + 1}`} loading="lazy" width="400" height="267" />
+              ))}
+            </div>
+            <a class="pt-dl" href={`/partners-assets/photos-${p.key}.zip`} download>
+              {p.name.split("（")[0]} 전체 사진 다운로드（ZIP·JPG）
+            </a>
+          </div>
+        ))}
+      </section>
+
+      <!-- §3 제공 조건 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">제공 조건</h2>
+        <ul class="pt-terms">
+          <li>평일 1〜2박을 무료로 제공합니다(청소비 포함 당사 부담). 콘텐츠의 충실도를 위해 2박을 추천합니다. <strong>기요카와·다카사고에 1박씩 묵는 「2개 동 연박」도 환영합니다</strong>(두 동의 비교 콘텐츠에 최적). <strong>체크인은 월·화·수요일 중 하루</strong>입니다. 주말은 별도로 상담해 주세요.</li>
+          <li>콘텐츠 내용은 완전히 자유입니다. 부정적인 감상도 포함해 솔직하게 써 주세요.</li>
+          <li>일정 변경·취소는 <strong>7일 전까지</strong> 연락해 주세요.</li>
+        </ul>
+      </section>
+
+      <!-- §4 예약 가능일（Beds24 API・자체 캘린더. API 미연결 시 안내문 폴백） -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">예약 가능일</h2>
+        <div id="pt-calendars">
+          <div class="pt-cal-block" data-prop="kiyokawa">
+            <h3 class="pt-h3">기요카와（Kiyokawa）</h3>
+            <div class="pt-cal" data-cal="kiyokawa"></div>
+          </div>
+          <div class="pt-cal-block" data-prop="takasago">
+            <h3 class="pt-h3">다카사고（Takasago）</h3>
+            <div class="pt-cal" data-cal="takasago"></div>
+          </div>
+        </div>
+        <p class="pt-note" id="pt-cal-fallback" hidden>
+          실시간 공실 표시는 준비 중입니다(회색=체크인 대상 외인 목〜일·과거). 희망일을 아래 신청 폼으로 보내 주시면 공실 상황과 함께 회신드립니다.
+        </p>
+        <div class="pt-cal-legend" id="pt-cal-legend" hidden>
+          <span><i class="lg-open"></i> 예약 가능</span>
+          <span><i class="lg-closed"></i> 예약됨·체크인 대상 외（목〜일）</span>
+        </div>
+        <p class="pt-note">평일 1〜2박 제공(주말 제외). 공실 상황은 수 분 단위로 갱신됩니다.</p>
+      </section>
+
+      <!-- §5 일정 신청 폼 -->
+      <section class="pt-sec" id="apply">
+        <h2 class="pt-h2">일정 신청 폼</h2>
+        <form id="partners-form" class="pt-form" novalidate>
+          <div class="pt-field">
+            <label for="pf-name">성함（닉네임 가능）*</label>
+            <input id="pf-name" name="name" type="text" required maxlength="200" />
+          </div>
+          <div class="pt-field">
+            <label for="pf-email">이메일 주소 *</label>
+            <input id="pf-email" name="email" type="email" required maxlength="320" />
+          </div>
+          <div class="pt-field">
+            <label for="pf-media">매체 URL（블로그·Instagram 등）*</label>
+            <input id="pf-media" name="mediaUrl" type="url" required placeholder="https://" maxlength="500" />
+          </div>
+          <div class="pt-field">
+            <label for="pf-property">희망하는 동 *</label>
+            <select id="pf-property" name="property" required>
+              <option value="either">어느 쪽이든 좋아요</option>
+              <option value="kiyokawa">기요카와（최대 7명）</option>
+              <option value="takasago">다카사고（최대 6명）</option>
+              <option value="both">두 동에 1박씩（연박）</option>
+            </select>
+          </div>
+          <div class="pt-field-row">
+            <div class="pt-field">
+              <label for="pf-date1">1지망 체크인 날짜（월·화·수）*</label>
+              <input id="pf-date1" name="date1" type="date" required />
+            </div>
+            <div class="pt-field">
+              <label for="pf-date2">2지망 체크인 날짜（월·화·수）*</label>
+              <input id="pf-date2" name="date2" type="date" required />
+            </div>
+          </div>
+          <div class="pt-field">
+            <label for="pf-guests">인원 *</label>
+            <select id="pf-guests" name="guests" required>
+              {[1, 2, 3, 4, 5, 6, 7].map((n) => <option value={String(n)}>{n}명</option>)}
+            </select>
+            <p class="pt-hint" id="pf-guests-hint">기요카와는 최대 7명·다카사고는 최대 6명입니다.</p>
+          </div>
+          <div class="pt-field">
+            <label for="pf-message">메시지（선택）</label>
+            <textarea id="pf-message" name="message" rows="4" maxlength="5000"></textarea>
+          </div>
+          <input type="hidden" name="lang" value="ko" />
+          <!-- 허니팟 -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true" />
+          <button type="submit" class="pt-submit" id="pf-submit">신청하기</button>
+          <p class="pt-form-status" id="pf-status" role="status"></p>
+        </form>
+      </section>
+
+      <!-- §6 게시 시 부탁드리는 사항（숙박 확정자 대상） -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">게시 시 부탁드리는 사항（숙박이 확정된 분께）</h2>
+        <ul class="pt-terms">
+          <li>「제공: yah.homes」 또는 「#광고」 「#협찬」 등의 표기를 부탁드립니다. <strong>한국의 표시광고법(경제적 이해관계 표시 의무) 및 일본의 스텔스 마케팅 규제상, 제공을 받은 게시물에는 광고·협찬 표기가 법령상 필요합니다.</strong></li>
+          <li>콘텐츠 내 링크는 각 동의 공식 상세 페이지(위 팩트시트 참조)를 주로 부탁드립니다. Airbnb 링크는 선택입니다.</li>
+          <li>게시는 숙박 후 4주 이내를 기준으로 해 주시면 감사하겠습니다.</li>
+        </ul>
+        <div class="pt-utm">
+          <p class="pt-dw-label">콘텐츠용 링크 발급（측정 파라미터 포함）</p>
+          <p class="pt-note">매체명을 입력하고 「복사」를 누르면 콘텐츠에 붙일 링크가 발급됩니다.</p>
+          <div class="pt-utm-row">
+            <input id="utm-name" type="text" placeholder="매체명（예: 블로그명）" maxlength="60" />
+            <select id="utm-prop">
+              <option value="kiyokawa">기요카와</option>
+              <option value="takasago">다카사고</option>
+            </select>
+            <button type="button" class="pt-utm-copy" id="utm-copy">링크 복사</button>
+          </div>
+          <p class="pt-hint" id="utm-out"></p>
+        </div>
+      </section>
+
+      <!-- §7 연락처 -->
+      <section class="pt-sec">
+        <h2 class="pt-h2">연락처</h2>
+        <p>문의 사항은 일정 신청 폼으로 편하게 보내 주세요（한국어·영어·일본어 대응）.</p>
+      </section>
+    </div>
+  </article>
+</SiteLayout>
+
+<script define:vars={{ APPLY_ENDPOINT, AVAIL_ENDPOINT }}>
+  // ── 날짜 선택: 월·화·수만 허용 ──
+  const CAPACITY = { kiyokawa: 7, takasago: 6, either: 7, both: 6 };
+  const isMonToWed = (v) => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || "");
+    if (!m) return false;
+    const day = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])).getUTCDay();
+    return day >= 1 && day <= 3;
+  };
+  const today = new Date();
+  const minDate = new Date(today.getTime() + 30 * 86400000).toISOString().slice(0, 10); // 접수는 1개월 후부터（캘린더 표시와 정합）
+  for (const id of ["pf-date1", "pf-date2"]) {
+    const el = document.getElementById(id);
+    el.min = minDate;
+    el.addEventListener("change", () => {
+      if (el.value && !isMonToWed(el.value)) {
+        el.setCustomValidity("체크인은 월·화·수요일 중에서 선택해 주세요");
+        el.reportValidity();
+      } else {
+        el.setCustomValidity("");
+      }
+    });
+  }
+
+  // 정원: 동 선택에 따라 인원 선택지 제한
+  const propSel = document.getElementById("pf-property");
+  const guestSel = document.getElementById("pf-guests");
+  const syncGuests = () => {
+    const cap = CAPACITY[propSel.value] ?? 7;
+    for (const opt of guestSel.options) opt.disabled = Number(opt.value) > cap;
+    if (Number(guestSel.value) > cap) guestSel.value = String(cap);
+  };
+  propSel.addEventListener("change", syncGuests);
+  syncGuests();
+
+  // 전송
+  const form = document.getElementById("partners-form");
+  const status = document.getElementById("pf-status");
+  const submitBtn = document.getElementById("pf-submit");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const d1 = document.getElementById("pf-date1").value;
+    const d2 = document.getElementById("pf-date2").value;
+    if (!isMonToWed(d1) || !isMonToWed(d2)) {
+      status.textContent = "체크인 날짜는 월·화·수요일 중에서 선택해 주세요.";
+      return;
+    }
+    if (!form.reportValidity()) return;
+    submitBtn.disabled = true;
+    status.textContent = "전송 중...";
+    try {
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.guests = Number(data.guests);
+      const res = await fetch(APPLY_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (json.ok) {
+        status.textContent = "신청이 접수되었습니다. 확인 메일을 보내드렸으니 확인해 주세요.";
+        form.reset();
+        syncGuests();
+      } else {
+        status.textContent = "전송에 실패했습니다. 입력 내용을 확인해 주세요.";
+      }
+    } catch {
+      status.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해 주세요.";
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  // ── 예약 가능일 캘린더（월 표시×2개월·주말은 회색=제공 대상 외） ──
+  (async () => {
+    const fallback = document.getElementById("pt-cal-fallback");
+    const legend = document.getElementById("pt-cal-legend");
+    const DOW = ["일", "월", "화", "수", "목", "금", "토"];
+    const renderMonth = (year, month, dates) => {
+      const first = new Date(Date.UTC(year, month, 1));
+      const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+      const startDow = first.getUTCDay();
+      let cells = "";
+      for (let i = 0; i < startDow; i++) cells += '<span class="cal-cell cal-empty"></span>';
+      const todayKey = new Date().toISOString().slice(0, 10);
+      for (let d = 1; d <= daysInMonth; d++) {
+        const key = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+        const dow = new Date(Date.UTC(year, month, d)).getUTCDay();
+        const checkinDay = dow >= 1 && dow <= 3; // 체크인 가능=월·화·수만
+        const past = key < todayKey;
+        let cls;
+        if (!checkinDay || past) cls = "cal-closed";
+        else if (dates === null) cls = "cal-unknown"; // API 미연결: 월화수는 중립 표시
+        else cls = dates[key] === true ? "cal-open" : "cal-closed";
+        cells += `<span class="cal-cell ${cls}">${d}</span>`;
+      }
+      const head = DOW.map((w) => `<span class="cal-dow">${w}</span>`).join("");
+      return `<div class="cal-month"><p class="cal-title">${year}년 ${month + 1}월</p><div class="cal-grid">${head}${cells}</div></div>`;
+    };
+    const draw = (datesByProp) => {
+      const now = new Date();
+      for (const prop of ["kiyokawa", "takasago"]) {
+        const el = document.querySelector(`[data-cal="${prop}"]`);
+        let html = "";
+        for (let i = 1; i <= 2; i++) { // 표시는 1개월 후부터 2개월분（직전 기간은 준비 기간이라 대상 외）
+          const m = new Date(now.getFullYear(), now.getMonth() + i, 1);
+          html += renderMonth(m.getFullYear(), m.getMonth(), datesByProp ? datesByProp[prop] : null);
+        }
+        el.innerHTML = html;
+      }
+    };
+    try {
+      const results = await Promise.all(
+        ["kiyokawa", "takasago"].map(async (prop) => {
+          const r = await fetch(`${AVAIL_ENDPOINT}?prop=${prop}`);
+          if (!r.ok) throw new Error("avail fetch failed");
+          const j = await r.json();
+          if (!j.ok) throw new Error("avail not ok");
+          return [prop, j.dates || {}];
+        })
+      );
+      draw(Object.fromEntries(results));
+      legend.hidden = false;
+    } catch {
+      // API 미연결·장애 시: 캘린더는 상시 표시（주말·과거만 회색）
+      draw(null);
+      fallback.hidden = false;
+    }
+  })();
+
+  // ── UTM 복사 ──
+  const utmBtn = document.getElementById("utm-copy");
+  const utmOut = document.getElementById("utm-out");
+  utmBtn.addEventListener("click", async () => {
+    const name = (document.getElementById("utm-name").value || "partner-generic")
+      .trim().toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-가-힣ぁ-んァ-ン一-龠]/g, "").slice(0, 60) || "partner-generic";
+    const prop = document.getElementById("utm-prop").value;
+    const url = `https://yah.homes/ko/booking/${prop}/?utm_source=partner&utm_medium=referral&utm_campaign=${encodeURIComponent(name)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      utmOut.textContent = `복사했습니다: ${url}`;
+    } catch {
+      utmOut.textContent = url;
+    }
+  });
+</script>
+
+<style>
+  .pt {
+    background: #ffffff;
+    padding: 7rem 1.5rem 5rem;
+  }
+  .pt-container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .pt-eyebrow {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #aaaaaa;
+    margin-bottom: 1rem;
+  }
+  .pt-title {
+    font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+    font-weight: 500;
+    line-height: 1.3;
+    color: #111111;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.9rem;
+  }
+  .pt-lead {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #555555;
+  }
+  .pt-title-sub {
+    display: block;
+    font-size: 0.55em;
+    font-weight: 400;
+    color: #555555;
+    margin-top: 0.4rem;
+    letter-spacing: 0;
+  }
+  .pt-sec {
+    margin-top: 3.5rem;
+  }
+  .pt-h2 {
+    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+    font-weight: 500;
+    color: #111111;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .pt-h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 1.5rem 0 0.75rem;
+  }
+  .pt-note {
+    font-size: 0.8rem;
+    color: #888888;
+    line-height: 1.7;
+    margin-bottom: 0.75rem;
+  }
+  .pt-hint {
+    font-size: 0.75rem;
+    color: #999999;
+    margin-top: 0.3rem;
+    word-break: break-all;
+  }
+  .pt-angles {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.75rem;
+  }
+  .pt-angles li {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: #222222;
+    padding: 0.6rem 0.9rem;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  .pt-tablewrap {
+    overflow-x: auto;
+  }
+  .pt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+  .pt-table th,
+  .pt-table td {
+    border: 1px solid #e5e5e5;
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    color: #222222;
+  }
+  .pt-table thead th {
+    background: #fafafa;
+    font-weight: 500;
+  }
+  .pt-table tbody th {
+    background: #fafafa;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pt-table a {
+    color: #111111;
+  }
+  .pt-dontwrite {
+    margin-top: 1.25rem;
+    border: 1px solid #111111;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+  }
+  .pt-dw-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #111111;
+    margin-bottom: 0.5rem;
+  }
+  .pt-dontwrite ul {
+    margin: 0;
+    padding-left: 1.2rem;
+  }
+  .pt-dontwrite li {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: #333333;
+  }
+  .pt-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  @media (max-width: 560px) {
+    .pt-gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .pt-gallery img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+  .pt-dl {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.6rem 1.2rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  .pt-dl:hover {
+    opacity: 0.85;
+  }
+  .pt-terms {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .pt-terms li {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: #222222;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .pt-cal-block {
+    margin-bottom: 1.5rem;
+  }
+  .pt-cal {
+    min-height: 120px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 560px) {
+    .pt-cal {
+      grid-template-columns: 1fr;
+    }
+  }
+  .pt-cal :global(.cal-month) {
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 0.75rem;
+  }
+  .pt-cal :global(.cal-title) {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 0 0 0.5rem;
+  }
+  .pt-cal :global(.cal-grid) {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .pt-cal :global(.cal-dow) {
+    font-size: 0.6rem;
+    color: #aaaaaa;
+    text-align: center;
+    padding: 0.15rem 0;
+  }
+  .pt-cal :global(.cal-cell) {
+    font-size: 0.7rem;
+    text-align: center;
+    padding: 0.3rem 0;
+    border-radius: 3px;
+    color: #111111;
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+  }
+  .pt-cal :global(.cal-open) {
+    font-weight: 600;
+  }
+  .pt-cal :global(.cal-closed) {
+    color: #c9c9c9;
+    background: #f7f7f7;
+    text-decoration: line-through;
+    border-color: transparent;
+  }
+  .pt-cal :global(.cal-unknown) {
+    color: #444444;
+  }
+  .pt-cal :global(.cal-empty) {
+    border: none;
+  }
+  .pt-cal-legend {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    color: #777777;
+  }
+  .pt-cal-legend i {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    margin-right: 0.3rem;
+  }
+  .pt-cal-legend .lg-open {
+    background: #ffffff;
+    border: 1px solid #cccccc;
+  }
+  .pt-cal-legend .lg-closed {
+    background: #f0f0f0;
+  }
+  .pt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .pt-field label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #333333;
+    margin-bottom: 0.35rem;
+  }
+  .pt-field input,
+  .pt-field select,
+  .pt-field textarea {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #111111;
+  }
+  .pt-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 560px) {
+    .pt-field-row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .pt-submit {
+    align-self: flex-start;
+    padding: 0.75rem 2rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .pt-submit:hover {
+    opacity: 0.85;
+  }
+  .pt-submit:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+  .pt-form-status {
+    font-size: 0.85rem;
+    color: #333333;
+    min-height: 1.5em;
+    margin: 0;
+  }
+  .pt-utm {
+    margin-top: 1.5rem;
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 1rem 1.25rem;
+  }
+  .pt-utm-row {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .pt-utm-row input,
+  .pt-utm-row select {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+    border: 1px solid #d7d7d7;
+    border-radius: 4px;
+    font-family: inherit;
+  }
+  .pt-utm-row input {
+    flex: 1;
+    min-width: 180px;
+  }
+  .pt-utm-copy {
+    padding: 0.5rem 1rem;
+    background: #111111;
+    color: #ffffff;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
