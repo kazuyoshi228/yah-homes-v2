@@ -154,7 +154,7 @@ export async function propertySummary() {
     for (const it of acquisition) addTx(it.txNo, "投資額", it.amount, it.splitOk, it.splitTotal);
     for (const e of eqSnap.docs.filter((e) => e.data().prop === d.id)) {
       const v = e.data();
-      addTx(v.txNo, String(v.group ?? "設備"), v.amount ?? v.price, v.splitOk, v.splitTotal);
+      addTx(v.txNo, String(v.group ?? "設備"), v.amount, v.splitOk, v.splitTotal);
     }
     const dupWarnings = Object.entries(txRows)
       .map(([txNo, rows]) => {
@@ -179,7 +179,7 @@ export async function propertySummary() {
     const eqSum = (g: string) => eqSnap.docs
       .filter((e) => e.data().prop === d.id && String(e.data().group ?? "設備") === g
         && !String(e.data().date ?? "").startsWith("2026"))
-      .reduce((a, e) => a + Number(e.data().amount ?? e.data().price ?? 0), 0);
+      .reduce((a, e) => a + Number(e.data().amount ?? 0), 0);
     const derived: Record<string, number> = {
       "備品": sumArr(supplies), "工事": sumArr(construction, false),
       "家具": eqSum("家具"), "カーテン": eqSum("カーテン"), "照明": eqSum("照明"),
@@ -200,7 +200,7 @@ export async function propertySummary() {
     const eqSum2026 = (g: string) => eqSnap.docs
       .filter((e) => e.data().prop === d.id && String(e.data().group ?? "設備") === g
         && String(e.data().date ?? "").startsWith("2026"))
-      .reduce((a, e) => a + Number(e.data().amount ?? e.data().price ?? 0), 0);
+      .reduce((a, e) => a + Number(e.data().amount ?? 0), 0);
     const conSum2026 = sumArr(construction, true);
     const addDerived = [
       ...["設備", "家具", "カーテン", "照明", "建材", "装飾"]
