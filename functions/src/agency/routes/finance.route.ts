@@ -142,11 +142,36 @@ export async function handle(action: string, req: any, res: any, ctx: Ctx): Prom
           const fr = (sc?.overrides as { familyRate?: { rate?: number; switchMonth?: string } })?.familyRate;
           const plan = { rate: Number(fr?.rate ?? ff.targetRate ?? 0),
             switchMonth: String(fr?.switchMonth ?? ff.switchMonth ?? "9999-12") };
+          /* 整理後（plan側）はシナリオの replaceLoan も当てる（2026-09-07 総見直しで発見）。
+             これまで利率の override だけ拾い、役員借入93,031,628が旧元本のまま残っていた——
+             BSの整理後（整理分90,000,000に置換）と「家族への支払」が食い違っていた。
+             現状（now側）は実在の台帳のまま。plan側だけ置換後の顔ぶれで引き直す */
+          const rl = (sc?.overrides as { replaceLoan?: { docPath?: string;
+            lines?: Array<{ lender?: string; amount?: number }> } })?.replaceLoan;
+          const replacedId = String(rl?.docPath ?? "").replace(/^finance\//, "");
+          const famPlan = rl?.lines?.length
+            ? [...fam.filter((l) => l.id !== replacedId),
+               /* 整理分＝元本だけの利息のみ借入として扱う（返済表なし・切替月から利息） */
+               ...rl.lines.map((x) => ({ lender: String(x.lender ?? ""), principal: Number(x.amount ?? 0) }))]
+            : fam;
           const from = Number(req.query.from ?? new Date().getFullYear());
           const to = Number(req.query.to ?? from + 30);
           const years: Record<string, ReturnType<typeof portfolioYear>> = {};
-          for (let y = from; y <= to; y++) years[String(y)] = portfolioYear(fam as never, y, plan);
-          res.json({ ok: true, years, plan, count: fam.length });
+          for (let y = from; y <= to; y++) {
+            const a = portfolioYear(fam as never, y, plan);        /* 現状 */
+            const b = portfolioYear(famPlan as never, y, plan);    /* 整理後 */
+            years[String(y)] = { ...a, plan: b.plan, planInt: b.planInt,
+              delta: b.plan - a.now, deltaInt: b.planInt - a.nowInt,
+              balancePlan: b.balancePlan };
+          }
+          /* 整理後のメンバー別内訳（renderPlan 用）。置換後の顔ぶれ×利率で年額を出す。
+             カードに置換ロジックを持たせない（SSoT） */
+          const planMembers = famPlan.map((l) => ({
+            lender: String((l as { lender?: string }).lender ?? ""),
+            principal: Number((l as { principal?: number }).principal ?? 0),
+            perYear: Math.round(Number((l as { principal?: number }).principal ?? 0) * plan.rate),
+          }));
+          res.json({ ok: true, years, plan, planMembers, count: fam.length });
           return true;
         }
         case "people": {                                      // 人物・法人マスタ（設計メモ⑤・2026-09-04）
