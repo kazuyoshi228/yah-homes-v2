@@ -18,27 +18,6 @@ import { cashflow } from "./cashflow.js";
 /* goto: 消し込む場所への深リンク（今日ボード・点検メールの行から1クリックで直行する・2026-08-27） */
 export type HealthCheck = { card: string; name: string; ok: boolean; detail: string; goto?: string };
 
-/* 一覧のメモは要約1行・全角40字以内（デザインガイドライン §6.1・2026-09-01 発注者指摘
-   「メモが長い」）。入力欄には上限を付けたが、**すでに台帳に入っている長い文**は
-   画面の検査（designcheck）からは見えない——データの話なのでここで数える。
-   純関数にしてテストできるようにする */
-export const NOTE_LIMIT = 40;
-export function longNotes(
-  docs: Array<{ id: string; data: Record<string, unknown> }>,
-  fields = ["note", "memo"],
-): Array<{ id: string; len: number }> {
-  const out: Array<{ id: string; len: number }> = [];
-  for (const d of docs) {
-    let len = 0;
-    for (const f of fields) {
-      const v = d.data[f];
-      if (typeof v === "string") len = Math.max(len, [...v].length);
-    }
-    if (len > NOTE_LIMIT) out.push({ id: d.id, len });
-  }
-  return out.sort((a, b) => b.len - a.len);
-}
-
 export async function healthSummary() {
   const db = agencyDb();
   const now = new Date();
@@ -371,23 +350,6 @@ export async function healthSummary() {
   if (proposed.length) {
     add("財務", "承認待ちの判断", true,
       `${proposed.join(", ")} は proposed（発注者の承認は未取得）。確定した数字として使わないこと`);
-  }
-
-  /* 台帳に溜まった長いメモ（§6.1）。chronic＝今日ボードには出さない——
-     毎日並べても消せる種類の宿題ではない。触ったときに直す */
-  const NOTE_COLS: Array<[string, string]> = [
-    ["construction", "建築"], ["equipment", "物件"], ["schedules", "メンテナンス"],
-    ["vendors", "メンテナンス"], ["contracts", "契約書類"],
-  ];
-  for (const [col, card] of NOTE_COLS) {
-    try {
-      const snap = await db.collection(col).get();
-      const long = longNotes(snap.docs.map((d) => ({ id: d.id, data: d.data() as Record<string, unknown> })));
-      if (!long.length) continue;
-      checks.push({ card, name: `一覧のメモが長い（${col}）`, ok: false,
-        detail: `${long.length}件が${NOTE_LIMIT}字超（最長${long[0].len}字）。要約1行にし、詳細は右パネルか原本へ`,
-        chronic: true } as HealthCheck & { chronic: boolean });
-    } catch { /* 読めないコレクションは飛ばす */ }
   }
 
   const summary = { ok: checks.filter((c) => c.ok).length,

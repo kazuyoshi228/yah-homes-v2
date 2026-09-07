@@ -10,7 +10,6 @@ import { loanState, past12Months, monthsBetween, type Loan } from "./finance.js"
 import { classifyOverdue } from "./engine.js";
 import { aggregateFacts, type Fact } from "./facts.js";
 import { judgeProbe, summarizeProbes, PROBES } from "./aicheck.js";
-import { longNotes } from "./health.js";
 import { parseSchemaMd, parseFieldCell } from "./schemaparse.js";
 import { parseTimeName, yoy } from "./tourism.js";
 import { liabilityAmount, liabilityAmountWithBasis } from "./bs.js";
@@ -416,19 +415,4 @@ test("返済表: 最終回の端数調整で契約書の総額と1円まで一�
   assert.equal(pay, 36423456);          // 契約書の総返済額（151,765×239＋151,621）
   assert.equal(interest, 6423456);      // 契約書の利息合計
   assert.equal(loanBalanceAtYearEnd(L, 2046), 0);   // 完済年の年末残高はゼロ
-});
-
-/* 一覧のメモの長さ（デザインガイドライン §6.1・2026-09-01 発注者指摘「メモが長い」） */
-test("longNotes: 40字を超えるものだけを、長い順に返す", () => {
-  const rows = [
-    { id: "a", data: { note: "あ".repeat(41) } },
-    { id: "b", data: { note: "ちょうど40字までは通す" } },
-    { id: "c", data: { memo: "い".repeat(80) } },
-    { id: "d", data: { note: 123 } },                    /* 文字列でないものは無視 */
-  ];
-  assert.deepEqual(longNotes(rows).map((x) => x.id), ["c", "a"]);
-});
-
-test("longNotes: メモの無い台帳は空", () => {
-  assert.deepEqual(longNotes([{ id: "a", data: { title: "あ".repeat(99) } }]), []);
 });
