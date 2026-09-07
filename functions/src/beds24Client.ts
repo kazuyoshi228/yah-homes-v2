@@ -45,14 +45,33 @@ let beds24WriteTokenCache: { token: string; expires: number } | null = null;
 /** リフレッシュトークンからアクセストークンを取得する（24時間有効・23時間キャッシュ）。 */
 export async function beds24WriteToken(): Promise<string> {
   if (beds24WriteTokenCache && beds24WriteTokenCache.expires > Date.now()) return beds24WriteTokenCache.token;
-  const r = await fetch(`${BEDS24_API}/authentication/token`, {
-    headers: { refreshToken: BEDS24_WRITE_REFRESH.value() },
-  });
-  const j = (await r.json()) as { token?: string; expiresIn?: number };
-  if (!j.token) throw new Error("beds24 write token refresh failed");
-  const ttl = Math.max(600, Math.min((j.expiresIn ?? 86400) - 3600, 82800));
-  beds24WriteTokenCache = { token: j.token, expires: Date.now() + ttl * 1000 };
-  return j.token;
+  // 2026-08-25 から beds24CancelWatcher が毎日 "fetch failed" で落ちていた。
+  // 原因が特定できないまま2週間、Beds24側キャンセルの検知が止まっていたため、
+  // (a) 一時的な失敗は取り直す (b) 落ちるときは原因を残す、の2点を入れる。
+  // 書き込みトークンは予約作成・キャンセル・メモ書きも使うので、ここが死ぬと実害が大きい。
+  let lastErr: unknown = null;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      const r = await fetch(`${BEDS24_API}/authentication/token`, {
+        headers: { refreshToken: BEDS24_WRITE_REFRESH.value() },
+        signal: AbortSignal.timeout(20000),
+      });
+      const body = await r.text();
+      let j: { token?: string; expiresIn?: number } = {};
+      try { j = JSON.parse(body) as typeof j; } catch { /* JSONでない＝下でHTTP状態を添えて投げる */ }
+      if (!j.token) throw new Error(`HTTP ${r.status} ${body.slice(0, 160)}`);
+      const ttl = Math.max(600, Math.min((j.expiresIn ?? 86400) - 3600, 82800));
+      beds24WriteTokenCache = { token: j.token, expires: Date.now() + ttl * 1000 };
+      return j.token;
+    } catch (e) {
+      lastErr = e;
+      if (attempt < 3) await new Promise((r) => setTimeout(r, 1000 * attempt));
+    }
+  }
+  // undici の "fetch failed" は cause にしか原因が入らない。必ず添えて投げる。
+  const e = lastErr as { message?: string; cause?: { message?: string; code?: string } } | null;
+  const cause = e?.cause ? `${e.cause.code ?? ""} ${e.cause.message ?? ""}`.trim() : "";
+  throw new Error(`beds24 write token refresh failed (3回試行): ${e?.message ?? String(lastErr)}${cause ? ` / cause: ${cause}` : ""}`);
 }
 
 /** 書込先の解決。許可リストに無い、または roomId が未設定なら null（＝書き込まない）。 */

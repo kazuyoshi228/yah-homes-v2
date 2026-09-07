@@ -3305,7 +3305,13 @@ export const beds24DailyObserver = onSchedule(
           });
           if (!w.ok) throw new Error(`sheets write ${w.status}: ${(await w.text()).slice(0, 200)}`);
           sheetNote = `シート記入OK: ${dstr}行`;
-        } else sheetNote = `シートに ${dstr} 行が見つからず記入スキップ`;
+        } else {
+          // 2026-09-02 以降、定点シートへの記入が止まっていたが sheetNote がメールにしか
+          // 載っておらず、ログからは原因が分からなかった。探した文字列と列Aの実測を残す。
+          const head = ((col.values || []) as string[][]).slice(0, 3).map((r) => r[0]).join(",");
+          const tail = ((col.values || []) as string[][]).slice(-3).map((r) => r[0]).join(",");
+          sheetNote = `シートに ${dstr} 行が見つからず記入スキップ（列A ${(col.values || []).length}行 先頭[${head}] 末尾[${tail}]）`;
+        }
       }
 
 
@@ -3388,6 +3394,7 @@ export const beds24DailyObserver = onSchedule(
         },
       );
 
+      logger.info(`beds24DailyObserver 定点シート: ${sheetNote}`);
       logger.info(`beds24DailyObserver done: new=${events.new.length} cxl=${events.cancelled.length} fwd=${fwdTotal}`);
     } catch (err) {
       logger.error("beds24DailyObserver failed", err);
