@@ -13,7 +13,7 @@ import { loanState, type Loan } from "./finance.js";
 
 export type BsLine = { label: string; amount: number; note?: string; docPath?: string;
   related?: string; lenderKind?: "bank" | "family";
-  basis?: AmountBasis; principal?: number; asOf?: string };
+  basis?: AmountBasis; principal?: number; asOf?: string; firstPaymentMonth?: string };
 
 /* 貸し手が金融機関か家族かで分ける（2026-09-04 発注者指示）。
    同じ「負債」でも性格がまったく違う——銀行は返済期限と担保があり、
@@ -74,7 +74,7 @@ export function liabilityAmountWithBasis(
 
 export async function balanceSheet(asOf = new Date()) {
   const db = agencyDb();
-  const [finSnap, propSnap, itemSnap, eqSnap, cashSnap, adjSnap, paSnap, bpSnap] = await Promise.all([
+  const [finSnap, propSnap, itemSnap, eqSnap, cashSnap, adjSnap, paSnap, bpSnap, capSnap] = await Promise.all([
     db.collection("finance").where("kind", "==", "loan").get(),
     db.collection("properties").get(),
     db.collection("items").get(),
@@ -83,6 +83,9 @@ export async function balanceSheet(asOf = new Date()) {
     db.collection("bsAdjustments").get(),
     db.collection("personalAssets").get(),
     db.collection("buildPayments").get(),
+    /* 資本の部（2026-09-08 発注者指示・design_bs_capital_20260908.md）。
+       出資の一次事実は kind="capital"。剰余金は保存せず差引で導く */
+    db.collection("finance").where("kind", "==", "capital").get(),
   ]);
   /* 人物・法人マスタ（people・設計メモ⑤）。表示名と「銀行かどうか」の正本。
      台帳が lenderId を持っていればマスタを引く。持っていない借入は従来どおり文字列で扱う
@@ -130,6 +133,8 @@ export async function balanceSheet(asOf = new Date()) {
       amount, note,
       /* この額が何なのか。画面はこれを見て「残高」「当初元本」「申告額」を添える */
       basis, principal: num(d.principal), asOf: asOf.toISOString().slice(0, 10),
+      /* 返済開始月。カードが「いつからの借入か」で行をグループ分けするのに使う */
+      ...(d.firstPaymentMonth ? { firstPaymentMonth: String(d.firstPaymentMonth) } : {}),
       docPath: `finance/${doc.id}`,
       lenderKind: isBank(d.lenderId, d.lender) ? "bank" : "family",
       ...(doc.id === OFFICER_LOAN_ID || RELATED_TO_OFFICER_LOAN.has(doc.id)
@@ -208,6 +213,16 @@ export async function balanceSheet(asOf = new Date()) {
     .map((r) => ({ date: String(r.date ?? ""), prop: propLabel.get(String(r.prop ?? "")) ?? String(r.prop ?? ""),
       kind: String(r.kind ?? ""), amount: num(r.amount) }))
     .sort((a, b) => a.date.localeCompare(b.date));
+  /* ---- 資本の部（法人のみ）---- 出資は一次事実、剰余金は差引（保存しない） */
+  const capital: BsLine[] = capSnap.docs
+    .filter((d) => String(d.data().entity ?? "corp") === "corp")
+    .map((d) => ({ label: nameOf(d.data().holderId, d.data().holder ?? d.id),
+      amount: num(d.data().amount), note: String(d.data().note ?? ""),
+      docPath: `finance/${d.id}` }))
+    .filter((x) => x.amount > 0)
+    .sort((a, b) => b.amount - a.amount);
+  const capitalTotal = capital.reduce((a, x) => a + x.amount, 0);
+
   const personalAssets: BsLine[] = adj.filter((x) => x.group === "personal" && !x.excluded);
   const excludedAssets = adj.filter((x) => x.excluded);
 
@@ -281,6 +296,9 @@ export async function balanceSheet(asOf = new Date()) {
     assets, assetTotal,
     /* 純資産は法人のみ。個人は資産が台帳に無いので出さない（出すと嘘になる） */
     corpEquity: assetTotal - sides.corp.liabilityTotal,
+    /* 資本の部の内訳。剰余金＝純資産−資本金（導出。マイナスなら費用先行） */
+    capital, capitalTotal,
+    retainedEarnings: assetTotal - sides.corp.liabilityTotal - capitalTotal,
     grandLiability: sides.corp.liabilityTotal + sides.personal.liabilityTotal,
     props: propRows.map((p) => ({ id: p.id, label: String(p.label ?? p.id), status: String(p.status ?? "") })),
     cashMissing: latestCash == null,

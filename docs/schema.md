@@ -21,10 +21,11 @@
 | `insurance` | 保険1行 | prop, product, plan, premiumPerYear, building, startDate, status, pdf | スクリプト | |
 | `reserves` | 積立1行 | prop, type, amountPerMonth, amountPerYear | スクリプト | 妥当性はrenewalPlanが毎回判定 |
 | `finance` | 借入1本 | kind="loan", entity(corp/personal), borrower, lender, principal, amountReported, conditionsUnknown, rate, months, firstPaymentMonth, method, schedule… | スクリプト | 返済表はloanState()で導出。**entityで法人（ボンファイア）と個人（山田一慶）を分ける——混ぜない**。条件未登録の借入は amountReported（申告額）を使う |
+| `finance` | 出資1件 | kind="capital", entity="corp", holder, amount, ratio, note, source | 人 | 資本金の一次事実（2026-09-08登録・総額¥50,000,000）。剰余金は保存せず bs.ts が「純資産−資本金」で導出 |
 | `revenue` | 月次報告1行 | kind="monthly", prop, month, revenue, expenses, payout, occ, adr, pdf | スクリプト | AIRSTAR報告書が原本 |
 | `places` | 拠点の台帳 | label, lodging(宿泊事業か), prop, note | 人 | **「その拠点は宿泊事業か」の唯一の正本**。無い拠点は宿泊事業とみなす |
 | `utilities` | 光熱費仕訳1行 | kind="utility", date, month, place(日本語名), type, amount | スクリプト | place→propの対応は places 台帳 |
-| `recurringCosts` | 定額費1行 | type, place, unitPrice, units, recurring | スクリプト | 例: セキュリティカメラ500円×台数 |
+| `recurringCosts` | 定額費1行 | type, place, unitPrice, units, recurring, source, acceptedBy, acceptedAt | スクリプト・検収（人のクリック） | 例: セキュリティカメラ500円×台数。取込の purchase もここへ |
 | `contracts` | 契約書類1行 | label, category, prop, counterparty, signedAt, expiresAt, autoRenew, noticeDays, path(原本gs://), status, feeSchedule[], notes[] | 画面(saveContract)・スクリプト | 原本の所在の正本 |
 | `cvr` | CVR観測1行 | prop, label, sortKey, type(month/rolling/rolling90), overallCvr, imprRate, searchToView, viewToBook, views, impressions, occupancy, bookedNights, checkins, source | スクリプト | 欠測は書かない。検算はhealth |
 | `assumptions` | 事業の係数1行 | value/factor/capYears等, label, note, updatedAt | 人の判断のみ | cap-rate・lifecycle・management-fee(tiers[]) |
@@ -32,7 +33,7 @@
 | `vendors` / `templates` / `settings` | 業者・定型文・設定 | — | 画面 | 外部委託まわり |
 | `alertLogs` | 警報ログ | at, items, breakdown | システム | 追記のみ |
 | `cash` | 現金残高スナップショット1回 | date, total, accounts[{name,balance}], source(原本スクショgs://) | 検収（人のクリック）のみ | 取込パイプ（段D）経由。ランウェイは導出 |
-| `intake` | 取込の下書き1件 | at, from, filename, gsPath, kind, confidence, summary, data, status(draft/accepted/rejected) | AI(draft)・人(検収/破棄) | 正本ではなく待合室。検収で各台帳へ |
+| `intake` | 取込の下書き1件 | at, from, subject, filename, gsPath(添付なしは空), source(gmail:<id>), kind, confidence, summary, instruction(発注者の指示の原文), hint(AIが読んだ行き先), data, status(draft/accepted/rejected) | AI(draft)・人(検収/破棄) | 正本ではなく待合室。検収で各台帳へ。添付なしメールは本文を読む（design_intake_text_mail_20260904） |
 | `construction` | 工事資料1行 | site(ropponmatsu/otemon), label, category, date, path(gs://), note | 画面(constructionSave) | 建築カードの正本。竣工後はitems/設備台帳へ |
 | `competitorObs` | AirDNA市場定点1回 | date, market, filters, adrUsd, occupancyPct, activeListings, listingsYoYPct ほか | 半年定点（コピペ→構造化投入） | 条件固定（中央区・Beds3-9）が生命線 |
 | `opsTasks` | 運営タスク1行 | scenario(airstar/inhouse), label, freq, hoursMin/Max または category/window/assignees | 人の判断 | 運営カードの正本（委託の分解と内製座組） |
