@@ -231,8 +231,11 @@ export async function scheduleNext(jobId: string): Promise<string | null> {
   const nowIso = new Date().toISOString();
   try {
     await db.collection("jobs").doc(trigger).create({
-      type: "periodic", title: s.title, prop: s.prop, vendorId: s.vendorId, scheduleId: job.scheduleId,
-      trigger, status: "draft", dueMonth: ym(next.y, next.m), statutory: s.statutory, budget: s.budget,
+      type: "periodic", title: s.title, prop: s.prop, vendorId: s.vendorId ?? "", scheduleId: job.scheduleId,
+      trigger, status: "draft", dueMonth: ym(next.y, next.m),
+      /* 予算などが未設定の schedule だと undefined になり Firestore が書き込みを拒否する
+         （2026-09-08 消し込み帳の「完了」で次回分の起票だけが失敗した） */
+      statutory: s.statutory ?? false, budget: s.budget ?? 0,
       timeline: [{ at: nowIso, status: "draft", by: "system", note: `前回完了により次回分を自動登録（${job.dueMonth} → ${ym(next.y, next.m)}）` }],
       createdAt: nowIso, updatedAt: nowIso,
     });
